@@ -7,6 +7,11 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 include(FindPkgConfig)
 pkg_search_module(SDL2 REQUIRED sdl2)
 
-set(CMAKE_CXX_FLAGS "-g -W -Wall -pedantic")
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    set(CMAKE_CXX_FLAGS "-g -W -Wall -pedantic -framework Cocoa")
+else()
+    set(CMAKE_CXX_FLAGS "-g -W -Wall -pedantic")
+endif()
+
 add_subdirectory(src)
 
