@@ -4,6 +4,12 @@ compiler:
   - gcc
   - clang
 
+install:
+  - sudo deb http://ppa.launchpad.net/antumdeluge/sdl2/ubuntu precise main
+  - sudo deb-src http://ppa.launchpad.net/antumdeluge/sdl2/ubuntu precise main
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq libsdl2
+
 before_script:
   - mkdir build
   - cd build
