@@ -6,6 +6,7 @@ cmake ..
 make
 
 to execute:
+-----------
 cd build
 ./flappy_bear
 
