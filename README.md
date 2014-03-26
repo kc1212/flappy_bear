@@ -1,4 +1,4 @@
-Travis CI: [![Build Status](https://travis-ci.org/kc1212/flappy_bear.svg?branch=develop)](https://travis-ci.org/kc1212/flappy_bear)
+Travis CI: [![Build Status](https://travis-ci.org/stephenyao/flappy_bear.svg?branch=develop)](https://travis-ci.org/kc1212/flappy_bear)
 
 ### to build:
     mkdir build
