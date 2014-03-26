@@ -27,6 +27,8 @@ SDL_Surface* gScreenSurface = NULL;
 //The image we will load and show on the screen
 SDL_Surface* gHelloWorld = NULL;
 
+
+
 bool init()
 {
 	//Initialization flag
@@ -103,14 +105,28 @@ int main( int argc, char* args[] )
 		}
 		else
 		{
-			//Apply the image
-			SDL_BlitSurface( gHelloWorld, NULL, gScreenSurface, NULL );
-			
-			//Update the surface
-			SDL_UpdateWindowSurface( gWindow );
 
-			//Wait two seconds
-			SDL_Delay( 2000 );
+			bool quit = false;
+
+			SDL_Event e;
+
+			while (!quit) 
+			{
+				while (SDL_PollEvent( &e ) != 0 )
+				{
+					if (e.type == SDL_QUIT )
+					{
+						quit = true;
+					}
+				}
+
+								//Apply the image
+				SDL_BlitSurface( gHelloWorld, NULL, gScreenSurface, NULL );
+				
+				//Update the surface
+				SDL_UpdateWindowSurface( gWindow );
+			}
+			
 		}
 	}
 
