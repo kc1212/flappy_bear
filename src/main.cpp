@@ -86,14 +86,14 @@ bool loadMedia(){
 	//Load splash image
 	gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT] = loadSurface("../assets/hello_world.bmp");
 	printf("%p\n", gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT]);
-	if (gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT] = NULL){
+	if (gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT] == NULL){
 		fprintf(stderr, "failed to load default image...");
 		success = false;
 	}
 
 	gKeyPressSurface[KEY_PRESS_SURFACE_SPACE] = loadSurface("../assets/background.png");
 	printf("%p\n", gKeyPressSurface[KEY_PRESS_SURFACE_SPACE]);
-	if (gKeyPressSurface[KEY_PRESS_SURFACE_SPACE] = NULL){
+	if (gKeyPressSurface[KEY_PRESS_SURFACE_SPACE] == NULL){
 		fprintf(stderr, "failed to load space image...");
 		success = false;
 	}
@@ -135,8 +135,8 @@ int main( int argc, char* args[] )
 		close();
 		return 1;
     }
-	printf("%p\n", gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT]);
-	printf("%p\n", gKeyPressSurface[KEY_PRESS_SURFACE_SPACE]);
+	printf("Pointer to KEY_PRESS_SURFACE_DEAULT: %p\n", gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT]);
+	printf("Pointer to KEY_PRESS_SURFACE_SPACE: %p\n", gKeyPressSurface[KEY_PRESS_SURFACE_SPACE]);
 
 	bool quit = false;
 	player p1;
@@ -164,7 +164,7 @@ int main( int argc, char* args[] )
 						gCurrentSurface = gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT];
 						break;
 				}
-			}
+			}			
 		}
 
 		//Apply the image
@@ -172,6 +172,8 @@ int main( int argc, char* args[] )
 		
 		//Update the surface
 		SDL_UpdateWindowSurface( gWindow );
+
+		SDL_Delay(80);
 	}
 
 	//Free resources and close SDL

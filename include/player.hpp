@@ -1,4 +1,3 @@
-
 class player {
 	public:
 		void jump();
