@@ -51,7 +51,7 @@ bool init(){
 		printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
 		success = false;
 
-	} 
+	}
 	else {
 		//Create window
 		gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED,
@@ -62,10 +62,19 @@ bool init(){
 			printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
 			success = false;
 
-		} 
+		}
 		else {
-			//Get window surface
-			gScreenSurface = SDL_GetWindowSurface( gWindow );
+			int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
+			if ( !(IMG_Init(imgFlags) & imgFlags) )
+			{
+				printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
+				success = false;
+			}
+			else
+			{
+				//Get window surface
+				gScreenSurface = SDL_GetWindowSurface( gWindow );
+			}
 		}
 	}
 
@@ -131,6 +140,9 @@ void close()
 		gKeyPressSurface[i] = NULL;
 	}
 
+	// free dynamically loaded library handles
+	IMG_Quit();
+
 	//Destroy window
 	SDL_DestroyWindow( gWindow );
 	gWindow = NULL;
@@ -142,6 +154,8 @@ void close()
 
 int main( int argc, char* args[] )
 {
+	(void) argc; (void) args; // hack to get rid of warning messages..
+
 	//Start up SDL and create window
 	if( !init() )
 	{
@@ -156,15 +170,13 @@ int main( int argc, char* args[] )
 		close();
 		return 1;
     }
-	printf("Pointer to KEY_PRESS_SURFACE_DEAULT: %p\n", gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT]);
-	printf("Pointer to KEY_PRESS_SURFACE_SPACE: %p\n", gKeyPressSurface[KEY_PRESS_SURFACE_SPACE]);
 
 	bool quit = false;
 	Player p1;
 	SDL_Event e;
 	gCurrentSurface = gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT];
 
-	while (!quit) 
+	while (!quit)
 	{
 		while (SDL_PollEvent( &e ) != 0 )
 		{
@@ -172,8 +184,8 @@ int main( int argc, char* args[] )
 			if (e.type == SDL_QUIT ){
 				quit = true;
 
-			} 
-			else if (e.type == SDL_KEYDOWN) 
+			}
+			else if (e.type == SDL_KEYDOWN)
 			{
 				switch (e.key.keysym.sym)
 				{
@@ -184,7 +196,7 @@ int main( int argc, char* args[] )
 					case SDLK_LEFT:
 						p1.left();
 						gCurrentSurface = gKeyPressSurface[KEY_PRESS_SURFACE_LEFT];
-						break;						
+						break;
 					case SDLK_q:
 						p1.die();
 						quit = true;
@@ -193,7 +205,7 @@ int main( int argc, char* args[] )
 						gCurrentSurface = gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT];
 						break;
 				}
-			}			
+			}
 		}
 
 		//Apply the image
