@@ -39,8 +39,6 @@ SDL_Surface* gCurrentSurface = NULL;
 
 SDL_Surface* gKeyPressSurface[KEY_PRESS_SURFACE_TOTAL] = {};
 
-
-
 bool init(){
 
 	//Initialization flag
@@ -72,6 +70,7 @@ bool init(){
 SDL_Surface* loadSurface(const char* path){
 	// load image at specified path
 	SDL_Surface* loadedSurface = IMG_Load(path);
+	SDL_Surface* optimizedSurface = NULL;
 	if (loadedSurface == NULL){
 		fprintf(stderr, "unable to load image %s! SDL Error: %s\n", path, SDL_GetError());
 	}
@@ -139,10 +138,9 @@ int main( int argc, char* args[] )
 	printf("Pointer to KEY_PRESS_SURFACE_SPACE: %p\n", gKeyPressSurface[KEY_PRESS_SURFACE_SPACE]);
 
 	bool quit = false;
-	player p1;
+	Player p1;
 	SDL_Event e;
 	gCurrentSurface = gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT];
-	// gCurrentSurface = loadSurface("../assets/background.png");
 
 	while (!quit) {
 		while (SDL_PollEvent( &e ) != 0 ){

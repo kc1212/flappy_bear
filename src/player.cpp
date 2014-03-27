@@ -3,12 +3,12 @@
 
 #include <cstdio>
 
-void player::jump(){
+void Player::jump(){
 	h++;
 	printf("jumped!, new height:%.2f\n", h);
 }
 
-void player::die(){
+void Player::die(){
 	printf("died!\n");
 }
 
