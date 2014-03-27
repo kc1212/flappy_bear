@@ -1,3 +1,4 @@
+// This class represents a player
 class player {
 	public:
 		void jump();
