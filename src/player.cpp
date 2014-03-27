@@ -12,3 +12,7 @@ void Player::die(){
 	printf("died!\n");
 }
 
+void Player::left()
+{
+	printf("go left\n");
+}

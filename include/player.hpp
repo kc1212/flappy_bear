@@ -4,6 +4,7 @@ class Player
 	public:
 		void jump();
 		void die();
+		void left();
 		Player(){ h = v = a = 0; };
 	private:
 		double h; // height

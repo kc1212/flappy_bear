@@ -26,6 +26,7 @@ void close();
 enum KeyPressSurfaces {
 	KEY_PRESS_SURFACE_DEFAULT,
 	KEY_PRESS_SURFACE_SPACE,
+	KEY_PRESS_SURFACE_LEFT,
 	KEY_PRESS_SURFACE_TOTAL
 };
 
@@ -80,9 +81,14 @@ SDL_Surface* loadSurface(const char* path){
 		fprintf(stderr, "unable to load image %s! SDL Error: %s\n", path, SDL_GetError());
 	}
 	else {
-
+		optimizedSurface = SDL_ConvertSurface(loadedSurface, gScreenSurface->format, NULL);
+		if (optimizedSurface == NULL)
+		{
+			printf("Unable to load optimized surface for %s, error: %s", path, SDL_GetError() );
+		}
+		SDL_FreeSurface(loadedSurface);
 	}
-	return loadedSurface;
+	return optimizedSurface;
 }
 
 bool loadMedia(){
@@ -92,7 +98,6 @@ bool loadMedia(){
 
 	//Load splash image
 	gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT] = loadSurface("../assets/hello_world.bmp");
-	printf("%p\n", gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT]);
 	if (gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT] == NULL)
 	{
 		fprintf(stderr, "failed to load default image...");
@@ -100,10 +105,16 @@ bool loadMedia(){
 	}
 
 	gKeyPressSurface[KEY_PRESS_SURFACE_SPACE] = loadSurface("../assets/background.png");
-	printf("%p\n", gKeyPressSurface[KEY_PRESS_SURFACE_SPACE]);
 	if (gKeyPressSurface[KEY_PRESS_SURFACE_SPACE] == NULL)
 	{
 		fprintf(stderr, "failed to load space image...");
+		success = false;
+	}
+
+	gKeyPressSurface[KEY_PRESS_SURFACE_LEFT] = loadSurface("../assets/stretch.bmp");
+	if (gKeyPressSurface[KEY_PRESS_SURFACE_LEFT] == NULL)
+	{
+		fprintf(stderr, "failed to load left image...");
 		success = false;
 	}
 
@@ -170,6 +181,10 @@ int main( int argc, char* args[] )
 						gCurrentSurface = gKeyPressSurface[KEY_PRESS_SURFACE_SPACE];
 						p1.jump();
 						break;
+					case SDLK_LEFT:
+						p1.left();
+						gCurrentSurface = gKeyPressSurface[KEY_PRESS_SURFACE_LEFT];
+						break;						
 					case SDLK_q:
 						p1.die();
 						quit = true;
@@ -182,7 +197,15 @@ int main( int argc, char* args[] )
 		}
 
 		//Apply the image
-		SDL_BlitSurface( gCurrentSurface, NULL, gScreenSurface, NULL );
+
+		//Apply the image stretched
+		SDL_Rect stretchRect;
+		stretchRect.x = 0;
+		stretchRect.y = 0;
+		stretchRect.w = SCREEN_WIDTH;
+		stretchRect.h = SCREEN_HEIGHT;
+
+		SDL_BlitScaled( gCurrentSurface, NULL, gScreenSurface, &stretchRect );	
 		
 		//Update the surface
 		SDL_UpdateWindowSurface( gWindow );
