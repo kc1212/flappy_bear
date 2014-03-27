@@ -1,5 +1,6 @@
 // This class represents a player
-class Player {
+class Player 
+{
 	public:
 		void jump();
 		void die();

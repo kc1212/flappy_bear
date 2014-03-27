@@ -45,20 +45,24 @@ bool init(){
 	bool success = true;
 
 	//Initialize SDL
-	if( SDL_Init( SDL_INIT_VIDEO ) < 0 ){
+	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
+	{
 		printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
 		success = false;
 
-	} else {
+	} 
+	else {
 		//Create window
 		gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED,
 				SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
 
-		if( gWindow == NULL ){
+		if( gWindow == NULL )
+		{
 			printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
 			success = false;
 
-		} else {
+		} 
+		else {
 			//Get window surface
 			gScreenSurface = SDL_GetWindowSurface( gWindow );
 		}
@@ -71,8 +75,12 @@ SDL_Surface* loadSurface(const char* path){
 	// load image at specified path
 	SDL_Surface* loadedSurface = IMG_Load(path);
 	SDL_Surface* optimizedSurface = NULL;
-	if (loadedSurface == NULL){
+	if (loadedSurface == NULL)
+	{
 		fprintf(stderr, "unable to load image %s! SDL Error: %s\n", path, SDL_GetError());
+	}
+	else {
+
 	}
 	return loadedSurface;
 }
@@ -85,14 +93,16 @@ bool loadMedia(){
 	//Load splash image
 	gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT] = loadSurface("../assets/hello_world.bmp");
 	printf("%p\n", gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT]);
-	if (gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT] == NULL){
+	if (gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT] == NULL)
+	{
 		fprintf(stderr, "failed to load default image...");
 		success = false;
 	}
 
 	gKeyPressSurface[KEY_PRESS_SURFACE_SPACE] = loadSurface("../assets/background.png");
 	printf("%p\n", gKeyPressSurface[KEY_PRESS_SURFACE_SPACE]);
-	if (gKeyPressSurface[KEY_PRESS_SURFACE_SPACE] == NULL){
+	if (gKeyPressSurface[KEY_PRESS_SURFACE_SPACE] == NULL)
+	{
 		fprintf(stderr, "failed to load space image...");
 		success = false;
 	}
@@ -104,7 +114,8 @@ bool loadMedia(){
 void close()
 {
 	//Deallocate surface
-	for (int i = 0; i < KEY_PRESS_SURFACE_TOTAL; i++){
+	for (int i = 0; i < KEY_PRESS_SURFACE_TOTAL; i++)
+	{
 		SDL_FreeSurface( gKeyPressSurface[i] );
 		gKeyPressSurface[i] = NULL;
 	}
@@ -142,14 +153,19 @@ int main( int argc, char* args[] )
 	SDL_Event e;
 	gCurrentSurface = gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT];
 
-	while (!quit) {
-		while (SDL_PollEvent( &e ) != 0 ){
+	while (!quit) 
+	{
+		while (SDL_PollEvent( &e ) != 0 )
+		{
 
 			if (e.type == SDL_QUIT ){
 				quit = true;
 
-			} else if (e.type == SDL_KEYDOWN) {
-				switch (e.key.keysym.sym){
+			} 
+			else if (e.type == SDL_KEYDOWN) 
+			{
+				switch (e.key.keysym.sym)
+				{
 					case SDLK_SPACE:
 						gCurrentSurface = gKeyPressSurface[KEY_PRESS_SURFACE_SPACE];
 						p1.jump();
