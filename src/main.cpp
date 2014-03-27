@@ -6,6 +6,7 @@ and may not be redistributed without written permission.*/
 #include <cstdio>
 
 #include "player.hpp"
+#include "utils.hpp"
 
 
 //Screen dimension constants
@@ -17,8 +18,6 @@ bool init();
 
 //Loads media
 bool loadMedia();
-
-SDL_Surface* loadSurface(const char* path);
 
 //Frees media and shuts down SDL
 void close();
@@ -81,24 +80,6 @@ bool init(){
 	return success;
 }
 
-SDL_Surface* loadSurface(const char* path){
-	// load image at specified path
-	SDL_Surface* loadedSurface = IMG_Load(path);
-	SDL_Surface* optimizedSurface = NULL;
-	if (loadedSurface == NULL)
-	{
-		fprintf(stderr, "unable to load image %s! SDL Error: %s\n", path, SDL_GetError());
-	}
-	else {
-		optimizedSurface = SDL_ConvertSurface(loadedSurface, gScreenSurface->format, NULL);
-		if (optimizedSurface == NULL)
-		{
-			printf("Unable to load optimized surface for %s, error: %s", path, SDL_GetError() );
-		}
-		SDL_FreeSurface(loadedSurface);
-	}
-	return optimizedSurface;
-}
 
 bool loadMedia(){
 
@@ -106,21 +87,21 @@ bool loadMedia(){
 	bool success = true;
 
 	//Load splash image
-	gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT] = loadSurface("../assets/hello_world.bmp");
+	gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT] = loadSurface("../assets/hello_world.bmp", gScreenSurface);
 	if (gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT] == NULL)
 	{
 		fprintf(stderr, "failed to load default image...");
 		success = false;
 	}
 
-	gKeyPressSurface[KEY_PRESS_SURFACE_SPACE] = loadSurface("../assets/background.png");
+	gKeyPressSurface[KEY_PRESS_SURFACE_SPACE] = loadSurface("../assets/background.png", gScreenSurface);
 	if (gKeyPressSurface[KEY_PRESS_SURFACE_SPACE] == NULL)
 	{
 		fprintf(stderr, "failed to load space image...");
 		success = false;
 	}
 
-	gKeyPressSurface[KEY_PRESS_SURFACE_LEFT] = loadSurface("../assets/stretch.bmp");
+	gKeyPressSurface[KEY_PRESS_SURFACE_LEFT] = loadSurface("../assets/stretch.bmp", gScreenSurface);
 	if (gKeyPressSurface[KEY_PRESS_SURFACE_LEFT] == NULL)
 	{
 		fprintf(stderr, "failed to load left image...");

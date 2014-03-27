@@ -1,5 +1,8 @@
 // This class represents a player
-class Player 
+#ifndef _PLAYER_HPP_
+#define _PLAYER_HPP_
+
+class Player
 {
 	public:
 		void jump();
@@ -12,4 +15,6 @@ class Player
 		double a; // acceleration
 
 };
+
+#endif
 
