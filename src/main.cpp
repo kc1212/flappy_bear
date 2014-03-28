@@ -6,9 +6,8 @@ and may not be redistributed without written permission.*/
 #include <cstdio>
 
 #include "player.hpp"
-#include "background.hpp"
 #include "utils.hpp"
-
+#include "background.hpp"
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
@@ -23,12 +22,12 @@ bool loadMedia();
 //Frees media and shuts down SDL
 void close();
 
-enum KeyPressSurfaces {
-	KEY_PRESS_SURFACE_DEFAULT,
-	KEY_PRESS_SURFACE_SPACE,
-	KEY_PRESS_SURFACE_LEFT,
-	KEY_PRESS_SURFACE_RIGHT,
-	KEY_PRESS_SURFACE_TOTAL
+enum KeyPressTextures {
+	KEY_PRESS_TEXTURE_DEFAULT,
+	KEY_PRESS_TEXTURE_SPACE,
+	KEY_PRESS_TEXTURE_LEFT,
+	KEY_PRESS_TEXTURE_RIGHT,
+	KEY_PRESS_TEXTURE_TOTAL
 };
 
 //The window we'll be rendering to
@@ -37,7 +36,7 @@ SDL_Window* gWindow = NULL;
 // http://stackoverflow.com/questions/21007329/what-is-a-sdl-renderer
 SDL_Renderer* gRenderer = NULL;
 SDL_Texture* gCurrentTexture = NULL;
-SDL_Texture* gKeyPressSurface[KEY_PRESS_SURFACE_TOTAL] = {};
+SDL_Texture* gKeyPressTexture[KEY_PRESS_TEXTURE_TOTAL] = {};
 
 bool init(){
 
@@ -49,7 +48,7 @@ bool init(){
 	}
 	//Create window
 	gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED,
-			SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+			SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE );
 	if( gWindow == NULL )
 	{
 		printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
@@ -87,29 +86,29 @@ bool loadMedia(){
 	bool success = true;
 
 	//Load splash image, using renderer
-	gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT] = loadTexture("../assets/hello_world.bmp", gRenderer);
-	if (gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT] == NULL)
+	gKeyPressTexture[KEY_PRESS_TEXTURE_DEFAULT] = loadTexture("../assets/hello_world.bmp", gRenderer);
+	if (gKeyPressTexture[KEY_PRESS_TEXTURE_DEFAULT] == NULL)
 	{
 		fprintf(stderr, "failed to load default image...");
 		success = false;
 	}
 
-	gKeyPressSurface[KEY_PRESS_SURFACE_SPACE] = loadTexture("../assets/background.png", gRenderer);
-	if (gKeyPressSurface[KEY_PRESS_SURFACE_SPACE] == NULL)
+	gKeyPressTexture[KEY_PRESS_TEXTURE_SPACE] = loadTexture("../assets/background.png", gRenderer);
+	if (gKeyPressTexture[KEY_PRESS_TEXTURE_SPACE] == NULL)
 	{
 		fprintf(stderr, "failed to load space image...");
 		success = false;
 	}
 
-	gKeyPressSurface[KEY_PRESS_SURFACE_LEFT] = loadTexture("../assets/stretch.bmp", gRenderer);
-	if (gKeyPressSurface[KEY_PRESS_SURFACE_LEFT] == NULL)
+	gKeyPressTexture[KEY_PRESS_TEXTURE_LEFT] = loadTexture("../assets/stretch.bmp", gRenderer);
+	if (gKeyPressTexture[KEY_PRESS_TEXTURE_LEFT] == NULL)
 	{
 		fprintf(stderr, "failed to load left image...");
 		success = false;
 	}
 
-	gKeyPressSurface[KEY_PRESS_SURFACE_RIGHT] = loadTexture("../assets/ship.png", gRenderer);
-	if (gKeyPressSurface[KEY_PRESS_SURFACE_RIGHT] == NULL)
+	gKeyPressTexture[KEY_PRESS_TEXTURE_RIGHT] = loadTexture("../assets/ship.png", gRenderer);
+	if (gKeyPressTexture[KEY_PRESS_TEXTURE_RIGHT] == NULL)
 	{
 		fprintf(stderr, "failed to load right texture...");
 		success = false;
@@ -122,10 +121,10 @@ bool loadMedia(){
 void close()
 {
 	//Deallocate surface
-	for (int i = 0; i < KEY_PRESS_SURFACE_TOTAL; i++)
+	for (int i = 0; i < KEY_PRESS_TEXTURE_TOTAL; i++)
 	{
-		SDL_DestroyTexture( gKeyPressSurface[i] );
-		gKeyPressSurface[i] = NULL;
+		SDL_DestroyTexture( gKeyPressTexture[i] );
+		gKeyPressTexture[i] = NULL;
 	}
 
 	SDL_DestroyRenderer( gRenderer );
@@ -159,11 +158,10 @@ int main( int argc, char* args[] )
     }
 
 	bool quit = false;
-	int flag = 1; // 0 for surface, 1 for renderer
 	SDL_Event e;
 	Player p1;
-	Background bg1("../assets/bomb.png", gRenderer);
-	gCurrentTexture = gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT];
+	Background bg1("../assets/background.png", gRenderer);
+	gCurrentTexture = gKeyPressTexture[KEY_PRESS_TEXTURE_DEFAULT];
 
 	while (!quit)
 	{
@@ -179,29 +177,24 @@ int main( int argc, char* args[] )
 				switch (e.key.keysym.sym)
 				{
 					case SDLK_SPACE:
-						flag = 0;
-						gCurrentTexture = gKeyPressSurface[KEY_PRESS_SURFACE_SPACE];
+						gCurrentTexture = gKeyPressTexture[KEY_PRESS_TEXTURE_SPACE];
 						p1.jump();
 						break;
 					case SDLK_LEFT:
-						flag = 0;
 						p1.left();
-						gCurrentTexture = gKeyPressSurface[KEY_PRESS_SURFACE_LEFT];
+						gCurrentTexture = gKeyPressTexture[KEY_PRESS_TEXTURE_LEFT];
 						break;
 					case SDLK_RIGHT:
-						flag = 1;
-						gCurrentTexture = gKeyPressSurface[KEY_PRESS_SURFACE_RIGHT];
+						gCurrentTexture = gKeyPressTexture[KEY_PRESS_TEXTURE_RIGHT];
 						printf("test renderer...\n");
 						break;
 					case SDLK_q:
-						flag = 0;
 						p1.die();
 						quit = true;
 						break;
 					default:
-						flag = 0;
 						printf("default...\n");
-						gCurrentTexture = gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT];
+						gCurrentTexture = gKeyPressTexture[KEY_PRESS_TEXTURE_DEFAULT];
 						break;
 				}
 			}

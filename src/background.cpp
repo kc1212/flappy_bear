@@ -1,29 +1,15 @@
 #include "background.hpp"
-#include "utils.hpp"
 
-SDL_Texture* Background::getBG()
+Background::Background() : Texture()
 {
-	return bg;
+	shaded = false;
 }
 
-void Background::setBG(const char* path, SDL_Renderer* renderer)
+Background::Background(const char* path, SDL_Renderer* renderer) : Texture(path, renderer)
 {
-	SDL_DestroyTexture( bg );
-	bg = loadTexture(path, renderer);
+	shaded = false;
 }
 
-// overloaded constructor
-Background::Background()
-{
-	bg = NULL;
-}
+// destructors are called automatically in the reverse order
+Background::~Background() {}
 
-Background::Background(const char* path, SDL_Renderer* renderer)
-{
-	bg = loadTexture(path, renderer);
-}
-
-Background::~Background()
-{
-	SDL_DestroyTexture(bg);
-}
