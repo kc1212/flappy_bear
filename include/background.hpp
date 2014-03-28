@@ -1,22 +1,15 @@
 #ifndef _BACKGROUND_HPP_
 #define _BACKGROUND_HPP_
 
-#include "SDL2/SDL.h"
-#include "utils.hpp"
+#include "texture.hpp"
 
-class Background {
-
+class Background : public Texture {
 	public:
-		SDL_Texture* getBG();
-		void setBG(const char*, SDL_Renderer*);
-
 		Background();
 		Background(const char*, SDL_Renderer*);
-
 		~Background();
-
 	private:
-		SDL_Texture* bg;
+		bool shaded;
 };
 
 #endif

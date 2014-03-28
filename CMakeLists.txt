@@ -14,5 +14,29 @@ else()
     set(CMAKE_CXX_FLAGS "-g -W -Wall -pedantic")
 endif()
 
-add_subdirectory(src)
+# add_subdirectory(src)
 
+file(GLOB_RECURSE FB_CPP "src/*.cpp")
+file(GLOB_RECURSE FB_HPP "include/*.hpp")
+file(GLOB_RECURSE FB_CONFIG "config/*.hpp")
+
+set(INCLUDE_DIRS "")
+
+foreach(_headerFile ${FB_HPP})
+	get_filename_component(_dir ${_headerFile} PATH)
+	list (APPEND INCLUDE_DIRS ${_dir})
+endforeach()
+
+foreach(_configFile ${FB_CONFIG})
+	get_filename_component(_dir ${_configFile} PATH)
+	list (APPEND INCLUDE_DIRS ${_dir})
+endforeach()
+list(REMOVE_DUPLICATES INCLUDE_DIRS)
+
+include_directories(${SDL2_INCLUDE_DIRS})
+include_directories(${SDL2_Image_INCLUDE_DIRS})
+include_directories(${INCLUDE_DIRS})
+
+add_executable(flappy_bear ${FB_CPP})
+
+target_link_libraries(flappy_bear ${SDL2_LIBRARIES} ${SDL2_Image_LIBRARIES})
