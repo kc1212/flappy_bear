@@ -93,6 +93,11 @@ bool init(){
 				{
 					//Get window surface
 					gScreenSurface = SDL_GetWindowSurface( gWindow );
+					if (gScreenSurface == NULL)
+					{
+						printf("Failed to get window for gScreenSurface\n");
+						success = false;
+					}
 				}
 			}
 		}
