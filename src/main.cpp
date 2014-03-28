@@ -6,6 +6,7 @@ and may not be redistributed without written permission.*/
 #include <cstdio>
 
 #include "player.hpp"
+#include "background.hpp"
 #include "utils.hpp"
 
 
@@ -148,7 +149,6 @@ void close()
 		gKeyPressSurface[i] = NULL;
 	}
 
-
 	SDL_DestroyTexture( gTexture );
 	SDL_DestroyRenderer( gRenderer );
 	SDL_DestroyWindow( gWindow );
@@ -165,7 +165,6 @@ void close()
 int main( int argc, char* args[] )
 {
 	(void) argc; (void) args; // hack to get rid of warning messages..
-	int flag = 0; // 0 for surface, 1 for renderer
 
 	//Start up SDL and create window
 	if( !init() )
@@ -183,9 +182,11 @@ int main( int argc, char* args[] )
     }
 
 	bool quit = false;
-	Player p1;
+	int flag = 1; // 0 for surface, 1 for renderer
 	SDL_Event e;
-	gCurrentSurface = gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT];
+	Player p1;
+	Background bg1("../assets/bomb.png", gRenderer);
+	gTexture = bg1.getBG();
 
 	while (!quit)
 	{
@@ -221,13 +222,12 @@ int main( int argc, char* args[] )
 						break;
 					default:
 						flag = 0;
+						printf("default...\n");
 						gCurrentSurface = gKeyPressSurface[KEY_PRESS_SURFACE_DEFAULT];
 						break;
 				}
 			}
 		}
-
-		//Apply the image
 
 		//Apply the image stretched
 		SDL_Rect stretchRect;
