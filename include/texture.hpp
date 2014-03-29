@@ -7,19 +7,19 @@
 class Texture {
 
 	public:
-		SDL_Texture* getTexture();
-		void setTexture(const char*, SDL_Renderer*);
-
+		// Getters
 		int getWidth();
-		void setWidth(int w);
-
 		int getHeight();
-		void setHeight(int h);
-
 		int getPosX();
 		int getPosY();
+		SDL_Texture* getTexture();
+
+		// Setters
+		void setWidth(int w);
+		void setHeight(int h);
 		void setPosX(int x);
 		void setPosY(int y);
+		void setTexture(const char*, SDL_Renderer*);
 
 		/**
 		 * Renders the texture onto the screen.

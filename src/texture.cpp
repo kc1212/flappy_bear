@@ -12,6 +12,8 @@ Texture::Texture()
 	texture = NULL;
 	width = 0;
 	height = 0;
+	positionX = 0;
+	positionY = 0;
 }
 
 Texture::Texture(const char* path, SDL_Renderer* renderer)
