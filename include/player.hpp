@@ -2,13 +2,18 @@
 #ifndef _PLAYER_HPP_
 #define _PLAYER_HPP_
 
-class Player
+#include "texture.hpp"
+
+class Player : public Texture
 {
 	public:
 		void jump();
 		void die();
 		void left();
-		Player(){ h = v = a = 0; };
+
+		Player();
+		Player(const char*, SDL_Renderer*);
+		~Player();
 	private:
 		double h; // height
 		double v; // velocity
