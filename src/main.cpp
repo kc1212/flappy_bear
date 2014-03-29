@@ -16,9 +16,6 @@ const int SCREEN_HEIGHT = 480;
 //Starts up SDL and creates window
 bool init();
 
-//Loads media
-bool loadMedia();
-
 //Frees media and shuts down SDL
 void close();
 
@@ -35,8 +32,6 @@ SDL_Window* gWindow = NULL;
 
 // http://stackoverflow.com/questions/21007329/what-is-a-sdl-renderer
 SDL_Renderer* gRenderer = NULL;
-SDL_Texture* gCurrentTexture = NULL;
-SDL_Texture* gKeyPressTexture[KEY_PRESS_TEXTURE_TOTAL] = {};
 
 bool init(){
 
@@ -79,54 +74,8 @@ bool init(){
 	return true;
 }
 
-
-bool loadMedia(){
-
-	//Loading success flag
-	bool success = true;
-
-	//Load splash image, using renderer
-	gKeyPressTexture[KEY_PRESS_TEXTURE_DEFAULT] = loadTexture("../assets/hello_world.bmp", gRenderer);
-	if (gKeyPressTexture[KEY_PRESS_TEXTURE_DEFAULT] == NULL)
-	{
-		fprintf(stderr, "failed to load default image...");
-		success = false;
-	}
-
-	gKeyPressTexture[KEY_PRESS_TEXTURE_SPACE] = loadTexture("../assets/background.png", gRenderer);
-	if (gKeyPressTexture[KEY_PRESS_TEXTURE_SPACE] == NULL)
-	{
-		fprintf(stderr, "failed to load space image...");
-		success = false;
-	}
-
-	gKeyPressTexture[KEY_PRESS_TEXTURE_LEFT] = loadTexture("../assets/stretch.bmp", gRenderer);
-	if (gKeyPressTexture[KEY_PRESS_TEXTURE_LEFT] == NULL)
-	{
-		fprintf(stderr, "failed to load left image...");
-		success = false;
-	}
-
-	gKeyPressTexture[KEY_PRESS_TEXTURE_RIGHT] = loadTexture("../assets/ship.png", gRenderer);
-	if (gKeyPressTexture[KEY_PRESS_TEXTURE_RIGHT] == NULL)
-	{
-		fprintf(stderr, "failed to load right texture...");
-		success = false;
-	}
-
-	return success;
-}
-
-
 void close()
 {
-	//Deallocate surface
-	for (int i = 0; i < KEY_PRESS_TEXTURE_TOTAL; i++)
-	{
-		SDL_DestroyTexture( gKeyPressTexture[i] );
-		gKeyPressTexture[i] = NULL;
-	}
-
 	SDL_DestroyRenderer( gRenderer );
 	SDL_DestroyWindow( gWindow );
 	gWindow = NULL;
@@ -149,19 +98,14 @@ int main( int argc, char* args[] )
 		close(); // we dont need to fre resources
 		return 1;
 	}
-	//Load media
-    if( !loadMedia() )
-    {
-        fprintf( stderr, "Failed to load media!\n" );
-		close();
-		return 1;
-    }
 
 	bool quit = false;
 	SDL_Event e;
-	Player p1;
+	Player p1("../assets/foo.png", gRenderer);
+	p1.setPosX(240);
+	p1.setPosY(140);
 	Background bg1("../assets/background.png", gRenderer);
-	gCurrentTexture = gKeyPressTexture[KEY_PRESS_TEXTURE_DEFAULT];
+	// gCurrentTexture = gKeyPressTexture[KEY_PRESS_TEXTURE_DEFAULT];
 
 	while (!quit)
 	{
@@ -177,24 +121,19 @@ int main( int argc, char* args[] )
 				switch (e.key.keysym.sym)
 				{
 					case SDLK_SPACE:
-						gCurrentTexture = gKeyPressTexture[KEY_PRESS_TEXTURE_SPACE];
 						p1.jump();
 						break;
 					case SDLK_LEFT:
 						p1.left();
-						gCurrentTexture = gKeyPressTexture[KEY_PRESS_TEXTURE_LEFT];
 						break;
 					case SDLK_RIGHT:
-						gCurrentTexture = gKeyPressTexture[KEY_PRESS_TEXTURE_RIGHT];
-						printf("test renderer...\n");
+						p1.right();
 						break;
 					case SDLK_q:
 						p1.die();
 						quit = true;
 						break;
 					default:
-						printf("default...\n");
-						gCurrentTexture = gKeyPressTexture[KEY_PRESS_TEXTURE_DEFAULT];
 						break;
 				}
 			}
@@ -206,9 +145,11 @@ int main( int argc, char* args[] )
 		stretchRect.y = 0;
 		stretchRect.w = SCREEN_WIDTH;
 		stretchRect.h = SCREEN_HEIGHT;
-
 		SDL_RenderClear( gRenderer );
-		SDL_RenderCopy( gRenderer, gCurrentTexture, &stretchRect, NULL );
+
+		bg1.render(gRenderer);
+		p1.render(gRenderer);
+
 		SDL_RenderPresent( gRenderer );
 
 		SDL_Delay(80);

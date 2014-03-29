@@ -3,9 +3,21 @@
 
 #include <cstdio>
 
+Player::Player() : Texture()
+{
+	positionX = positionY = v = a = 0;
+}
+
+Player::Player(const char* path, SDL_Renderer* renderer) : Texture(path, renderer)
+{
+	positionX = positionY = v = a = 0;
+}
+
+Player::~Player(){}
+
 void Player::jump(){
-	h++;
-	printf("jumped!, new height:%.2f\n", h);
+	positionY--;
+	printf("jumped!, new x:%d, new y:%d\n", positionX,positionY);
 }
 
 void Player::die(){
@@ -14,19 +26,15 @@ void Player::die(){
 
 void Player::left()
 {
-	printf("go left\n");
+	positionX--;
+	printf("go left!, new x:%d, new y:%d\n", positionX,positionY);
 }
 
-Player::Player() : Texture()
+void Player::right()
 {
-	h = v = a = 0;
+	positionX++;
+	printf("go right!, new x:%d, new y:%d\n", positionX,positionY);
 }
 
-Player::Player(const char* path, SDL_Renderer* renderer) : Texture(path, renderer)
-{
-	h = v = a = 0;
-}
-
-Player::~Player(){}
 
 
