@@ -4,6 +4,7 @@ project(flappy_bear)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 # http://www.cmake.org/Wiki/CMake:How_To_Find_Libraries
+# http://stackoverflow.com/questions/6921695/how-can-i-build-a-c-project-with-multiple-interdependent-subdirectories
 include(FindPkgConfig)
 pkg_search_module(SDL2 REQUIRED sdl2)
 pkg_search_module(SDL2_Image REQUIRED SDL2_image)
@@ -13,8 +14,6 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 else()
     set(CMAKE_CXX_FLAGS "-g -W -Wall -pedantic")
 endif()
-
-# add_subdirectory(src)
 
 file(GLOB_RECURSE FB_CPP "src/*.cpp")
 file(GLOB_RECURSE FB_HPP "include/*.hpp")

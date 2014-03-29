@@ -16,3 +16,17 @@ void Player::left()
 {
 	printf("go left\n");
 }
+
+Player::Player() : Texture()
+{
+	h = v = a = 0;
+}
+
+Player::Player(const char* path, SDL_Renderer* renderer) : Texture(path, renderer)
+{
+	h = v = a = 0;
+}
+
+Player::~Player(){}
+
+

@@ -17,7 +17,10 @@ void Texture::setTexture(const char* path, SDL_Renderer* renderer)
 
 Texture::Texture()
 {
-	filename[0] = '\0';
+	for (int i = 0; i < MAX_PATH_LEN; i++)
+	{
+		filename[i] = '\0';
+	}
 	texture = NULL;
 }
 
