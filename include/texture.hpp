@@ -39,6 +39,10 @@ class Texture {
 		 * @param renderer The renderer to render the asset.
 		 */
 		Texture(const char* path, SDL_Renderer* renderer);
+
+		/**
+	     * Deallocates the object
+	     */
 		~Texture();
 
 	protected:

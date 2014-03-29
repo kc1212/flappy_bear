@@ -19,14 +19,6 @@ bool init();
 //Frees media and shuts down SDL
 void close();
 
-enum KeyPressTextures {
-	KEY_PRESS_TEXTURE_DEFAULT,
-	KEY_PRESS_TEXTURE_SPACE,
-	KEY_PRESS_TEXTURE_LEFT,
-	KEY_PRESS_TEXTURE_RIGHT,
-	KEY_PRESS_TEXTURE_TOTAL
-};
-
 //The window we'll be rendering to
 SDL_Window* gWindow = NULL;
 
@@ -105,7 +97,6 @@ int main( int argc, char* args[] )
 	p1.setPosX(240);
 	p1.setPosY(140);
 	Background bg1("../assets/background.png", gRenderer);
-	// gCurrentTexture = gKeyPressTexture[KEY_PRESS_TEXTURE_DEFAULT];
 
 	while (!quit)
 	{
@@ -139,12 +130,6 @@ int main( int argc, char* args[] )
 			}
 		}
 
-		//Apply the image stretched
-		SDL_Rect stretchRect;
-		stretchRect.x = 0;
-		stretchRect.y = 0;
-		stretchRect.w = SCREEN_WIDTH;
-		stretchRect.h = SCREEN_HEIGHT;
 		SDL_RenderClear( gRenderer );
 
 		bg1.render(gRenderer);
