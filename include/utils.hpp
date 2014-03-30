@@ -14,11 +14,11 @@ void showRenderDriver();
 /*
  * starts up SDL, SDL_Image, and creates window
  */
-bool init();
+bool init(SDL_Window* &window, SDL_Renderer* &renderer);
 
 /*
  * frees media and shuts down SDL
  */
-void close();
+void close(SDL_Window* &window, SDL_Renderer* &renderer);
 
 #endif

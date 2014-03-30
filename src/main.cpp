@@ -1,29 +1,25 @@
-/*This source code copyrighted by Lazy Foo' Productions (2004-2013)
-and may not be redistributed without written permission.*/
-
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_image.h"
-#include <cstdio>
 
 #include "player.hpp"
 #include "utils.hpp"
 #include "background.hpp"
 
-//The window we'll be rendering to
-SDL_Window* window = NULL;
-
-// http://stackoverflow.com/questions/21007329/what-is-a-sdl-renderer
-SDL_Renderer* renderer = NULL;
+#include <cstdio>
 
 int main( int argc, char* args[] )
 {
 	(void) argc; (void) args; // hack to get rid of warning messages..
 
+	//The window we'll be rendering to
+	SDL_Window* window = NULL;
+
+	// http://stackoverflow.com/questions/21007329/what-is-a-sdl-renderer
+	SDL_Renderer* renderer = NULL;
+
 	//Start up SDL and create window
-	if( !init() )
+	if( !init(window, renderer) )
 	{
 		fprintf( stderr, "Failed to initialize!\n" );
-		close(); // we dont need to fre resources
+		close(window, renderer); // we dont need to fre resources
 		return 1;
 	}
 
@@ -67,7 +63,7 @@ int main( int argc, char* args[] )
 		SDL_Delay( LOOP_DELAY );
 	}
 
-	close();
+	close(window, renderer);
 	return 0;
 }
 
