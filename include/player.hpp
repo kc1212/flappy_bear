@@ -11,13 +11,17 @@ class Player : public Texture
 		void die();
 		void left();
 		void right();
+		void updatePosition();
 
-		Player();
-		Player(const char*, SDL_Renderer*);
+		// Player();
+		Player(const char*, SDL_Renderer*, int, int);
 		~Player();
 	private:
+		void init();
 		double v; // velocity
 		double a; // acceleration
+		double s; // displacement
+		bool jumped;
 };
 
 #endif

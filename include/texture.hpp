@@ -22,11 +22,11 @@ class Texture {
 		void setTexture(const char*, SDL_Renderer*);
 
 		/**
-		 * Renders the texture onto the screen.
+		 * Copies the texture onto the renderer.
 		 * @param renderer The renderer to use.
 		 *
 		 */
-		void render(SDL_Renderer *renderer);
+		void renderCopy(SDL_Renderer *renderer);
 
 		/**
 		 * Default constructor.
@@ -51,8 +51,8 @@ class Texture {
 		// Height and width for the texture.
 		int width;
 		int height;
-		int positionX;
-		int positionY;
+		int posX;
+		int posY;
 	private:
 		void loadTextureFromFile(const char* path, SDL_Renderer* renderer);
 		void zeroAll();

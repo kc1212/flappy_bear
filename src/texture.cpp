@@ -22,8 +22,8 @@ Texture::~Texture()
 	texture = NULL;
 	width = 0;
 	height = 0;
-	positionX = 0;
-	positionY = 0;
+	posX = 0;
+	posY = 0;
 }
 
 SDL_Texture* Texture::getTexture()
@@ -40,8 +40,8 @@ void Texture::zeroAll()
 	texture = NULL;
 	width = 0;
 	height = 0;
-	positionX = 0;
-	positionY = 0;
+	posX = 0;
+	posY = 0;
 }
 
 void Texture::setTexture(const char* path, SDL_Renderer* renderer)
@@ -74,27 +74,27 @@ int Texture::getWidth()
 
 int Texture::getPosX()
 {
-	return positionX;
+	return posX;
 }
 
 int Texture::getPosY()
 {
-	return positionY;
+	return posY;
 }
 
 void Texture::setPosX(int x)
 {
-	positionX = x;
+	posX = x;
 }
 
 void Texture::setPosY(int y)
 {
-	positionY = y;
+	posY = y;
 }
 
-void Texture::render(SDL_Renderer *renderer)
+void Texture::renderCopy(SDL_Renderer *renderer)
 {
-	SDL_Rect renderQuad = { positionX, positionY, width, height };
+	SDL_Rect renderQuad = { posX, posY, width, height };
 	SDL_RenderCopy (renderer, texture, NULL, &renderQuad);
 }
 

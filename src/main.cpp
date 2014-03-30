@@ -8,6 +8,7 @@ and may not be redistributed without written permission.*/
 #include "player.hpp"
 #include "utils.hpp"
 #include "background.hpp"
+#include "config.hpp"
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
@@ -93,9 +94,9 @@ int main( int argc, char* args[] )
 
 	bool quit = false;
 	SDL_Event e;
-	Player p1("../assets/foo.png", gRenderer);
-	p1.setPosX(240);
-	p1.setPosY(140);
+	Player p1("../assets/foo.png", gRenderer, 240, 140);
+	// p1.setPosX(240);
+	// p1.setPosY(140);
 	Background bg1("../assets/background.png", gRenderer);
 
 	while (!quit)
@@ -132,12 +133,13 @@ int main( int argc, char* args[] )
 
 		SDL_RenderClear( gRenderer );
 
-		bg1.render(gRenderer);
-		p1.render(gRenderer);
+		p1.updatePosition();
+		bg1.renderCopy(gRenderer);
+		p1.renderCopy(gRenderer);
 
 		SDL_RenderPresent( gRenderer );
 
-		SDL_Delay(80);
+		SDL_Delay( LOOP_DELAY );
 	}
 
 	//Free resources and close SDL
