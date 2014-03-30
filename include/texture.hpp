@@ -30,7 +30,7 @@ class Texture {
 
 		/**
 		 * Default constructor.
-		 */ 
+		 */
 		Texture();
 
 		/**
@@ -55,6 +55,7 @@ class Texture {
 		int positionY;
 	private:
 		void loadTextureFromFile(const char* path, SDL_Renderer* renderer);
+		void zeroAll();
 
 };
 
