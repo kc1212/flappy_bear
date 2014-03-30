@@ -2,10 +2,10 @@
 #include "config.hpp"
 // ultility functions
 
-extern SDL_Window* window;
-extern SDL_Renderer* renderer;
+// extern SDL_Window* window;
+// extern SDL_Renderer* renderer;
 
-bool init()
+bool init(SDL_Window* &window, SDL_Renderer* &renderer)
 {
 	//Initialize SDL
 	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
@@ -47,7 +47,7 @@ bool init()
 }
 
 
-void close()
+void close(SDL_Window* &window, SDL_Renderer* &renderer)
 {
 	SDL_DestroyRenderer( renderer );
 	SDL_DestroyWindow( window );
