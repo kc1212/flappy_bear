@@ -5,19 +5,12 @@
 
 Texture::Texture()
 {
-	for (int i = 0; i < MAX_PATH_LEN; i++)
-	{
-		filename[i] = '\0';
-	}
-	texture = NULL;
-	width = 0;
-	height = 0;
-	positionX = 0;
-	positionY = 0;
+	zeroAll();
 }
 
 Texture::Texture(const char* path, SDL_Renderer* renderer)
 {
+	zeroAll();
 	// need to check for filename max length
 	strcpy(filename, path);
 	loadTextureFromFile(path, renderer);
@@ -36,6 +29,19 @@ Texture::~Texture()
 SDL_Texture* Texture::getTexture()
 {
 	return texture;
+}
+
+void Texture::zeroAll()
+{
+	for (int i = 0; i < MAX_PATH_LEN; i++)
+	{
+		filename[i] = '\0';
+	}
+	texture = NULL;
+	width = 0;
+	height = 0;
+	positionX = 0;
+	positionY = 0;
 }
 
 void Texture::setTexture(const char* path, SDL_Renderer* renderer)
@@ -95,7 +101,6 @@ void Texture::render(SDL_Renderer *renderer)
 // Private methods
 void Texture::loadTextureFromFile(const char* path, SDL_Renderer* renderer)
 {
-
 	SDL_Texture* newTexture = NULL;
 	SDL_Surface* loadedSurface = NULL;
 
@@ -106,8 +111,8 @@ void Texture::loadTextureFromFile(const char* path, SDL_Renderer* renderer)
 	}
 	else
 	{
-		SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB( loadedSurface->format, 0, 0xFF, 0xFF ));
-		newTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
+		SDL_SetColorKey( loadedSurface, SDL_TRUE, SDL_MapRGB( loadedSurface->format, 0, 0xFF, 0xFF ) );
+		newTexture = SDL_CreateTextureFromSurface( renderer, loadedSurface );
 		if (newTexture == NULL)
 		{
 			printf("unable to create texture from %s! SDL Error: %s\n", path, SDL_GetError());
@@ -118,7 +123,6 @@ void Texture::loadTextureFromFile(const char* path, SDL_Renderer* renderer)
 		height = loadedSurface->h;
 		texture = newTexture;
 	}
-
 }
 
 

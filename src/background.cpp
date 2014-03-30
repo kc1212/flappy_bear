@@ -1,4 +1,5 @@
 #include "background.hpp"
+#include <cstdio>
 
 Background::Background() : Texture()
 {
