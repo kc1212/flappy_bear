@@ -12,6 +12,6 @@ need to compile SDL2 with OpenGL (libgl1-mesa-dev for example on linux)
 	./flappy_bear
 
 ### equation of motion:
-	v = v0 - g*t
 	s = s0 + v0*t - (g*t^2)/2
+	v = v0 - g*t
 	

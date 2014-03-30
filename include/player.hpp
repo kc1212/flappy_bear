@@ -9,8 +9,6 @@ class Player : public Texture
 	public:
 		void jump();
 		void die();
-		void left();
-		void right();
 		void updatePosition();
 
 		// Player();

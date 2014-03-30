@@ -22,30 +22,18 @@ Player::~Player(){}
 void Player::jump(){
 	jumped = true;
 	v = V_0;
-	printf("jumped!, new x:%d, new y:%d\n", posX,posY);
+	if (DEBUG) printf("***jumped!\tv:%.2f\tposY:%d\n", v, posY);
 }
 
 void Player::die(){
 	printf("died!\n");
 }
 
-void Player::left()
-{
-	posX--;
-	printf("go left!, new x:%d, new y:%d\n", posX,posY);
-}
-
-void Player::right()
-{
-	posX++;
-	printf("go right!, new x:%d, new y:%d\n", posX,posY);
-}
-
 void Player::updatePosition()
 {
 	if (!jumped) return;
 	double t = 0.001*LOOP_DELAY;
-	printf("s: %.2f, v: %.2f, posY: %d******\n", s, v, posY);
+
 	s = s - v*t + 0.5*(G*t*t);
 	v = v - G*t;
 
@@ -59,6 +47,6 @@ void Player::updatePosition()
 	}
 
 	posY = (int)s;
-	printf("s: %.2f, v: %.2f, posY: %d\n", s, v, posY);
+	if (DEBUG) printf("s: %.2f\tv: %.2f\tposY: %d\n", s, v, posY);
 }
 

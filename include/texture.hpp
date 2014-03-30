@@ -19,7 +19,7 @@ class Texture {
 		void setHeight(int h);
 		void setPosX(int x);
 		void setPosY(int y);
-		void setTexture(const char*, SDL_Renderer*);
+		void resetTexture(const char*, SDL_Renderer*);
 
 		/**
 		 * Copies the texture onto the renderer.
@@ -41,8 +41,8 @@ class Texture {
 		Texture(const char* path, SDL_Renderer* renderer);
 
 		/**
-	     * Deallocates the object
-	     */
+		 * Deallocates the object
+		 */
 		~Texture();
 
 	protected:
@@ -54,7 +54,7 @@ class Texture {
 		int posX;
 		int posY;
 	private:
-		void loadTextureFromFile(const char* path, SDL_Renderer* renderer);
+		bool loadTextureFromFile(const char* path, SDL_Renderer* renderer);
 		void zeroAll();
 
 };

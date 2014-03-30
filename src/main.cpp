@@ -8,77 +8,12 @@ and may not be redistributed without written permission.*/
 #include "player.hpp"
 #include "utils.hpp"
 #include "background.hpp"
-#include "config.hpp"
-
-//Screen dimension constants
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
-
-//Starts up SDL and creates window
-bool init();
-
-//Frees media and shuts down SDL
-void close();
 
 //The window we'll be rendering to
-SDL_Window* gWindow = NULL;
+SDL_Window* window = NULL;
 
 // http://stackoverflow.com/questions/21007329/what-is-a-sdl-renderer
-SDL_Renderer* gRenderer = NULL;
-
-bool init(){
-
-	//Initialize SDL
-	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
-	{
-		printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
-		return false;
-	}
-	//Create window
-	gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED,
-			SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE );
-	if( gWindow == NULL )
-	{
-		printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
-		return false;
-	}
-
-	// display info on render driver
-	showRenderDriver();
-
-	gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED );
-	if( gRenderer == NULL )
-	{
-		printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
-		return false;
-	}
-
-	// Initialise renderer colour
-	SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
-
-	// initialise png and jpg loading
-	int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
-	if ( !(IMG_Init(imgFlags) & imgFlags) )
-	{
-		printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
-		return false;
-	}
-
-	return true;
-}
-
-void close()
-{
-	SDL_DestroyRenderer( gRenderer );
-	SDL_DestroyWindow( gWindow );
-	gWindow = NULL;
-	gRenderer = NULL;
-
-	//Quit SDL subsystems
-	IMG_Quit();
-	SDL_Quit();
-}
-
+SDL_Renderer* renderer = NULL;
 
 int main( int argc, char* args[] )
 {
@@ -94,19 +29,15 @@ int main( int argc, char* args[] )
 
 	bool quit = false;
 	SDL_Event e;
-	Player p1("../assets/foo.png", gRenderer, 240, 140);
-	// p1.setPosX(240);
-	// p1.setPosY(140);
-	Background bg1("../assets/background.png", gRenderer);
+	Player p1("../assets/foo.png", renderer, 240, 140);
+	Background bg1("../assets/background.png", renderer);
 
 	while (!quit)
 	{
 		while (SDL_PollEvent( &e ) != 0 )
 		{
-
 			if (e.type == SDL_QUIT ){
 				quit = true;
-
 			}
 			else if (e.type == SDL_KEYDOWN)
 			{
@@ -114,12 +45,6 @@ int main( int argc, char* args[] )
 				{
 					case SDLK_SPACE:
 						p1.jump();
-						break;
-					case SDLK_LEFT:
-						p1.left();
-						break;
-					case SDLK_RIGHT:
-						p1.right();
 						break;
 					case SDLK_q:
 						p1.die();
@@ -131,18 +56,18 @@ int main( int argc, char* args[] )
 			}
 		}
 
-		SDL_RenderClear( gRenderer );
+		SDL_RenderClear( renderer );
 
 		p1.updatePosition();
-		bg1.renderCopy(gRenderer);
-		p1.renderCopy(gRenderer);
 
-		SDL_RenderPresent( gRenderer );
+		bg1.renderCopy(renderer);
+		p1.renderCopy(renderer);
 
+		SDL_RenderPresent( renderer );
 		SDL_Delay( LOOP_DELAY );
 	}
 
-	//Free resources and close SDL
 	close();
 	return 0;
 }
+
