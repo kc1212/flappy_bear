@@ -1,5 +1,64 @@
 #include "utils.hpp"
+#include "config.hpp"
 // ultility functions
+
+extern SDL_Window* window;
+extern SDL_Renderer* renderer;
+
+bool init()
+{
+	//Initialize SDL
+	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
+	{
+		printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
+		return false;
+	}
+	//Create window
+	window = SDL_CreateWindow( "flappy_bear", SDL_WINDOWPOS_UNDEFINED,
+			SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE );
+	if( window == NULL )
+	{
+		printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
+		return false;
+	}
+
+	// display info on render driver
+	showRenderDriver();
+
+	renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
+	if( renderer == NULL )
+	{
+		printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
+		return false;
+	}
+
+	// Initialise renderer colour
+	SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
+
+	// initialise png and jpg loading
+	int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
+	if ( !(IMG_Init(imgFlags) & imgFlags) )
+	{
+		printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
+		return false;
+	}
+
+	return true;
+}
+
+
+void close()
+{
+	SDL_DestroyRenderer( renderer );
+	SDL_DestroyWindow( window );
+	window = NULL;
+	renderer = NULL;
+
+	//Quit SDL subsystems
+	IMG_Quit();
+	SDL_Quit();
+}
+
 
 void showRenderDriver(){
 
@@ -25,3 +84,5 @@ void showRenderDriver(){
 			printf("the renderer supports rendering to texture\n");
 	}
 }
+
+

@@ -20,10 +20,6 @@ Texture::~Texture()
 {
 	SDL_DestroyTexture(texture);
 	texture = NULL;
-	width = 0;
-	height = 0;
-	positionX = 0;
-	positionY = 0;
 }
 
 SDL_Texture* Texture::getTexture()
@@ -40,13 +36,13 @@ void Texture::zeroAll()
 	texture = NULL;
 	width = 0;
 	height = 0;
-	positionX = 0;
-	positionY = 0;
+	posX = 0;
+	posY = 0;
 }
 
-void Texture::setTexture(const char* path, SDL_Renderer* renderer)
+void Texture::resetTexture(const char* path, SDL_Renderer* renderer)
 {
-	SDL_DestroyTexture( texture );
+	SDL_DestroyTexture(texture);
 	texture = NULL;
 	strcpy(filename, path);
 	loadTextureFromFile(path, renderer);
@@ -74,57 +70,61 @@ int Texture::getWidth()
 
 int Texture::getPosX()
 {
-	return positionX;
+	return posX;
 }
 
 int Texture::getPosY()
 {
-	return positionY;
+	return posY;
 }
 
 void Texture::setPosX(int x)
 {
-	positionX = x;
+	posX = x;
 }
 
 void Texture::setPosY(int y)
 {
-	positionY = y;
+	posY = y;
 }
 
-void Texture::render(SDL_Renderer *renderer)
+void Texture::renderCopy(SDL_Renderer *renderer)
 {
-	SDL_Rect renderQuad = { positionX, positionY, width, height };
+	SDL_Rect renderQuad = { posX, posY, width, height };
 	SDL_RenderCopy (renderer, texture, NULL, &renderQuad);
 }
 
 // Private methods
-void Texture::loadTextureFromFile(const char* path, SDL_Renderer* renderer)
+bool Texture::loadTextureFromFile(const char* path, SDL_Renderer* renderer)
 {
 	SDL_Texture* newTexture = NULL;
 	SDL_Surface* loadedSurface = NULL;
+	if (renderer == NULL)
+	{
+		fprintf(stderr, "renderer is null in %s\n", __func__);
+		return false;
+	}
 
 	loadedSurface = IMG_Load(path);
 	if (loadedSurface == NULL)
 	{
-		printf("unable to load image %s! SDL_image Error: %s\n", path, IMG_GetError());
+		printf("unable to load image %s in %s! SDL_image Error: %s\n", path, __func__, IMG_GetError());
+		return false;
 	}
-	else
+
+	SDL_SetColorKey( loadedSurface, SDL_TRUE, SDL_MapRGB( loadedSurface->format, 0, 0xFF, 0xFF ) );
+	newTexture = SDL_CreateTextureFromSurface( renderer, loadedSurface );
+	if (newTexture == NULL)
 	{
-		SDL_SetColorKey( loadedSurface, SDL_TRUE, SDL_MapRGB( loadedSurface->format, 0, 0xFF, 0xFF ) );
-		newTexture = SDL_CreateTextureFromSurface( renderer, loadedSurface );
-		if (newTexture == NULL)
-		{
-			printf("unable to create texture from %s! SDL Error: %s\n", path, SDL_GetError());
-		}
-		SDL_FreeSurface(loadedSurface);
-
-		width = loadedSurface->w;
-		height = loadedSurface->h;
-		texture = newTexture;
+		printf("unable to create texture from %s in %s! SDL Error: %s\n", path, __func__, SDL_GetError());
+		return false;
 	}
+	SDL_FreeSurface(loadedSurface);
+
+	width = loadedSurface->w;
+	height = loadedSurface->h;
+	texture = newTexture;
+	return true;
 }
-
-
 
 
