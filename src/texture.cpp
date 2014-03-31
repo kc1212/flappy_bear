@@ -88,9 +88,9 @@ void Texture::setPosY(int y)
 	posY = y;
 }
 
-void Texture::renderCopy(SDL_Renderer *renderer)
+void Texture::render(SDL_Renderer *renderer, int x, int y)
 {
-	SDL_Rect renderQuad = { posX, posY, width, height };
+	SDL_Rect renderQuad = { x, y, width, height };
 	SDL_RenderCopy (renderer, texture, NULL, &renderQuad);
 }
 

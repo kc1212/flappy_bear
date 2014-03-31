@@ -10,7 +10,7 @@ class Player : public Texture
 		void jump();
 		void die();
 		void updatePosition();
-
+		void render(SDL_Renderer *renderer);
 		// Player();
 		Player(const char*, SDL_Renderer*, int, int);
 		~Player();

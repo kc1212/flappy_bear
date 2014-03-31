@@ -50,3 +50,8 @@ void Player::updatePosition()
 	if (DEBUG) printf("s: %.2f\tv: %.2f\tposY: %d\n", s, v, posY);
 }
 
+void Player::render(SDL_Renderer *renderer)
+{
+	Texture::render(renderer, posX, posY);
+}
+

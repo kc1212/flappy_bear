@@ -24,9 +24,11 @@ class Texture {
 		/**
 		 * Copies the texture onto the renderer.
 		 * @param renderer The renderer to use.
+		 * @param x The x coord to render.
+		 * @param y The y coord to render.
 		 *
 		 */
-		void renderCopy(SDL_Renderer *renderer);
+		void render(SDL_Renderer *renderer, int x, int y);
 
 		/**
 		 * Default constructor.

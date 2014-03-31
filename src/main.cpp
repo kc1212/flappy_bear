@@ -28,6 +28,8 @@ int main( int argc, char* args[] )
 	Player p1("../assets/foo.png", renderer, 240, 140);
 	Background bg1("../assets/background.png", renderer);
 
+
+
 	while (!quit)
 	{
 		while (SDL_PollEvent( &e ) != 0 )
@@ -56,8 +58,18 @@ int main( int argc, char* args[] )
 
 		p1.updatePosition();
 
-		bg1.renderCopy(renderer);
-		p1.renderCopy(renderer);
+
+		if (abs(bg1.getPosX()) > bg1.getWidth())
+		{
+			bg1.setPosX(0);
+		}
+
+		bg1.setPosX(bg1.getPosX()-10);
+
+		// Draw the position of bg1 and p1
+		bg1.render(renderer, bg1.getPosX(), bg1.getPosY());
+		bg1.render(renderer, bg1.getPosX()+SCREEN_WIDTH, bg1.getPosY());
+		p1.render(renderer);
 
 		SDL_RenderPresent( renderer );
 		SDL_Delay( LOOP_DELAY );
