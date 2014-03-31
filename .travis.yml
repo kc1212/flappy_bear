@@ -17,5 +17,5 @@ before_script:
 
 script:
   - make
-  - ./build/ut_flappy_bear
+  - ./ut_flappy_bear
 
