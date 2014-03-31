@@ -1,6 +1,6 @@
 
-#include "player.hpp"
 #include "utils.hpp"
+#include "player.hpp"
 #include "background.hpp"
 
 #include <cstdio>
