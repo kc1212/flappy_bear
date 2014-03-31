@@ -2,6 +2,7 @@
 #include "utils.hpp"
 #include "player.hpp"
 #include "background.hpp"
+#include "obstacle.hpp"
 
 #include <cstdio>
 
