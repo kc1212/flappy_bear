@@ -29,7 +29,6 @@ int main( int argc, char* args[] )
 	Background bg1("../assets/background.png", renderer);
 
 
-
 	while (!quit)
 	{
 		while (SDL_PollEvent( &e ) != 0 )

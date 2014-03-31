@@ -15,7 +15,7 @@ pkg_search_module(SDL2_Image REQUIRED SDL2_image)
 set(Boost_USE_STATIC_LIBS       ON)
 set(Boost_USE_MULTITHREADED     OFF)
 set(Boost_USE_STATIC_RUNTIME    OFF)
-find_package(Boost 1.49.0 COMPONENTS unit_test_framework REQUIRED)
+find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
 ## set compiler flags
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
