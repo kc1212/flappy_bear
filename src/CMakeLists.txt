@@ -21,3 +21,6 @@ target_link_libraries(
 	${SDL2_Image_LIBRARIES}
 	)
 
+## debug messages
+message(STATUS "CMAKE_CXX_FLAGS: " ${CMAKE_CXX_FLAGS})
+

@@ -19,9 +19,22 @@ find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
 ## set compiler flags
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-	set(CMAKE_CXX_FLAGS "-g -W -Wall -Wextra -Werror -pedantic -framework Cocoa")
+	set(PLATFORM_FLAGS "-framework Cocoa")
+elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+	set(PLATFORM_FLAGS "")
 else()
-	set(CMAKE_CXX_FLAGS "-g -W -Wall -Wextra -Werror -pedantic")
+	set(PLATFORM_FLAGS "")
+endif()
+set(CMAKE_CXX_FLAGS "${PLATFORM_FLAGS} -W -Wall -Wextra -Werror -pedantic")
+set(CMAKE_CXX_FLAGS_RELEASE "${PLATFORM_FLAGS} -O2")
+set(CMAKE_CXX_FLAGS_DEBUG "${PLATFORM_FLAGS} -O0 -g")
+
+ # set a default build type if none was specified
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  message(STATUS "Setting build type to 'Debug' as none was specified.")
+  set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build." FORCE)
+  # set the possible values of build type for cmake-gui
+  # set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release")
 endif()
 
 ## set include and config directories
