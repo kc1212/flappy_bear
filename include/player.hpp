@@ -11,6 +11,8 @@ class Player : public Texture
 		void die();
 		void updatePosition();
 		void render(SDL_Renderer *renderer);
+		double getV();
+		bool hasJumped();
 		// Player();
 		Player(const char*, SDL_Renderer*, int, int);
 		~Player();

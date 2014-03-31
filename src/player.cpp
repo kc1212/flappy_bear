@@ -55,3 +55,12 @@ void Player::render(SDL_Renderer *renderer)
 	Texture::render(renderer, posX, posY);
 }
 
+double Player::getV()
+{
+	return v;
+}
+
+bool Player::hasJumped()
+{
+	return jumped;
+}
