@@ -8,8 +8,10 @@
 need to compile SDL2 with OpenGL (libgl1-mesa-dev for example on linux)
 
 ### to execute:
-	cd build
 	./flappy_bear
+
+### to test:
+	./ut_flappy_bear
 
 ### equation of motion:
 	s = s0 + v0*t - (g*t^2)/2

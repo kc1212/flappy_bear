@@ -43,8 +43,10 @@ int main( int argc, char* args[] )
 					case SDLK_SPACE:
 						p1.jump();
 						break;
+					case SDLK_r:
+						p1.restartGame();
+						break;
 					case SDLK_q:
-						p1.die();
 						quit = true;
 						break;
 					default:
@@ -71,6 +73,7 @@ int main( int argc, char* args[] )
 		p1.render(renderer);
 
 		SDL_RenderPresent( renderer );
+		// TODO use SDL_GetTicks to cap framerate
 		SDL_Delay( LOOP_DELAY );
 	}
 

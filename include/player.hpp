@@ -8,9 +8,9 @@ class Player : public Texture
 {
 	public:
 		void jump();
-		void die();
 		void updatePosition();
 		void render(SDL_Renderer *renderer);
+		void restartGame();
 		double getV();
 		bool hasJumped();
 		// Player();
@@ -18,10 +18,15 @@ class Player : public Texture
 		~Player();
 	private:
 		void init();
+		bool checkCollision();
+		void reset();
 		double v; // velocity
 		double a; // acceleration
 		double s; // displacement
 		bool jumped;
+		bool dead;
+		const int startX;
+		const int startY;
 };
 
 #endif
