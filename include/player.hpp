@@ -2,9 +2,9 @@
 #ifndef _PLAYER_HPP_
 #define _PLAYER_HPP_
 
-#include "texture.hpp"
+#include "collidable.hpp"
 
-class Player : public Texture
+class Player : public Collidable
 {
 	public:
 		void jump();
@@ -25,8 +25,6 @@ class Player : public Texture
 		double s; // displacement
 		bool jumped;
 		bool dead;
-		const int startX;
-		const int startY;
 };
 
 #endif

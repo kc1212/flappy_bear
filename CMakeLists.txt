@@ -51,6 +51,7 @@ set(FB_SOURCES
 	"${PROJECT_SOURCE_DIR}/src/player.cpp" 
 	"${PROJECT_SOURCE_DIR}/src/background.cpp" 
 	"${PROJECT_SOURCE_DIR}/src/utils.cpp"
+	"${PROJECT_SOURCE_DIR}/src/collidable.cpp"
 	)
 set(FB_MAIN "${PROJECT_SOURCE_DIR}/src/main.cpp")
 

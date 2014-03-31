@@ -4,12 +4,9 @@
 
 #include <cstdio>
 
-// Player::Player() : Texture()
-// {
-// }
 
-Player::Player(const char* path, SDL_Renderer* renderer, int _x, int _y) 
-: Texture(path, renderer), startX(_x), startY(_y)
+Player::Player(const char* path, SDL_Renderer* renderer, int _x, int _y)
+	: Collidable(path, renderer, _x, _y)
 {
 	reset();
 }
@@ -42,22 +39,19 @@ void Player::jump(){
 	if (DEBUG) printf("***jumped!\tv:%.2f\tposY:%d\n", v, posY);
 }
 
-bool Player::checkCollision()
-{
-	// TODO only checking bountry at the moment, need to collision detection for other objects
-	if (posY <= -10 || posY >= SCREEN_HEIGHT - height + 10)
-	{
-		dead = true;
-		if (DEBUG) printf("***collided!\tposY: %d\n", posY);
-		return true;
-	}
-	return false;
-}
-
 void Player::updatePosition()
 {
-	checkCollision();
-	if (!jumped || dead) return;
+	if (isCollided())
+	{
+		dead = true;
+		return;
+	}
+
+	if (!jumped)
+	{
+		return;
+	}
+
 	// TODO use SDL_GetTicks will probably be more accurate for time calculation
 	double t = 0.001*LOOP_DELAY;
 
@@ -79,7 +73,7 @@ void Player::updatePosition()
 
 void Player::render(SDL_Renderer *renderer)
 {
-	Texture::render(renderer, posX, posY);
+	Collidable::render(renderer, posX, posY);
 }
 
 // TODO if we don't need to use getV and hasJumped in the project,
