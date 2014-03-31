@@ -34,8 +34,8 @@ void Player::updatePosition()
 	if (!jumped) return;
 	double t = 0.001*LOOP_DELAY;
 
-	s = s - v*t + 0.5*(G*t*t);
-	v = v - G*t;
+	s = s - v*t + 0.5*(ACCEL*t*t);
+	v = v - ACCEL*t;
 
 	if (v > V_MAX)
 	{
