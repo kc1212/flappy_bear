@@ -18,10 +18,4 @@
 ### equation of motion:
 	s = s0 + v0*t - (a*t^2)/2
 	v = v0 - g*t
-	
-### class structure:
-	            texture
-	            /     \
-	    collidable    background
-	    /        \
-	player    obstacles
+

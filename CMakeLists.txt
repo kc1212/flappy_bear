@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-project(flappy_bear)
+project(flappy_bear_project)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
@@ -64,7 +64,6 @@ set(FB_SOURCES
 	"${PROJECT_SOURCE_DIR}/src/player.cpp" 
 	"${PROJECT_SOURCE_DIR}/src/background.cpp" 
 	"${PROJECT_SOURCE_DIR}/src/utils.cpp"
-	"${PROJECT_SOURCE_DIR}/src/collidable.cpp"
 	"${PROJECT_SOURCE_DIR}/src/obstacle.cpp"
 	"${PROJECT_SOURCE_DIR}/src/world.cpp"
 	)
