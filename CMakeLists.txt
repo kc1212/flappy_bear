@@ -66,6 +66,7 @@ set(FB_SOURCES
 	"${PROJECT_SOURCE_DIR}/src/utils.cpp"
 	"${PROJECT_SOURCE_DIR}/src/collidable.cpp"
 	"${PROJECT_SOURCE_DIR}/src/obstacle.cpp"
+	"${PROJECT_SOURCE_DIR}/src/world.cpp"
 	)
 set(FB_MAIN "${PROJECT_SOURCE_DIR}/src/main.cpp")
 

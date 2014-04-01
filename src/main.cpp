@@ -3,6 +3,7 @@
 #include "player.hpp"
 #include "background.hpp"
 #include "obstacle.hpp"
+#include "world.hpp"
 
 #include <cstdio>
 
@@ -23,62 +24,8 @@ int main( int argc, char* args[] )
 		close(window, renderer); // we dont need to fre resources
 		return 1;
 	}
-
-	bool quit = false;
-	SDL_Event e;
-	Player p1("../assets/foo.png", renderer, 240, 140);
-	Background bg1("../assets/background.png", renderer);
-
-
-	while (!quit)
-	{
-		while (SDL_PollEvent( &e ) != 0 )
-		{
-			if (e.type == SDL_QUIT ){
-				quit = true;
-			}
-			else if (e.type == SDL_KEYDOWN)
-			{
-				switch (e.key.keysym.sym)
-				{
-					case SDLK_SPACE:
-						p1.jump();
-						break;
-					case SDLK_r:
-						p1.restartGame();
-						break;
-					case SDLK_q:
-						quit = true;
-						break;
-					default:
-						break;
-				}
-			}
-		}
-
-		SDL_RenderClear( renderer );
-
-		p1.updatePosition();
-
-
-		if (abs(bg1.getPosX()) > bg1.getWidth())
-		{
-			bg1.setPosX(0);
-		}
-
-		bg1.setPosX(bg1.getPosX()-10);
-
-		// Draw the position of bg1 and p1
-		bg1.render(renderer, bg1.getPosX(), bg1.getPosY());
-		bg1.render(renderer, bg1.getPosX()+SCREEN_WIDTH, bg1.getPosY());
-		p1.render(renderer);
-
-		SDL_RenderPresent( renderer );
-		// TODO use SDL_GetTicks to cap framerate
-		SDL_Delay( LOOP_DELAY );
-	}
-
-	close(window, renderer);
-	return 0;
+	World world(renderer, window);
+	return world.start();
+	
 }
 
