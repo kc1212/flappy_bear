@@ -2,15 +2,16 @@
 #ifndef _PLAYER_HPP_
 #define _PLAYER_HPP_
 
-#include "collidable.hpp"
+#include "texture.hpp"
 
-class Player : public Collidable
+class Player : public Texture
 {
 	public:
 		void jump();
 		void updatePosition();
 		void render(SDL_Renderer *renderer);
 		void restartGame();
+		void die();
 		double getV();
 		bool hasJumped();
 		// Player();
@@ -25,6 +26,8 @@ class Player : public Collidable
 		double s; // displacement
 		bool jumped;
 		bool dead;
+		const int startX;
+		const int startY;
 };
 
 #endif

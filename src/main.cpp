@@ -26,6 +26,5 @@ int main( int argc, char* args[] )
 	}
 	World world(renderer, window);
 	return world.start();
-	
 }
 

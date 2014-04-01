@@ -28,10 +28,10 @@ bool World::processGameLoop()
 			switch (e.key.keysym.sym)
 			{
 				case SDLK_SPACE:
-					player->jump();
+					player.jump();
 					break;
 				case SDLK_r:
-					player->restartGame();
+					player.restartGame();
 					break;
 				case SDLK_q:
 					quit = true;
@@ -46,36 +46,39 @@ bool World::processGameLoop()
 	SDL_RenderClear(worldRenderer);
 	World::scrollBackground();
 
-	player->updatePosition();	
-	player->render(worldRenderer);
+	detectCollision();
+	player.updatePosition();
+	player.render(worldRenderer);
 
 	SDL_RenderPresent(worldRenderer);
-	SDL_Delay( LOOP_DELAY );
+	SDL_Delay( LOOP_DELAY ); // TODO need better delay
 	return quit;
 }
 
 bool World::detectCollision()
 {
+	// TODO only checking bountry at the moment, need to collision detection for other objects
+	if (player.getPosY() <= -5 || player.getPosY() >= SCREEN_HEIGHT - player.getHeight() + 5)
+	{
+		if (DEBUG) printf("***collided!\tposY: %d\n", player.getPosY());
+		player.die();
+		return true;
+	}
 	return false;
 }
 
-World::World(SDL_Renderer *renderer, SDL_Window *window) 
+// make sure the members appear in the initializer list in the same order as they appear in the class
+World::World(SDL_Renderer *renderer, SDL_Window *window)
+	: background("../assets/background.png", renderer)
+	, player("../assets/foo.png", renderer, 240, 140)
 {
 	worldRenderer = renderer;
 	worldWindow = window;
-	player = new Player("../assets/foo.png", worldRenderer, 240, 140);
-	background = new Background("../assets/background.png", worldRenderer); 
 }
 
 void World::stop()
 {
-	close(worldWindow, worldRenderer); 	
-	delete(player);
-	delete(background);
-	for (int i=0; i<obstacles.size(); i++)
-	{
-		delete(obstacles[i]);		
-	}
+	close(worldWindow, worldRenderer);
 }
 
 World::~World()
@@ -85,14 +88,16 @@ World::~World()
 
 void World::scrollBackground()
 {
-	if (abs(background->getPosX()) > background->getWidth())
+	if (abs(background.getPosX()) > background.getWidth())
 		{
-			background->setPosX(0);
+			background.setPosX(0);
 		}
 
-		background->setPosX(background->getPosX()-10);
+		background.setPosX(background.getPosX()-10);
 
 		// Draw the position of bg1 and p1
-		background->render(worldRenderer, background->getPosX(), background->getPosY());
-		background->render(worldRenderer, background->getPosX()+SCREEN_WIDTH, background->getPosY());
+		background.render(worldRenderer, background.getPosX(), background.getPosY());
+		background.render(worldRenderer, background.getPosX()+SCREEN_WIDTH, background.getPosY());
 }
+
+

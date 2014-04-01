@@ -43,6 +43,15 @@ class Texture {
 		Texture(const char* path, SDL_Renderer* renderer);
 
 		/**
+		 * Construct a texture with an asset plus initial position.
+		 * @param path The file path to the asset.
+		 * @param renderer The renderer to render the asset.
+		 * @param _x Initial X coordinate
+		 * @param _y Initial Y coordinate
+		 */
+		Texture(const char* path, SDL_Renderer* renderer, int _x, int _y);
+
+		/**
 		 * Deallocates the object
 		 */
 		~Texture();

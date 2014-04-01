@@ -1,11 +1,13 @@
 #ifndef _OBSTACLES_HPP_
 #define _OBSTACLES_HPP_
 
-#include "collidable.hpp"
-class Obstacle : public Collidable
+#include "texture.hpp"
+class Obstacle : public Texture
 {
 	public:
 		int dummy;
+		Obstacle();
+		~Obstacle();
 	private:
 		int dummy2;
 };

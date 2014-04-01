@@ -13,7 +13,7 @@ bool init(SDL_Window* &window, SDL_Renderer* &renderer)
 		printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
 		return false;
 	}
-	//Create window
+	//Create window // TODO resizable window not working correctly, consider stretching
 	window = SDL_CreateWindow( "flappy_bear", SDL_WINDOWPOS_UNDEFINED,
 			SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE );
 	if( window == NULL )

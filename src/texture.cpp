@@ -10,8 +10,8 @@ Texture::Texture()
 
 Texture::Texture(const char* path, SDL_Renderer* renderer)
 {
-	zeroAll();
-	// need to check for filename max length
+	zeroAll(); // we can delegate constructor in C++11
+	// TODO need to check for filename max length
 	strcpy(filename, path);
 	loadTextureFromFile(path, renderer);
 }

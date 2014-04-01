@@ -21,26 +21,26 @@ class World {
 		  * Stops the world.
 		  */
 		void stop();
-		/** 
+		/**
 		  * Detects whether there has been a collision somewhere in the world.
 		  * @return true if there has been a collision, false otherwise.
 		  */
 		bool detectCollision();
 		/**
 		 * Constructor
-		 */ 
+		 */
 		World(SDL_Renderer *, SDL_Window *);
 		/**
 		 * Destructor
-		 */ 
+		 */
 		~World();
 
 	private:
-		std::vector <Obstacle*> obstacles; 	
-		Background *background;					
-		Player *player;
-		SDL_Renderer *worldRenderer;
-		SDL_Window *worldWindow;
+		Background background;
+		Player player;
+		Obstacle obstacles[5];
+		SDL_Renderer* worldRenderer;
+		SDL_Window* worldWindow;
 		void scrollBackground();
 		bool processGameLoop();
 };

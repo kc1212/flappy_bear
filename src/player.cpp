@@ -6,7 +6,7 @@
 
 
 Player::Player(const char* path, SDL_Renderer* renderer, int _x, int _y)
-	: Collidable(path, renderer, _x, _y)
+	: Texture(path, renderer), startX(_x), startY(_y)
 {
 	reset();
 }
@@ -32,6 +32,9 @@ void Player::restartGame()
 	}
 }
 
+void Player::die(){
+	dead = true;
+}
 
 void Player::jump(){
 	jumped = true;
@@ -41,13 +44,7 @@ void Player::jump(){
 
 void Player::updatePosition()
 {
-	if (isCollided())
-	{
-		dead = true;
-		return;
-	}
-
-	if (!jumped)
+	if (!jumped || dead)
 	{
 		return;
 	}
@@ -73,7 +70,7 @@ void Player::updatePosition()
 
 void Player::render(SDL_Renderer *renderer)
 {
-	Collidable::render(renderer, posX, posY);
+	Texture::render(renderer, posX, posY);
 }
 
 // TODO if we don't need to use getV and hasJumped in the project,
