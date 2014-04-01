@@ -84,3 +84,5 @@ bool Player::hasJumped()
 {
 	return jumped;
 }
+
+
