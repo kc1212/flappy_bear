@@ -46,6 +46,8 @@ bool World::processGameLoop()
 	SDL_RenderClear(worldRenderer);
 	World::scrollBackground();
 
+	addObstacles();
+
 	detectCollision();
 	player.updatePosition();
 	player.render(worldRenderer);
@@ -69,8 +71,9 @@ bool World::detectCollision()
 
 // make sure the members appear in the initializer list in the same order as they appear in the class
 World::World(SDL_Renderer *renderer, SDL_Window *window)
-	: background("../assets/background.png", renderer)
-	, player("../assets/foo.png", renderer, 240, 140)
+	: background("../assets/background.png", renderer),
+	  player("../assets/foo.png", renderer, 140, 140),
+	  obstacle(300,0,100,200)
 {
 	worldRenderer = renderer;
 	worldWindow = window;
@@ -89,15 +92,22 @@ World::~World()
 void World::scrollBackground()
 {
 	if (abs(background.getPosX()) > background.getWidth())
-		{
-			background.setPosX(0);
-		}
+	{
+		background.setPosX(0);
+	}
 
-		background.setPosX(background.getPosX()-10);
+	background.setPosX(background.getPosX()-10);
 
-		// Draw the position of bg1 and p1
-		background.render(worldRenderer, background.getPosX(), background.getPosY());
-		background.render(worldRenderer, background.getPosX()+SCREEN_WIDTH, background.getPosY());
+	// Draw the position of bg1 and p1
+	background.render(worldRenderer, background.getPosX(), background.getPosY());
+	background.render(worldRenderer, background.getPosX()+SCREEN_WIDTH, background.getPosY());
+	background.render(worldRenderer, background.getPosX()+SCREEN_WIDTH+SCREEN_WIDTH, background.getPosY());
+}
+
+void World::addObstacles()
+{
+	obstacle.render(worldRenderer);
+	obstacle.setPosX(obstacle.getPosX()-10);	
 }
 
 

@@ -38,10 +38,11 @@ class World {
 	private:
 		Background background;
 		Player player;
-		Obstacle obstacles[5];
+		Obstacle obstacle;
 		SDL_Renderer* worldRenderer;
 		SDL_Window* worldWindow;
 		void scrollBackground();
 		bool processGameLoop();
+		void addObstacles();
 };
 
