@@ -7,7 +7,11 @@
 #define V_0 450. // initial velocity
 #define ACCEL 1200. // acceleration
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
+#define SCREEN_WIDTH 384
+#define SCREEN_HEIGHT 512
+
+#define OBSTACLE_VGAP 100
+#define OBSTACLE_HGAP 400
+#define OBSTACLE_COUNT 3
 
 #define DEBUG false

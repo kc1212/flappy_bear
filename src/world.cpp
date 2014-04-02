@@ -1,5 +1,6 @@
 #include "world.hpp"
 #include "config.hpp"
+#include "utils.hpp"
 
 int World::start()
 {
@@ -46,7 +47,7 @@ bool World::processGameLoop()
 	SDL_RenderClear(worldRenderer);
 	World::scrollBackground();
 
-	addObstacles();
+    updateObstacles();
 
 	detectCollision();
 	player.updatePosition();
@@ -71,11 +72,12 @@ bool World::detectCollision()
 
 // make sure the members appear in the initializer list in the same order as they appear in the class
 World::World(SDL_Renderer *renderer, SDL_Window *window)
-	: background("../assets/background.png", renderer),
-	  player("../assets/foo.png", renderer, 140, 140),
-	  obstacle(300,0,100,200)
+    : background("../assets/background.png", renderer), player("../assets/foo.png", renderer, 140, 140)
 {
-	worldRenderer = renderer;
+    for (int i = 0; i < OBSTACLE_COUNT; i++){
+        obstacle[i].setAttrs(300+i*OBSTACLE_HGAP,0,100,200);
+    }
+    worldRenderer = renderer;
 	worldWindow = window;
 }
 
@@ -99,15 +101,21 @@ void World::scrollBackground()
 	background.setPosX(background.getPosX()-10);
 
 	// Draw the position of bg1 and p1
-	background.render(worldRenderer, background.getPosX(), background.getPosY());
-	background.render(worldRenderer, background.getPosX()+SCREEN_WIDTH, background.getPosY());
-	background.render(worldRenderer, background.getPosX()+SCREEN_WIDTH+SCREEN_WIDTH, background.getPosY());
+    background.render(worldRenderer, background.getPosX(), background.getPosY(),
+                      background.getWidth(), SCREEN_HEIGHT);
+    background.render(worldRenderer, background.getPosX()+background.getWidth(), background.getPosY(),
+                      background.getWidth(), SCREEN_HEIGHT);
 }
 
-void World::addObstacles()
+void World::updateObstacles()
 {
-	obstacle.render(worldRenderer);
-	obstacle.setPosX(obstacle.getPosX()-10);	
+    for (int i = 0; i < OBSTACLE_COUNT; i++){
+        obstacle[i].render(worldRenderer);
+        obstacle[i].setPosX(obstacle[i].getPosX()-10);
+        if (obstacle[i].getPosX() <= -obstacle[i].getWidth()){
+            obstacle[i].setPosX(300+((OBSTACLE_COUNT-1)*OBSTACLE_HGAP));
+        }
+    }
 }
 
 

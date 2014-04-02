@@ -1,9 +1,6 @@
-#include "texture.hpp"
 #include "background.hpp"
 #include "obstacle.hpp"
 #include "player.hpp"
-#include "utils.hpp"
-#include <vector>
 #include "SDL2/SDL.h"
 
 /**
@@ -38,11 +35,11 @@ class World {
 	private:
 		Background background;
 		Player player;
-		Obstacle obstacle;
+        Obstacle obstacle[OBSTACLE_COUNT];
 		SDL_Renderer* worldRenderer;
 		SDL_Window* worldWindow;
 		void scrollBackground();
 		bool processGameLoop();
-		void addObstacles();
+        void updateObstacles();
 };
 

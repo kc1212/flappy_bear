@@ -52,12 +52,19 @@ void Obstacle::render(SDL_Renderer *renderer)
 	SDL_RenderFillRect(renderer, &obstacleRect);
 }
 
+void Obstacle::setAttrs(int x, int y, int w, int h)
+{
+    posX = x;
+    posY = y;
+    width = w;
+    height = h;
+}
+
+Obstacle::Obstacle() {}
+
 Obstacle::Obstacle(int x, int y, int w, int h)
 {
-	posX = x;
-	posY = y;
-	width = w;
-	height = h;
+    setAttrs(x,y,w,h);
 }
 
 Obstacle::~Obstacle()
