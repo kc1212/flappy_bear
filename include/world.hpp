@@ -3,7 +3,6 @@
 #include "obstacle.hpp"
 #include "player.hpp"
 #include "utils.hpp"
-#include <vector>
 #include "SDL2/SDL.h"
 
 /**

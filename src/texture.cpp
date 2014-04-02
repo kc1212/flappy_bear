@@ -88,10 +88,17 @@ void Texture::setPosY(int y)
 	posY = y;
 }
 
+// overloaded, we might be able to do better
+void Texture::render(SDL_Renderer *renderer, int x, int y, int w, int h)
+{
+    SDL_Rect renderQuad = { x, y, w, h};
+	SDL_RenderCopy (renderer, texture, NULL, &renderQuad);
+}
+
 void Texture::render(SDL_Renderer *renderer, int x, int y)
 {
-	SDL_Rect renderQuad = { x, y, width, height };
-	SDL_RenderCopy (renderer, texture, NULL, &renderQuad);
+    SDL_Rect renderQuad = { x, y, width, height};
+    SDL_RenderCopy (renderer, texture, NULL, &renderQuad);
 }
 
 // Private methods

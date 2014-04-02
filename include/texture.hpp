@@ -26,9 +26,20 @@ class Texture {
 		 * @param renderer The renderer to use.
 		 * @param x The x coord to render.
 		 * @param y The y coord to render.
+         * @param w is the width of the rectangle rendered to
+         * @param h is the height of the rectangle rendered to
 		 *
 		 */
-		void render(SDL_Renderer *renderer, int x, int y);
+        void render(SDL_Renderer *renderer, int x, int y, int w, int h);
+
+        /**
+         * Copies the texture onto the renderer.
+         * @param renderer The renderer to use.
+         * @param x The x coord to render.
+         * @param y The y coord to render.
+         *
+         */
+        void render(SDL_Renderer *renderer, int x, int y);
 
 		/**
 		 * Default constructor.

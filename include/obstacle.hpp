@@ -2,6 +2,7 @@
 #define _OBSTACLES_HPP_
 
 #include "SDL2/SDL.h"
+#include "texture.hpp"
 
 // TODO this class doesn't subclass from Texture. But it should subclass something in common with player, maybe create a entity class to contain all the posx,posy,w,h in entity and keep the renderering code in Texture.
 // and have player multiple inherit from Texture and Entity.
@@ -18,8 +19,10 @@ class Obstacle
 		void setPosY(int y);
 		void setWidth(int w);
 		void setHeight(int h); 
+        void setAttrs(int x, int y, int w, int h);
 
 		void render(SDL_Renderer *renderer);
+        Obstacle();
 		Obstacle(int x, int y, int w, int h);
 		~Obstacle();
 

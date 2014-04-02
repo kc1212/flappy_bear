@@ -99,14 +99,15 @@ void World::scrollBackground()
 	background.setPosX(background.getPosX()-10);
 
 	// Draw the position of bg1 and p1
-	background.render(worldRenderer, background.getPosX(), background.getPosY());
-	background.render(worldRenderer, background.getPosX()+SCREEN_WIDTH, background.getPosY());
-	background.render(worldRenderer, background.getPosX()+SCREEN_WIDTH+SCREEN_WIDTH, background.getPosY());
+    background.render(worldRenderer, background.getPosX(), background.getPosY(),
+                      background.getWidth(), SCREEN_HEIGHT);
+    background.render(worldRenderer, background.getPosX()+background.getWidth(), background.getPosY(),
+                      background.getWidth(), SCREEN_HEIGHT);
 }
 
 void World::addObstacles()
 {
-	obstacle.render(worldRenderer);
+    obstacle.render(worldRenderer);
 	obstacle.setPosX(obstacle.getPosX()-10);	
 }
 
