@@ -2,6 +2,9 @@
 #include "config.hpp"
 #include "utils.hpp"
 
+#define RANDOM_HEIGHT \
+    OBSTACLE_MIN_HEIGHT + rand() % (SCREEN_HEIGHT - OBSTACLE_VGAP - 2*OBSTACLE_MIN_HEIGHT)
+
 int World::start()
 {
 	bool quit = false;
@@ -45,16 +48,18 @@ bool World::processGameLoop()
 	}
 
 	SDL_RenderClear(worldRenderer);
-	World::scrollBackground();
 
+    detectCollision();
+
+    scrollBackground();
     updateObstacles();
 
-	detectCollision();
 	player.updatePosition();
 	player.render(worldRenderer);
 
 	SDL_RenderPresent(worldRenderer);
 	SDL_Delay( LOOP_DELAY ); // TODO need better delay
+
 	return quit;
 }
 
@@ -76,6 +81,7 @@ World::World(SDL_Renderer *renderer, SDL_Window *window)
 {
     for (int i = 0; i < OBSTACLE_COUNT; i++){
         obstacle[i].setAttrs(300+i*OBSTACLE_HGAP,0,100,200);
+        obstacle[i].setHeight(RANDOM_HEIGHT);
     }
     worldRenderer = renderer;
 	worldWindow = window;
@@ -98,7 +104,7 @@ void World::scrollBackground()
 		background.setPosX(0);
 	}
 
-	background.setPosX(background.getPosX()-HORIZONTAL_BIRD_VELOCITY);
+    background.setPosX(background.getPosX()-BACKGROUND_VELOCITY);
 
 	// Draw the position of bg1 and p1
     background.render(worldRenderer, background.getPosX(), background.getPosY(),
@@ -111,9 +117,10 @@ void World::updateObstacles()
 {
     for (int i = 0; i < OBSTACLE_COUNT; i++){
         obstacle[i].render(worldRenderer);
-        obstacle[i].setPosX(obstacle[i].getPosX()-HORIZONTAL_BIRD_VELOCITY);
+        obstacle[i].setPosX(obstacle[i].getPosX()-OBSTACLE_VELOCITY);
         if (obstacle[i].getPosX() <= -obstacle[i].getWidth()){
             obstacle[i].setPosX(300+((OBSTACLE_COUNT-1)*OBSTACLE_HGAP));
+            obstacle[i].setHeight(RANDOM_HEIGHT);
         }
     }
 }

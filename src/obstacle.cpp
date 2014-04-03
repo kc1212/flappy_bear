@@ -46,13 +46,14 @@ int Obstacle::getHeight()
 
 void Obstacle::render(SDL_Renderer *renderer)
 {
-	SDL_Rect obstacleRectTop = {posX,posY,width,height};
-	SDL_Rect obstacleRectBottom = {posX, posY + OBSTACLE_VGAP + height, width, SCREEN_HEIGHT - OBSTACLE_VGAP - posY - height};
-	SDL_Rect rects[2] = {obstacleRectTop,obstacleRectBottom};
-	const SDL_Rect *rectsPointer = rects;
-	SDL_SetRenderDrawColor(renderer, 255,0,0,255);
-	SDL_RenderDrawRects(renderer, rectsPointer, 2);	
-	SDL_RenderFillRects(renderer, rectsPointer, 2);
+
+    SDL_Rect obstacleRectTop = {posX,posY,width,height};
+    SDL_SetRenderDrawColor(renderer, 0xFF,0,0,0xFF);
+    SDL_RenderDrawRect(renderer, &obstacleRectTop);
+
+    SDL_Rect obstacleRectBottom = {posX, posY + OBSTACLE_VGAP + height, width, SCREEN_HEIGHT - OBSTACLE_VGAP - posY - height};
+    SDL_SetRenderDrawColor(renderer, 0,0,0xFF,0xFF);
+    SDL_RenderFillRect(renderer, &obstacleRectBottom);
 }
 
 void Obstacle::setAttrs(int x, int y, int w, int h)
