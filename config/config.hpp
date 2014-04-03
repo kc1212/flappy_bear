@@ -17,9 +17,9 @@
 #define OBSTACLE_HGAP 400
 #define OBSTACLE_COUNT 3
 #define OBSTACLE_MIN_HEIGHT 50
-#define OBSTACLE_VELOCITY 10
+#define OBSTACLE_VELOCITY 8
 
 #define BACKGROUND_VELOCITY 5
 
 
-#define DEBUG false
+#define DEBUG true
