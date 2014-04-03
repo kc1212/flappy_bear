@@ -32,6 +32,10 @@ void Player::restartGame()
 	}
 }
 
+bool Player::isDead(){
+    return dead;
+}
+
 void Player::die(){
 	dead = true;
 }

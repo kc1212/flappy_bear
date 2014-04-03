@@ -2,6 +2,10 @@
 #include "config.hpp"
 #include "utils.hpp"
 
+#define RANDOM_HEIGHT (OBSTACLE_MIN_HEIGHT + \
+    rand() % (SCREEN_HEIGHT - OBSTACLE_VGAP - 2*OBSTACLE_MIN_HEIGHT))
+
+
 int World::start()
 {
 	bool quit = false;
@@ -45,16 +49,18 @@ bool World::processGameLoop()
 	}
 
 	SDL_RenderClear(worldRenderer);
-	World::scrollBackground();
 
+    detectCollision();
+
+    scrollBackground();
     updateObstacles();
 
-	detectCollision();
 	player.updatePosition();
 	player.render(worldRenderer);
 
 	SDL_RenderPresent(worldRenderer);
 	SDL_Delay( LOOP_DELAY ); // TODO need better delay
+
 	return quit;
 }
 
@@ -71,11 +77,14 @@ bool World::detectCollision()
 }
 
 // make sure the members appear in the initializer list in the same order as they appear in the class
+// resources taken from http://lanica.co/flappy-clone/
 World::World(SDL_Renderer *renderer, SDL_Window *window)
-    : background("../assets/background.png", renderer), player("../assets/foo.png", renderer, 140, 140)
+    : background("../assets/night_bg.png", renderer),
+      player("../assets/black-bubble.png", renderer, 140, 140)
 {
     for (int i = 0; i < OBSTACLE_COUNT; i++){
         obstacle[i].setAttrs(300+i*OBSTACLE_HGAP,0,100,200);
+        obstacle[i].setHeight(RANDOM_HEIGHT);
     }
     worldRenderer = renderer;
 	worldWindow = window;
@@ -93,27 +102,42 @@ World::~World()
 
 void World::scrollBackground()
 {
-	if (abs(background.getPosX()) > background.getWidth())
-	{
-		background.setPosX(0);
-	}
+    if (!player.isDead()) {
+        if (background.getPosX() <= -background.getWidth())
+        {
+            background.setPosX(0);
+        }
 
-	background.setPosX(background.getPosX()-HORIZONTAL_BIRD_VELOCITY);
+        background.setPosX(background.getPosX()-BACKGROUND_VELOCITY);
+        if (DEBUG) printf("bg posX: %d\n", background.getPosX());
+    }
 
 	// Draw the position of bg1 and p1
     background.render(worldRenderer, background.getPosX(), background.getPosY(),
                       background.getWidth(), SCREEN_HEIGHT);
     background.render(worldRenderer, background.getPosX()+background.getWidth(), background.getPosY(),
                       background.getWidth(), SCREEN_HEIGHT);
+    background.render(worldRenderer, background.getPosX()+2*background.getWidth(), background.getPosY(),
+                      background.getWidth(), SCREEN_HEIGHT);
 }
 
 void World::updateObstacles()
 {
-    for (int i = 0; i < OBSTACLE_COUNT; i++){
-        obstacle[i].render(worldRenderer);
-        obstacle[i].setPosX(obstacle[i].getPosX()-HORIZONTAL_BIRD_VELOCITY);
-        if (obstacle[i].getPosX() <= -obstacle[i].getWidth()){
-            obstacle[i].setPosX(300+((OBSTACLE_COUNT-1)*OBSTACLE_HGAP));
+    if (player.isDead())
+    {
+        for (int i = 0; i < OBSTACLE_COUNT; i++){
+            obstacle[i].render(worldRenderer);
+        }
+    }
+    else
+    {
+        for (int i = 0; i < OBSTACLE_COUNT; i++){
+            obstacle[i].render(worldRenderer);
+            obstacle[i].setPosX(obstacle[i].getPosX()-OBSTACLE_VELOCITY);
+            if (obstacle[i].getPosX() <= -obstacle[i].getWidth()){
+                obstacle[i].setPosX(300+((OBSTACLE_COUNT-1)*OBSTACLE_HGAP));
+                obstacle[i].setHeight(RANDOM_HEIGHT);
+            }
         }
     }
 }

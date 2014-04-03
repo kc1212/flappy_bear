@@ -12,6 +12,7 @@ class Player : public Texture
 		void render(SDL_Renderer *renderer);
 		void restartGame();
 		void die();
+        bool isDead();
 		double getV();
 		bool hasJumped();
 		// Player();
