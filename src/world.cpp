@@ -98,7 +98,7 @@ void World::scrollBackground()
 		background.setPosX(0);
 	}
 
-	background.setPosX(background.getPosX()-10);
+	background.setPosX(background.getPosX()-HORIZONTAL_BIRD_VELOCITY);
 
 	// Draw the position of bg1 and p1
     background.render(worldRenderer, background.getPosX(), background.getPosY(),
@@ -111,7 +111,7 @@ void World::updateObstacles()
 {
     for (int i = 0; i < OBSTACLE_COUNT; i++){
         obstacle[i].render(worldRenderer);
-        obstacle[i].setPosX(obstacle[i].getPosX()-10);
+        obstacle[i].setPosX(obstacle[i].getPosX()-HORIZONTAL_BIRD_VELOCITY);
         if (obstacle[i].getPosX() <= -obstacle[i].getWidth()){
             obstacle[i].setPosX(300+((OBSTACLE_COUNT-1)*OBSTACLE_HGAP));
         }
