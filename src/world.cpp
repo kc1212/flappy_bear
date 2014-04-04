@@ -3,7 +3,7 @@
 #include "utils.hpp"
 
 #define RANDOM_HEIGHT (OBSTACLE_MIN_HEIGHT + \
-    rand() % (SCREEN_HEIGHT - OBSTACLE_VGAP - 2*OBSTACLE_MIN_HEIGHT))
+	rand() % (SCREEN_HEIGHT - OBSTACLE_VGAP - 2*OBSTACLE_MIN_HEIGHT))
 
 bool check_collision( SDL_Rect A, SDL_Rect B );
 
@@ -51,13 +51,13 @@ bool World::processGameLoop()
 
 	SDL_RenderClear(worldRenderer);
 
-    if (detectCollision()) 
-    {
+	if (detectCollision()) 
+	{
 		player.die();
-    }
+	}
 
-    scrollBackground();
-    updateObstacles();
+	scrollBackground();
+	updateObstacles();
 
 	player.updatePosition();
 	player.render(worldRenderer);
@@ -126,14 +126,14 @@ bool World::detectCollisionWithRect(SDL_Rect rect)
 // make sure the members appear in the initializer list in the same order as they appear in the class
 // resources taken from http://lanica.co/flappy-clone/
 World::World(SDL_Renderer *renderer, SDL_Window *window)
-    : background("../assets/night_bg.png", renderer),
-      player("../assets/black-bubble.png", renderer, 140, 140)
+	: background("../assets/night_bg.png", renderer),
+	  player("../assets/black-bubble.png", renderer, 140, 140)
 {
-    for (int i = 0; i < OBSTACLE_COUNT; i++){
-        obstacles[i].setAttrs(300+i*OBSTACLE_HGAP,0,100,200);
-        obstacles[i].setHeight(RANDOM_HEIGHT);
-    }
-    worldRenderer = renderer;
+	for (int i = 0; i < OBSTACLE_COUNT; i++){
+		obstacles[i].setAttrs(800+i*OBSTACLE_HGAP,0,100,200);
+		obstacles[i].setHeight(RANDOM_HEIGHT);
+	}
+	worldRenderer = renderer;
 	worldWindow = window;
 }
 
@@ -149,87 +149,95 @@ World::~World()
 
 void World::scrollBackground()
 {
-    if (!player.isDead()) {
-        if (background.getPosX() <= -background.getWidth())
-        {
-            background.setPosX(0);
-        }
+	if (!player.isDead()) {
+		if (background.getPosX() <= -background.getWidth())
+		{
+			background.setPosX(0);
+		}
 
-        background.setPosX(background.getPosX()-BACKGROUND_VELOCITY);
-        if (DEBUG) printf("bg posX: %d\n", background.getPosX());
-    }
+		background.setPosX(background.getPosX()-BACKGROUND_VELOCITY);
+		if (DEBUG) printf("bg posX: %d\n", background.getPosX());
+	}
 
 	// Draw the position of bg1 and p1
-    background.render(worldRenderer, background.getPosX(), background.getPosY(),
-                      background.getWidth(), SCREEN_HEIGHT);
-    background.render(worldRenderer, background.getPosX()+background.getWidth(), background.getPosY(),
-                      background.getWidth(), SCREEN_HEIGHT);
-    background.render(worldRenderer, background.getPosX()+2*background.getWidth(), background.getPosY(),
-                      background.getWidth(), SCREEN_HEIGHT);
+	background.render(worldRenderer, background.getPosX(), background.getPosY(),
+					background.getWidth(), SCREEN_HEIGHT);
+	background.render(worldRenderer, background.getPosX()+background.getWidth(), background.getPosY(),
+					background.getWidth(), SCREEN_HEIGHT);
+	background.render(worldRenderer, background.getPosX()+2*background.getWidth(), background.getPosY(),
+					background.getWidth(), SCREEN_HEIGHT);
 }
 
 void World::updateObstacles()
 {
-    if (player.isDead())
-    {
-        for (int i = 0; i < OBSTACLE_COUNT; i++){
-            obstacles[i].render(worldRenderer);
-        }
-    }
-    else
-    {
-        for (int i = 0; i < OBSTACLE_COUNT; i++){
-            obstacles[i].render(worldRenderer);
-            obstacles[i].setPosX(obstacles[i].getPosX()-OBSTACLE_VELOCITY);
-            if (obstacles[i].getPosX() <= -obstacles[i].getWidth()){
-                obstacles[i].setPosX(300+((OBSTACLE_COUNT-1)*OBSTACLE_HGAP));
-                obstacles[i].setHeight(RANDOM_HEIGHT);
-            }
-        }
-    }
+	if (player.isDead() && player.hasJumped())
+	{
+		for (int i = 0; i < OBSTACLE_COUNT; i++){
+			obstacles[i].render(worldRenderer);
+		}
+	}
+	else if (!player.hasJumped())
+	{
+		for (int i = 0; i < OBSTACLE_COUNT; i++){
+			obstacles[i].setAttrs(800+i*OBSTACLE_HGAP,0,100,200);
+			obstacles[i].setHeight(RANDOM_HEIGHT);
+		}
+	}
+	else
+	{
+		for (int i = 0; i < OBSTACLE_COUNT; i++){
+			obstacles[i].render(worldRenderer);
+			obstacles[i].setPosX(obstacles[i].getPosX()-OBSTACLE_VELOCITY);
+			if (obstacles[i].getPosX() <= -obstacles[i].getWidth()){
+				obstacles[i].setPosX(300+((OBSTACLE_COUNT-1)*OBSTACLE_HGAP));
+				obstacles[i].setHeight(RANDOM_HEIGHT);
+			}
+		}
+	}
 }
 
 bool check_collision( SDL_Rect A, SDL_Rect B )
 {
-    //The sides of the rectangles
-    int leftA, leftB;
-    int rightA, rightB;
-    int topA, topB;
-    int bottomA, bottomB;
+	//The sides of the rectangles
+	int leftA, leftB;
+	int rightA, rightB;
+	int topA, topB;
+	int bottomA, bottomB;
 
-    //Calculate the sides of rect A
-    leftA = A.x;
-    rightA = A.x + A.w;
-    topA = A.y;
-    bottomA = A.y + A.h;
+	//Calculate the sides of rect A
+	leftA = A.x;
+	rightA = A.x + A.w;
+	topA = A.y;
+	bottomA = A.y + A.h;
 
-    //Calculate the sides of rect B
-    leftB = B.x;
-    rightB = B.x + B.w;
-    topB = B.y;
-    bottomB = B.y + B.h;
+	//Calculate the sides of rect B
+	leftB = B.x;
+	rightB = B.x + B.w;
+	topB = B.y;
+	bottomB = B.y + B.h;
 
-     //If any of the sides from A are outside of B
-    if( bottomA <= topB )
-    {
-        return false;
-    }
+	 //If any of the sides from A are outside of B
+	if( bottomA <= topB )
+	{
+		return false;
+	}
 
-    if( topA >= bottomB )
-    {
-        return false;
-    }
+	if( topA >= bottomB )
+	{
+		return false;
+	}
 
-    if( rightA <= leftB )
-    {
-        return false;
-    }
+	if( rightA <= leftB )
+	{
+		return false;
+	}
 
-    if( leftA >= rightB )
-    {
-        return false;
-    }
+	if( leftA >= rightB )
+	{
+		return false;
+	}
 
-    //If none of the sides from A are outside B
-    return true;
+	//If none of the sides from A are outside B
+	return true;
 }
+

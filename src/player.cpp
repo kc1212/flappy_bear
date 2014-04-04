@@ -33,7 +33,7 @@ void Player::restartGame()
 }
 
 bool Player::isDead(){
-    return dead;
+	return dead;
 }
 
 void Player::die(){
@@ -77,7 +77,7 @@ void Player::render(SDL_Renderer *renderer)
 	Texture::render(renderer, posX, posY);
 }
 
-// TODO if we don't need to use getV and hasJumped in the project,
+// TODO if we don't need to use getV in the project,
 // do we still need them for the unit test
 double Player::getV()
 {
