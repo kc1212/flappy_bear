@@ -41,5 +41,7 @@ class World {
 		void scrollBackground();
 		bool processGameLoop();
         void updateObstacles();
+		bool detectBoundaryCollision();
+		bool detectObstacleCollision();   
 };
 

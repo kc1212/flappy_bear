@@ -50,7 +50,10 @@ bool World::processGameLoop()
 
 	SDL_RenderClear(worldRenderer);
 
-    detectCollision();
+    if (detectCollision()) 
+    {
+		player.die();
+    }
 
     scrollBackground();
     updateObstacles();
@@ -66,13 +69,24 @@ bool World::processGameLoop()
 
 bool World::detectCollision()
 {
+
+	return World::detectBoundaryCollision() || World::detectBoundaryCollision();
+}
+
+bool World::detectBoundaryCollision()
+{
+	bool result = false;
 	// TODO only checking bountry at the moment, need to collision detection for other objects
 	if (player.getPosY() <= -5 || player.getPosY() >= SCREEN_HEIGHT - player.getHeight() + 5)
 	{
 		if (DEBUG) printf("***collided!\tposY: %d\n", player.getPosY());
-		player.die();
-		return true;
+		result = true;
 	}
+	return result;
+}
+
+bool World::detectObstacleCollision()
+{
 	return false;
 }
 
