@@ -19,7 +19,7 @@ find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
 ## set compiler flags
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-	set(PLATFORM_FLAGS "-framework Cocoa")
+	set(PLATFORM_FLAGS "")
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 	set(PLATFORM_FLAGS "")
 else()
