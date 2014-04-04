@@ -14,6 +14,8 @@ class Obstacle
 		int getPosY();
 		int getWidth();
 		int getHeight();
+		SDL_Rect getTopRect();
+		SDL_Rect getBotRect();
 
 		void setPosX(int x);
 		void setPosY(int y);
@@ -22,8 +24,10 @@ class Obstacle
         void setAttrs(int x, int y, int w, int h);
 
 		void render(SDL_Renderer *renderer);
+
         Obstacle();
-		Obstacle(int x, int y, int w, int h);
+		Obstacle(int x, int y, int w, int h);		
+
 		~Obstacle();
 
 	private:
@@ -31,5 +35,7 @@ class Obstacle
 		int posY;
 		int width;
 		int height;
+		SDL_Rect topRect;
+		SDL_Rect botRect;
 };
 #endif

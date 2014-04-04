@@ -6,22 +6,22 @@
 
 void Obstacle::setPosX(int x)
 {
-	posX = x;
+	Obstacle::setAttrs(x,posY,width,height);
 }
 
 void Obstacle::setPosY(int y)
 {
-	posY = y;
+	Obstacle::setAttrs(posX,y,width,height);
 }
 
 void Obstacle::setWidth(int w)
 {
-	width = w;
+	Obstacle::setAttrs(posX,posY,w,height);
 }
 
 void Obstacle::setHeight(int h)
 {
-	height = h;
+	Obstacle::setAttrs(posX,posY,width,h);
 }
 
 int Obstacle::getPosX()
@@ -46,15 +46,25 @@ int Obstacle::getHeight()
 
 void Obstacle::render(SDL_Renderer *renderer)
 {
-
-    SDL_Rect obstacleTop = {posX,posY,width,height};
     SDL_SetRenderDrawColor(renderer, 0xFF,0,0,0xFF);
-    SDL_RenderDrawRect(renderer, &obstacleTop);
+    SDL_RenderDrawRect(renderer, &topRect);
+    SDL_RenderDrawRect(renderer, &botRect);
 
-    SDL_Rect obstacleBot = {posX, posY + OBSTACLE_VGAP + height, width, SCREEN_HEIGHT - OBSTACLE_VGAP - posY - height};
     SDL_SetRenderDrawColor(renderer, 0,0,0xFF,0xFF);
-    SDL_RenderFillRect(renderer, &obstacleBot);
+    SDL_RenderFillRect(renderer, &topRect);
+    SDL_RenderFillRect(renderer, &botRect);
 }
+
+SDL_Rect Obstacle::getTopRect()
+{
+	return topRect;
+}
+
+SDL_Rect Obstacle::getBotRect()
+{
+	return botRect;
+}
+
 
 void Obstacle::setAttrs(int x, int y, int w, int h)
 {
@@ -62,6 +72,10 @@ void Obstacle::setAttrs(int x, int y, int w, int h)
     posY = y;
     width = w;
     height = h;
+    SDL_Rect obstacleTop = {posX,posY,width,height};
+    SDL_Rect obstacleBot = {posX, posY + OBSTACLE_VGAP + height, width, SCREEN_HEIGHT - OBSTACLE_VGAP - posY - height};
+    topRect = obstacleTop;
+    botRect = obstacleBot;
 }
 
 Obstacle::Obstacle() {}
