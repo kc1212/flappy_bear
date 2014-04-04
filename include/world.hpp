@@ -35,13 +35,15 @@ class World {
 	private:
 		Background background;
 		Player player;
-        Obstacle obstacle[OBSTACLE_COUNT];
+        Obstacle obstacles[OBSTACLE_COUNT];
 		SDL_Renderer* worldRenderer;
 		SDL_Window* worldWindow;
 		void scrollBackground();
 		bool processGameLoop();
         void updateObstacles();
 		bool detectBoundaryCollision();
-		bool detectObstacleCollision();   
+		bool detectCollisionWithObstacles();
+		bool detectCollisionWithObstacle(Obstacle *obstacle); 
+		bool detectCollisionWithRect(SDL_Rect rect);
 };
 

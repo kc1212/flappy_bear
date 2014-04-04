@@ -89,4 +89,9 @@ bool Player::hasJumped()
 	return jumped;
 }
 
+SDL_Rect Player::getPlayerRect()
+{
+	SDL_Rect rect = {posX,posY,width,height};
+	return rect;
+}
 

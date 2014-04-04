@@ -13,9 +13,9 @@ class Player : public Texture
 		void restartGame();
 		void die();
         bool isDead();
+   		bool hasJumped();
 		double getV();
-		bool hasJumped();
-		// Player();
+		SDL_Rect getPlayerRect();
 		Player(const char*, SDL_Renderer*, int, int);
 		~Player();
 	private:

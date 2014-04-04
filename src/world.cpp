@@ -5,6 +5,7 @@
 #define RANDOM_HEIGHT (OBSTACLE_MIN_HEIGHT + \
     rand() % (SCREEN_HEIGHT - OBSTACLE_VGAP - 2*OBSTACLE_MIN_HEIGHT))
 
+bool check_collision( SDL_Rect A, SDL_Rect B );
 
 int World::start()
 {
@@ -69,8 +70,7 @@ bool World::processGameLoop()
 
 bool World::detectCollision()
 {
-
-	return World::detectBoundaryCollision() || World::detectBoundaryCollision();
+	return World::detectBoundaryCollision() || World::detectCollisionWithObstacles();
 }
 
 bool World::detectBoundaryCollision()
@@ -85,9 +85,42 @@ bool World::detectBoundaryCollision()
 	return result;
 }
 
-bool World::detectObstacleCollision()
+bool World::detectCollisionWithObstacles()
 {
-	return false;
+	// Just detect if player is in the gap of the current obstacle or not.
+	bool result = false;
+	for (int i=0; i<OBSTACLE_COUNT; i++)
+	{
+		result = detectCollisionWithObstacle(&obstacles[i]);
+		if (result)
+		{
+			break;
+		}	
+	}	
+	return result;
+}
+
+bool World::detectCollisionWithObstacle(Obstacle *obstacle)
+{
+	bool result = false;
+	SDL_Rect collisionRects[2] = {obstacle->getTopRect(), obstacle->getBotRect()};
+	int numberOfRects = sizeof(collisionRects)/sizeof(SDL_Rect);
+	for (int i=0; i<numberOfRects; i++)
+	{
+		SDL_Rect rect = collisionRects[i];			
+		result = detectCollisionWithRect(rect);		
+		if (result)
+		{
+			break;
+		}
+	}
+	return result;
+}
+
+bool World::detectCollisionWithRect(SDL_Rect rect)
+{
+	return check_collision(player.getPlayerRect(), rect);	
+
 }
 
 // make sure the members appear in the initializer list in the same order as they appear in the class
@@ -97,8 +130,8 @@ World::World(SDL_Renderer *renderer, SDL_Window *window)
       player("../assets/black-bubble.png", renderer, 140, 140)
 {
     for (int i = 0; i < OBSTACLE_COUNT; i++){
-        obstacle[i].setAttrs(300+i*OBSTACLE_HGAP,0,100,200);
-        obstacle[i].setHeight(RANDOM_HEIGHT);
+        obstacles[i].setAttrs(300+i*OBSTACLE_HGAP,0,100,200);
+        obstacles[i].setHeight(RANDOM_HEIGHT);
     }
     worldRenderer = renderer;
 	worldWindow = window;
@@ -140,20 +173,63 @@ void World::updateObstacles()
     if (player.isDead())
     {
         for (int i = 0; i < OBSTACLE_COUNT; i++){
-            obstacle[i].render(worldRenderer);
+            obstacles[i].render(worldRenderer);
         }
     }
     else
     {
         for (int i = 0; i < OBSTACLE_COUNT; i++){
-            obstacle[i].render(worldRenderer);
-            obstacle[i].setPosX(obstacle[i].getPosX()-OBSTACLE_VELOCITY);
-            if (obstacle[i].getPosX() <= -obstacle[i].getWidth()){
-                obstacle[i].setPosX(300+((OBSTACLE_COUNT-1)*OBSTACLE_HGAP));
-                obstacle[i].setHeight(RANDOM_HEIGHT);
+            obstacles[i].render(worldRenderer);
+            obstacles[i].setPosX(obstacles[i].getPosX()-OBSTACLE_VELOCITY);
+            if (obstacles[i].getPosX() <= -obstacles[i].getWidth()){
+                obstacles[i].setPosX(300+((OBSTACLE_COUNT-1)*OBSTACLE_HGAP));
+                obstacles[i].setHeight(RANDOM_HEIGHT);
             }
         }
     }
 }
 
+bool check_collision( SDL_Rect A, SDL_Rect B )
+{
+    //The sides of the rectangles
+    int leftA, leftB;
+    int rightA, rightB;
+    int topA, topB;
+    int bottomA, bottomB;
 
+    //Calculate the sides of rect A
+    leftA = A.x;
+    rightA = A.x + A.w;
+    topA = A.y;
+    bottomA = A.y + A.h;
+
+    //Calculate the sides of rect B
+    leftB = B.x;
+    rightB = B.x + B.w;
+    topB = B.y;
+    bottomB = B.y + B.h;
+
+     //If any of the sides from A are outside of B
+    if( bottomA <= topB )
+    {
+        return false;
+    }
+
+    if( topA >= bottomB )
+    {
+        return false;
+    }
+
+    if( rightA <= leftB )
+    {
+        return false;
+    }
+
+    if( leftA >= rightB )
+    {
+        return false;
+    }
+
+    //If none of the sides from A are outside B
+    return true;
+}
