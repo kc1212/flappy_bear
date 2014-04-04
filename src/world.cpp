@@ -51,7 +51,7 @@ bool World::processGameLoop()
 
 	SDL_RenderClear(worldRenderer);
 
-	if (detectCollision()) 
+	if (detectCollision())
 	{
 		player.die();
 	}
@@ -107,8 +107,8 @@ bool World::detectCollisionWithObstacle(Obstacle *obstacle)
 	int numberOfRects = sizeof(collisionRects)/sizeof(SDL_Rect);
 	for (int i=0; i<numberOfRects; i++)
 	{
-		SDL_Rect rect = collisionRects[i];			
-		result = detectCollisionWithRect(rect);		
+		SDL_Rect rect = collisionRects[i];
+		result = detectCollisionWithRect(rect);
 		if (result)
 		{
 			break;
@@ -119,7 +119,7 @@ bool World::detectCollisionWithObstacle(Obstacle *obstacle)
 
 bool World::detectCollisionWithRect(SDL_Rect rect)
 {
-	return check_collision(player.getPlayerRect(), rect);	
+	return check_collision(player.getPlayerRect(), rect);
 
 }
 
@@ -130,7 +130,8 @@ World::World(SDL_Renderer *renderer, SDL_Window *window)
 	  player("../assets/black-bubble.png", renderer, 140, 140)
 {
 	for (int i = 0; i < OBSTACLE_COUNT; i++){
-		obstacles[i].setAttrs(800+i*OBSTACLE_HGAP,0,100,200);
+		obstacles[i].setTexture("../assets/top_pipe.png", "../assets/bottom_pipe.png", renderer);
+		obstacles[i].setPositions(800+i*OBSTACLE_HGAP,0,100,200);
 		obstacles[i].setHeight(RANDOM_HEIGHT);
 	}
 	worldRenderer = renderer;
@@ -179,7 +180,7 @@ void World::updateObstacles()
 	else if (!player.hasJumped())
 	{
 		for (int i = 0; i < OBSTACLE_COUNT; i++){
-			obstacles[i].setAttrs(800+i*OBSTACLE_HGAP,0,100,200);
+			obstacles[i].setPositions(800+i*OBSTACLE_HGAP,0,100,200);
 			obstacles[i].setHeight(RANDOM_HEIGHT);
 		}
 	}

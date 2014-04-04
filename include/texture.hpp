@@ -41,6 +41,13 @@ class Texture {
          */
         void render(SDL_Renderer *renderer, int x, int y);
 
+        /**
+         * Copies the texture onto the renderer.
+         * @param renderer The renderer to use.
+         *
+         */
+		void render(SDL_Renderer *renderer);
+
 		/**
 		 * Default constructor.
 		 */
@@ -75,6 +82,7 @@ class Texture {
 		int height;
 		int posX;
 		int posY;
+		SDL_Rect rect; // TODO should we use a SDL_Rect struct instead of x,y,w,h?
 	private:
 		bool loadTextureFromFile(const char* path, SDL_Renderer* renderer);
 		void zeroAll();
