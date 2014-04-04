@@ -101,6 +101,12 @@ void Texture::render(SDL_Renderer *renderer, int x, int y)
     SDL_RenderCopy (renderer, texture, NULL, &renderQuad);
 }
 
+void Texture::render(SDL_Renderer *renderer)
+{
+	SDL_Rect renderQuad = {posX, posY, width, height};
+	SDL_RenderCopy(renderer, texture, NULL, &renderQuad);
+}
+
 // Private methods
 bool Texture::loadTextureFromFile(const char* path, SDL_Renderer* renderer)
 {

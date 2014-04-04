@@ -20,22 +20,27 @@ class Obstacle
 		void setPosX(int x);
 		void setPosY(int y);
 		void setWidth(int w);
-		void setHeight(int h); 
-        void setAttrs(int x, int y, int w, int h);
+		void setHeight(int h);
+		void setPositions(int x, int y, int w, int h);
 
+		void setTexture(const char*, const char*, SDL_Renderer*);
 		void render(SDL_Renderer *renderer);
 
-        Obstacle();
-		Obstacle(int x, int y, int w, int h);		
-
+		Obstacle();
+		Obstacle(int x, int y, int w, int h, const char*, const char *);
+		Obstacle(int x, int y, int w, int h, const char*, const char*, SDL_Renderer*);
 		~Obstacle();
 
 	private:
-		int posX;		
+		int posX;
 		int posY;
 		int width;
 		int height;
 		SDL_Rect topRect;
 		SDL_Rect botRect;
+		Texture topObstacle;
+		Texture botObstacle;
 };
 #endif
+
+
