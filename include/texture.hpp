@@ -20,6 +20,7 @@ class Texture {
 		void setPosX(int x);
 		void setPosY(int y);
 		void resetTexture(const char*, SDL_Renderer*);
+		
 
 		/**
 		 * Copies the texture onto the renderer.

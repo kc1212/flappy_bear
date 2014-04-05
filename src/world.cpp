@@ -170,7 +170,7 @@ void World::updateBackground()
 void World::updatePlayer()
 {
 	player.updatePosition();
-	player.render(worldRenderer);
+	player.render();
 	updatePlayerScoreIfNeeded();
 }
 

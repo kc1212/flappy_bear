@@ -10,6 +10,7 @@ Texture::Texture()
 
 Texture::Texture(const char* path, SDL_Renderer* renderer)
 {
+	printf("path %s\n", path);
 	zeroAll(); // we can delegate constructor in C++11
 	// TODO need to check for filename max length
 	strcpy(filename, path);

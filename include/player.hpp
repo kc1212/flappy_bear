@@ -3,37 +3,49 @@
 #define _PLAYER_HPP_
 
 #include "texture.hpp"
+#include "game_entity.hpp"
 
-class Player : public Texture
+class Player : public GameEntity
 {
 	public:
+		// Constructors
+		Player(const char* assetPath, SDL_Renderer* renderer, int startX, int startY);
+		~Player();		
+
+		// Getters
+		SDL_Rect getPlayerRect();
+		int getScore(){return mScore;}
+		double getV();
+
+		// Setters
+		void incrementScore(){mScore++;}
+		void setScore(int s){mScore = s;}
+
+		// Methods
 		void jump();
 		void updatePosition();
-		void render(SDL_Renderer *renderer);
-		void restartGame();
+   		void restartGame();
 		void die();
         bool isDead();
    		bool hasJumped();
-		double getV();
-		SDL_Rect getPlayerRect();
-		int getScore(){return score;}
-		void setScore(int s){score = s;}
-		void incrementScore(){score++;}
+		void render();
 
-		Player(const char*, SDL_Renderer*, int, int);
-		~Player();
+
 	private:
-		void init();
-		bool checkCollision();
+		// Instance vars
+		double mVelocity; 
+		double mAcceleration; 
+		double mDisplacement; 
+		bool mJumped;
+		bool mDead;
+		const int mStartX;
+		const int mStartY;
+		int mScore;
+		Texture mTexture;
+
+		// Methods
 		void reset();
-		double v; // velocity
-		double a; // acceleration
-		double s; // displacement
-		bool jumped;
-		bool dead;
-		const int startX;
-		const int startY;
-		int score;
+
 };
 
 #endif
