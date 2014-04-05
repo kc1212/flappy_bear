@@ -56,11 +56,9 @@ bool World::processGameLoop()
 		player.die();
 	}
 
-	scrollBackground();
+	updateBackground();
 	updateObstacles();
-
-	player.updatePosition();
-	player.render(worldRenderer);
+	updatePlayer();
 
 	SDL_RenderPresent(worldRenderer);
 	SDL_Delay( LOOP_DELAY ); // TODO need better delay
@@ -148,7 +146,7 @@ World::~World()
 	World::stop();
 }
 
-void World::scrollBackground()
+void World::updateBackground()
 {
 	if (!player.isDead()) {
 		if (background.getPosX() <= -background.getWidth())
@@ -169,6 +167,13 @@ void World::scrollBackground()
 					background.getWidth(), SCREEN_HEIGHT);
 }
 
+void World::updatePlayer()
+{
+	player.updatePosition();
+	player.render(worldRenderer);
+	updatePlayerScoreIfNeeded();
+}
+
 void World::updateObstacles()
 {
 	if (player.isDead() && player.hasJumped())
@@ -179,10 +184,8 @@ void World::updateObstacles()
 	}
 	else if (!player.hasJumped())
 	{
-		for (int i = 0; i < OBSTACLE_COUNT; i++){
-			obstacles[i].setPositions(800+i*OBSTACLE_HGAP,0,100,200);
-			obstacles[i].setHeight(RANDOM_HEIGHT);
-		}
+		// If game has not yet started, no need to do anything with obstacles as we are not showing them on screen.
+		return;
 	}
 	else
 	{
@@ -190,8 +193,28 @@ void World::updateObstacles()
 			obstacles[i].render(worldRenderer);
 			obstacles[i].setPosX(obstacles[i].getPosX()-OBSTACLE_VELOCITY);
 			if (obstacles[i].getPosX() <= -obstacles[i].getWidth()){
+				obstacles[i].setHasBeenPassed(false);
 				obstacles[i].setPosX(300+((OBSTACLE_COUNT-1)*OBSTACLE_HGAP));
 				obstacles[i].setHeight(RANDOM_HEIGHT);
+			}
+		}
+	}
+}
+
+void World::updatePlayerScoreIfNeeded()
+{
+ 	for (auto &obstacle : obstacles)
+	{
+		if (obstacle.getHasBeenPassed())
+		{
+			continue;
+		}
+		else 
+		{
+			if (player.getPosX() > obstacle.getPosX())
+			{
+				obstacle.setHasBeenPassed(true);
+				player.incrementScore();
 			}
 		}
 	}

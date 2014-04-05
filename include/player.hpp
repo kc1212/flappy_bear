@@ -16,6 +16,10 @@ class Player : public Texture
    		bool hasJumped();
 		double getV();
 		SDL_Rect getPlayerRect();
+		int getScore(){return score;}
+		void setScore(int s){score = s;}
+		void incrementScore(){score++;}
+
 		Player(const char*, SDL_Renderer*, int, int);
 		~Player();
 	private:
@@ -29,6 +33,7 @@ class Player : public Texture
 		bool dead;
 		const int startX;
 		const int startY;
+		int score;
 };
 
 #endif

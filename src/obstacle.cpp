@@ -92,6 +92,7 @@ Obstacle::Obstacle(int x, int y, int w, int h, const char* imageTop, const char*
 {
 	setTexture(imageTop, imageBot, renderer);
 	setPositions(x,y,w,h);
+	hasBeenPassed = false;
 }
 
 Obstacle::~Obstacle()

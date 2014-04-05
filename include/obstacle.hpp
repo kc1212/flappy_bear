@@ -14,6 +14,7 @@ class Obstacle
 		int getPosY();
 		int getWidth();
 		int getHeight();
+		bool getHasBeenPassed() {return hasBeenPassed;}
 		SDL_Rect getTopRect();
 		SDL_Rect getBotRect();
 
@@ -22,7 +23,7 @@ class Obstacle
 		void setWidth(int w);
 		void setHeight(int h);
 		void setPositions(int x, int y, int w, int h);
-
+		void setHasBeenPassed(bool passed){hasBeenPassed = passed;}
 		void setTexture(const char*, const char*, SDL_Renderer*);
 		void render(SDL_Renderer *renderer);
 
@@ -36,6 +37,7 @@ class Obstacle
 		int posY;
 		int width;
 		int height;
+		bool hasBeenPassed;
 		SDL_Rect topRect;
 		SDL_Rect botRect;
 		Texture topObstacle;

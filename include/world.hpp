@@ -38,12 +38,14 @@ class World {
         Obstacle obstacles[OBSTACLE_COUNT];
 		SDL_Renderer* worldRenderer;
 		SDL_Window* worldWindow;
-		void scrollBackground();
 		bool processGameLoop();
+		void updateBackground();
+		void updatePlayer();
         void updateObstacles();
 		bool detectBoundaryCollision();
 		bool detectCollisionWithObstacles();
 		bool detectCollisionWithObstacle(Obstacle *obstacle); 
 		bool detectCollisionWithRect(SDL_Rect rect);
+		void updatePlayerScoreIfNeeded();
 };
 
