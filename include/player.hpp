@@ -13,7 +13,6 @@ class Player : public GameEntity
 		~Player();		
 
 		// Getters
-		SDL_Rect getPlayerRect();
 		int getScore(){return mScore;}
 		double getV();
 
@@ -28,7 +27,7 @@ class Player : public GameEntity
 		void die();
         bool isDead();
    		bool hasJumped();
-		void render();
+		void render() const;
 
 
 	private:

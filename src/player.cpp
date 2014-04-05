@@ -6,11 +6,11 @@
 
 
 Player::Player(const char* path, SDL_Renderer* renderer, int startX, int startY)
-	: mTexture(path, renderer), mStartX(startX), mStartY(startY)
+	: mStartX(startX), mStartY(startY), mTexture(path, renderer)
 {	
 	mRenderer = renderer;
-	mWidth = mTexture.getWidth();
-	mHeight = mTexture.getHeight();
+	mRect.w = mTexture.getWidth();
+	mRect.h = mTexture.getHeight();
 	reset();
 }
 
@@ -19,9 +19,9 @@ Player::~Player(){}
 void Player::reset()
 {
 	mVelocity = mAcceleration = 0;
-	mPosX = mStartX;
-	mPosY = mStartY;
-	mDisplacement = (double)mStartY;
+	mRect.x = mStartX;
+	mRect.y = mStartY;
+	mDisplacement = static_cast<double>(mStartY);
 	mJumped = false;
 	mDead = false;
 }
@@ -46,7 +46,7 @@ void Player::die(){
 void Player::jump(){
 	mJumped = true;
 	mVelocity = V_0;
-	if (DEBUG) printf("***jumped!\tv:%.2f\tmPosY:%d\n", mVelocity, mPosY);
+	if (DEBUG) printf("***jumped!\tv:%.2f\tmRect.y:%d\n", mVelocity, mRect.y);
 }
 
 void Player::updatePosition()
@@ -71,14 +71,13 @@ void Player::updatePosition()
 		mVelocity = -V_MAX;
 	}
 
-	mPosY = (int)mDisplacement;
-	if (DEBUG) printf("s: %.2f\tv: %.2f\tmPosY: %d\n", mDisplacement, mVelocity, mPosY);
+	mRect.y = static_cast<int>(mDisplacement);
+	if (DEBUG) printf("s: %.2f\tv: %.2f\tmRect.y: %d\n", mDisplacement, mVelocity, mRect.y);
 }
 
-void Player::render()
+void Player::render() const
 {
-	SDL_Rect renderQuad = {mPosX, mPosY, mWidth, mHeight};	
-	SDL_RenderCopy(mRenderer, mTexture.getTexture(), NULL, &renderQuad);
+	SDL_RenderCopy(mRenderer, mTexture.getTexture(), NULL, &mRect);
 }
 
 // TODO if we don't need to use getV in the project,
@@ -93,9 +92,4 @@ bool Player::hasJumped()
 	return mJumped;
 }
 
-SDL_Rect Player::getPlayerRect()
-{
-	SDL_Rect rect = {mPosX,mPosY,mWidth,mHeight};
-	return rect;
-}
 

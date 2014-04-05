@@ -26,7 +26,7 @@ class World {
         /**
 		 * Constructor
          */
-        World(SDL_Renderer *, SDL_Window *);
+		World(SDL_Renderer*, SDL_Window*);
 		/**
 		 * Destructor
 		 */
@@ -35,17 +35,18 @@ class World {
 	private:
 		Background background;
 		Player player;
-        Obstacle obstacles[OBSTACLE_COUNT];
+		Obstacle* obstacles[OBSTACLE_COUNT];
 		SDL_Renderer* worldRenderer;
 		SDL_Window* worldWindow;
 		bool processGameLoop();
 		void updateBackground();
 		void updatePlayer();
-        void updateObstacles();
+		void updateObstacles();
 		bool detectBoundaryCollision();
 		bool detectCollisionWithObstacles();
 		bool detectCollisionWithObstacle(Obstacle *obstacle); 
 		bool detectCollisionWithRect(SDL_Rect rect);
 		void updatePlayerScoreIfNeeded();
+		bool check_collision( SDL_Rect A, SDL_Rect B );
 };
 

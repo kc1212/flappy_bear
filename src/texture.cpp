@@ -13,100 +13,78 @@ Texture::Texture(const char* path, SDL_Renderer* renderer)
 	printf("path %s\n", path);
 	zeroAll(); // we can delegate constructor in C++11
 	// TODO need to check for filename max length
-	strcpy(filename, path);
+	strcpy(mFilename, path);
 	loadTextureFromFile(path, renderer);
 }
 
 Texture::~Texture()
 {
-	SDL_DestroyTexture(texture);
-	texture = NULL;
+	SDL_DestroyTexture(mTexture);
+	mTexture = NULL;
 }
 
-SDL_Texture* Texture::getTexture()
+SDL_Texture* Texture::getTexture() const
 {
-	return texture;
+	return mTexture;
 }
 
 void Texture::zeroAll()
 {
 	for (int i = 0; i < MAX_PATH_LEN; i++)
 	{
-		filename[i] = '\0';
+		mFilename[i] = '\0';
 	}
-	texture = NULL;
-	width = 0;
-	height = 0;
-	posX = 0;
-	posY = 0;
+	mTexture = NULL;
+	mWidth = 0;
+	mHeight = 0;
 }
 
 void Texture::resetTexture(const char* path, SDL_Renderer* renderer)
 {
-	SDL_DestroyTexture(texture);
-	texture = NULL;
-	strcpy(filename, path);
+	SDL_DestroyTexture(mTexture);
+	mTexture = NULL;
+	strcpy(mFilename, path);
 	loadTextureFromFile(path, renderer);
 }
 
 void Texture::setHeight(int h)
 {
-	height = h;
+	mHeight = h;
 }
 
 void Texture::setWidth(int w)
 {
-	width = w;
+	mWidth = w;
 }
 
 int Texture::getHeight()
 {
-	return height;
+	return mHeight;
 }
 
 int Texture::getWidth()
 {
-	return width;
+	return mWidth;
 }
 
-int Texture::getPosX()
-{
-	return posX;
-}
+//// overloaded, we might be able to do better
+//void Texture::render(SDL_Renderer *renderer, int x, int y, int w, int h)
+//{
+//    SDL_Rect renderQuad = { x, y, w, h};
+//	SDL_RenderCopy (renderer, texture, NULL, &renderQuad);
+//}
 
-int Texture::getPosY()
-{
-	return posY;
-}
+//void Texture::render(SDL_Renderer *renderer, int x, int y)
+//{
+//    SDL_Rect renderQuad = { x, y, width, height};
+//    SDL_RenderCopy (renderer, texture, NULL, &renderQuad);
+//}
 
-void Texture::setPosX(int x)
-{
-	posX = x;
-}
-
-void Texture::setPosY(int y)
-{
-	posY = y;
-}
-
-// overloaded, we might be able to do better
-void Texture::render(SDL_Renderer *renderer, int x, int y, int w, int h)
-{
-    SDL_Rect renderQuad = { x, y, w, h};
-	SDL_RenderCopy (renderer, texture, NULL, &renderQuad);
-}
-
-void Texture::render(SDL_Renderer *renderer, int x, int y)
-{
-    SDL_Rect renderQuad = { x, y, width, height};
-    SDL_RenderCopy (renderer, texture, NULL, &renderQuad);
-}
-
-void Texture::render(SDL_Renderer *renderer)
-{
-	SDL_Rect renderQuad = {posX, posY, width, height};
-	SDL_RenderCopy(renderer, texture, NULL, &renderQuad);
-}
+//void Texture::render(SDL_Renderer *renderer)
+//{
+//	SDL_Rect renderQuad = {posX, posY, width, height};
+//	SDL_RenderCopy(renderer, texture, NULL, &renderQuad);
+//}
 
 // Private methods
 bool Texture::loadTextureFromFile(const char* path, SDL_Renderer* renderer)
@@ -133,12 +111,14 @@ bool Texture::loadTextureFromFile(const char* path, SDL_Renderer* renderer)
 		printf("unable to create texture from %s in %s! SDL Error: %s\n", path, __func__, SDL_GetError());
 		return false;
 	}
+
+	mWidth = loadedSurface->w;
+	mHeight = loadedSurface->h;
 	SDL_FreeSurface(loadedSurface);
 
-	width = loadedSurface->w;
-	height = loadedSurface->h;
-	texture = newTexture;
+	mTexture = newTexture;
 	return true;
+
 }
 
 

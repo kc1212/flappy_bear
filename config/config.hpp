@@ -22,4 +22,4 @@
 #define BACKGROUND_VELOCITY 5
 
 
-#define DEBUG false
+#define DEBUG true

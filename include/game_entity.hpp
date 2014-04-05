@@ -9,18 +9,26 @@ class GameEntity {
 		GameEntity();
 		~GameEntity();
 
-		// Getters & Setters
-		int getPosX(){return mPosX;}
-		int getPosY(){return mPosY;}
-		int getWidth(){return mWidth;}
-		int getHeight(){return mHeight;}
-		void setPosX(int x){mPosX = x;}
-		void setPosY(int y){mPosY = y;}
-		void setWidth(int w){mWidth = w;}
-		void setHeight(int h){mHeight = h;}
+		// Getters
+		SDL_Rect getRect() { return mRect; }
+		int getPosX(){ return mRect.x; }
+		int getPosY(){ return mRect.y; }
+		int getWidth(){ return mRect.w; }
+		int getHeight(){ return mRect.h; }
+
+		// setters
+		void setPosX(int x){ mRect.x = x; }
+		void setPosY(int y){ mRect.y = y; }
+		void setWidth(int w){ mRect.w = w; }
+		void setHeight(int h){ mRect.h = h; }
+		void setRect(SDL_Rect r){ mRect = r; }
+
+		virtual void render() const = 0;
+
 
 	protected:		
-		int mPosX, mPosY, mWidth, mHeight;
+		SDL_Rect mRect;
+		// int mPosX, mPosY, mWidth, mHeight;
 		SDL_Renderer* mRenderer;
 
 };

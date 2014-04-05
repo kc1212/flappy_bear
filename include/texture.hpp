@@ -10,45 +10,13 @@ class Texture {
 		// Getters
 		int getWidth();
 		int getHeight();
-		int getPosX();
-		int getPosY();
-		SDL_Texture* getTexture();
+		SDL_Texture* getTexture() const;
 
 		// Setters
 		void setWidth(int w);
 		void setHeight(int h);
-		void setPosX(int x);
-		void setPosY(int y);
 		void resetTexture(const char*, SDL_Renderer*);
 		
-
-		/**
-		 * Copies the texture onto the renderer.
-		 * @param renderer The renderer to use.
-		 * @param x The x coord to render.
-		 * @param y The y coord to render.
-         * @param w is the width of the rectangle rendered to
-         * @param h is the height of the rectangle rendered to
-		 *
-		 */
-        void render(SDL_Renderer *renderer, int x, int y, int w, int h);
-
-        /**
-         * Copies the texture onto the renderer.
-         * @param renderer The renderer to use.
-         * @param x The x coord to render.
-         * @param y The y coord to render.
-         *
-         */
-        void render(SDL_Renderer *renderer, int x, int y);
-
-        /**
-         * Copies the texture onto the renderer.
-         * @param renderer The renderer to use.
-         *
-         */
-		void render(SDL_Renderer *renderer);
-
 		/**
 		 * Default constructor.
 		 */
@@ -65,10 +33,10 @@ class Texture {
 		 * Construct a texture with an asset plus initial position.
 		 * @param path The file path to the asset.
 		 * @param renderer The renderer to render the asset.
-		 * @param _x Initial X coordinate
-		 * @param _y Initial Y coordinate
+		 * @param w Initial width
+		 * @param h Initial height
 		 */
-		Texture(const char* path, SDL_Renderer* renderer, int _x, int _y);
+		Texture(const char* path, SDL_Renderer* renderer, int w, int h);
 
 		/**
 		 * Deallocates the object
@@ -76,14 +44,12 @@ class Texture {
 		~Texture();
 
 	protected:
-		SDL_Texture* texture;
-		char filename[MAX_PATH_LEN];
+		SDL_Texture* mTexture;
+		char mFilename[MAX_PATH_LEN];
+		int mWidth, mHeight;
 		// Height and width for the texture.
-		int width;
-		int height;
-		int posX;
-		int posY;
-		SDL_Rect rect; // TODO should we use a SDL_Rect struct instead of x,y,w,h?
+
+
 	private:
 		bool loadTextureFromFile(const char* path, SDL_Renderer* renderer);
 		void zeroAll();

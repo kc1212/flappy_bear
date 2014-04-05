@@ -5,7 +5,31 @@
 #define RANDOM_HEIGHT (OBSTACLE_MIN_HEIGHT + \
 	rand() % (SCREEN_HEIGHT - OBSTACLE_VGAP - 2*OBSTACLE_MIN_HEIGHT))
 
-bool check_collision( SDL_Rect A, SDL_Rect B );
+
+// make sure the members appear in the initializer list in the same order as they appear in the class
+// resources taken from http://lanica.co/flappy-clone/
+World::World(SDL_Renderer *renderer, SDL_Window *window)
+	: background("../assets/night_bg.png", renderer),
+	  player("../assets/black-bubble.png", renderer, 140, 140)
+{
+//	for (int i = 0; i < OBSTACLE_COUNT; i++){
+//		obstacles[i]->setTexture("../assets/top_pipe.png", "../assets/bottom_pipe.png", renderer);
+//		obstacles[i]->setPositions(800+i*OBSTACLE_HGAP,0,100,200);
+//		obstacles[i]->setHeight(RANDOM_HEIGHT);
+//	}
+	for (int i = 0; i < OBSTACLE_COUNT; i++){
+		obstacles[i] = new Obstacle(800+i*OBSTACLE_HGAP, 0, 100, RANDOM_HEIGHT,
+				"../assets/top_pipe.png", "../assets/bottom_pipe.png", renderer);
+	}
+	worldRenderer = renderer;
+	worldWindow = window;
+}
+
+World::~World()
+{
+	delete[] obstacles;
+	World::stop();
+}
 
 int World::start()
 {
@@ -56,9 +80,9 @@ bool World::processGameLoop()
 		player.die();
 	}
 
+	updatePlayer();
 	updateBackground();
 	updateObstacles();
-	updatePlayer();
 
 	SDL_RenderPresent(worldRenderer);
 	SDL_Delay( LOOP_DELAY ); // TODO need better delay
@@ -89,12 +113,12 @@ bool World::detectCollisionWithObstacles()
 	bool result = false;
 	for (int i=0; i<OBSTACLE_COUNT; i++)
 	{
-		result = detectCollisionWithObstacle(&obstacles[i]);
+		result = detectCollisionWithObstacle(obstacles[i]);
 		if (result)
 		{
 			break;
 		}	
-	}	
+	}
 	return result;
 }
 
@@ -117,33 +141,13 @@ bool World::detectCollisionWithObstacle(Obstacle *obstacle)
 
 bool World::detectCollisionWithRect(SDL_Rect rect)
 {
-	return check_collision(player.getPlayerRect(), rect);
+	return check_collision(player.getRect(), rect);
 
-}
-
-// make sure the members appear in the initializer list in the same order as they appear in the class
-// resources taken from http://lanica.co/flappy-clone/
-World::World(SDL_Renderer *renderer, SDL_Window *window)
-	: background("../assets/night_bg.png", renderer),
-	  player("../assets/black-bubble.png", renderer, 140, 140)
-{
-	for (int i = 0; i < OBSTACLE_COUNT; i++){
-		obstacles[i].setTexture("../assets/top_pipe.png", "../assets/bottom_pipe.png", renderer);
-		obstacles[i].setPositions(800+i*OBSTACLE_HGAP,0,100,200);
-		obstacles[i].setHeight(RANDOM_HEIGHT);
-	}
-	worldRenderer = renderer;
-	worldWindow = window;
 }
 
 void World::stop()
 {
 	close(worldWindow, worldRenderer);
-}
-
-World::~World()
-{
-	World::stop();
 }
 
 void World::updateBackground()
@@ -159,12 +163,13 @@ void World::updateBackground()
 	}
 
 	// Draw the position of bg1 and p1
-	background.render(worldRenderer, background.getPosX(), background.getPosY(),
-					background.getWidth(), SCREEN_HEIGHT);
-	background.render(worldRenderer, background.getPosX()+background.getWidth(), background.getPosY(),
-					background.getWidth(), SCREEN_HEIGHT);
-	background.render(worldRenderer, background.getPosX()+2*background.getWidth(), background.getPosY(),
-					background.getWidth(), SCREEN_HEIGHT);
+	background.render();
+	background.setPosX(background.getPosX() + background.getWidth());
+	background.render();
+	background.setPosX(background.getPosX()+2*background.getWidth());
+	background.render();
+//	background.render(worldRenderer, background.getPosX()+background.getWidth(), background.getPosY());
+//	background.render(worldRenderer, background.getPosX()+2*background.getWidth(), background.getPosY());
 }
 
 void World::updatePlayer()
@@ -179,7 +184,7 @@ void World::updateObstacles()
 	if (player.isDead() && player.hasJumped())
 	{
 		for (int i = 0; i < OBSTACLE_COUNT; i++){
-			obstacles[i].render(worldRenderer);
+			obstacles[i]->render();
 		}
 	}
 	else if (!player.hasJumped())
@@ -190,12 +195,12 @@ void World::updateObstacles()
 	else
 	{
 		for (int i = 0; i < OBSTACLE_COUNT; i++){
-			obstacles[i].render(worldRenderer);
-			obstacles[i].setPosX(obstacles[i].getPosX()-OBSTACLE_VELOCITY);
-			if (obstacles[i].getPosX() <= -obstacles[i].getWidth()){
-				obstacles[i].setHasBeenPassed(false);
-				obstacles[i].setPosX(300+((OBSTACLE_COUNT-1)*OBSTACLE_HGAP));
-				obstacles[i].setHeight(RANDOM_HEIGHT);
+			obstacles[i]->render();
+			obstacles[i]->setPosX(obstacles[i]->getPosX()-OBSTACLE_VELOCITY);
+			if (obstacles[i]->getPosX() <= -obstacles[i]->getWidth()){
+				obstacles[i]->setHasBeenPassed(false);
+				obstacles[i]->setPosX(300+((OBSTACLE_COUNT-1)*OBSTACLE_HGAP));
+				obstacles[i]->setHeight(RANDOM_HEIGHT);
 			}
 		}
 	}
@@ -203,24 +208,24 @@ void World::updateObstacles()
 
 void World::updatePlayerScoreIfNeeded()
 {
- 	for (auto &obstacle : obstacles)
+	for (auto obstacle : obstacles)
 	{
-		if (obstacle.getHasBeenPassed())
+		if (obstacle->getHasBeenPassed())
 		{
 			continue;
 		}
 		else 
 		{
-			if (player.getPosX() > obstacle.getPosX())
+			if (player.getPosX() > obstacle->getPosX())
 			{
-				obstacle.setHasBeenPassed(true);
+				obstacle->setHasBeenPassed(true);
 				player.incrementScore();
 			}
 		}
 	}
 }
 
-bool check_collision( SDL_Rect A, SDL_Rect B )
+bool World::check_collision( SDL_Rect A, SDL_Rect B )
 {
 	//The sides of the rectangles
 	int leftA, leftB;

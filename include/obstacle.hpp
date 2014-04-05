@@ -29,13 +29,12 @@ class Obstacle : public GameEntity
 		void setWidth(int w);
 		void setHeight(int h);
 
-
 		// Methods
-		void render(SDL_Renderer *renderer);
+		void render() const;
 
 	private:
 		bool mHasBeenPassed;
-		SDL_Rect mTopRect;
+		// mRect is mTopRect
 		SDL_Rect mBotRect;
 		Texture mTopTexture;
 		Texture mBotTexture;
