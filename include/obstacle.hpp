@@ -28,6 +28,7 @@ class Obstacle : public GameEntity
 		void setPosY(int y);
 		void setWidth(int w);
 		void setHeight(int h);
+		void resetPositions();
 
 		// Methods
 		void render() const;
@@ -36,6 +37,7 @@ class Obstacle : public GameEntity
 		bool mHasBeenPassed;
 		// mRect is mTopRect
 		SDL_Rect mBotRect;
+		const SDL_Rect mStartRect;
 		Texture mTopTexture;
 		Texture mBotTexture;
 };

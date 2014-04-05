@@ -12,11 +12,6 @@ World::World(SDL_Renderer *renderer, SDL_Window *window)
 	: background("../assets/night_bg.png", renderer),
 	  player("../assets/black-bubble.png", renderer, 140, 140)
 {
-//	for (int i = 0; i < OBSTACLE_COUNT; i++){
-//		obstacles[i]->setTexture("../assets/top_pipe.png", "../assets/bottom_pipe.png", renderer);
-//		obstacles[i]->setPositions(800+i*OBSTACLE_HGAP,0,100,200);
-//		obstacles[i]->setHeight(RANDOM_HEIGHT);
-//	}
 	for (int i = 0; i < OBSTACLE_COUNT; i++){
 		obstacles[i] = new Obstacle(800+i*OBSTACLE_HGAP, 0, 100, RANDOM_HEIGHT,
 				"../assets/top_pipe.png", "../assets/bottom_pipe.png", renderer);
@@ -64,6 +59,9 @@ bool World::processGameLoop()
 					break;
 				case SDLK_r:
 					player.restartGame();
+					for (int i = 0; i < OBSTACLE_COUNT; i++){
+						obstacles[i]->resetPositions();
+					}
 					break;
 				case SDLK_q:
 					quit = true;

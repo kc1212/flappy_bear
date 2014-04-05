@@ -4,9 +4,10 @@
 // Obstacle class
 // TODO: make a new class called entity class, and have player and obstacle and background inherit from that.
 
-Obstacle::Obstacle() {}
+Obstacle::Obstacle() : mStartRect{0, 0, 0, 0} {}
 
 Obstacle::Obstacle(int x, int y, int w, int h, const char* imageTop, const char* imageBot, SDL_Renderer* renderer)
+	: mStartRect{x, y, w, h} // c++11 only
 {
 	setTexture(imageTop, imageBot, renderer);
 	setPositions(x,y,w,h);
@@ -65,16 +66,19 @@ void Obstacle::setPositions(int x, int y, int w, int h)
 	mBotRect.y = y + OBSTACLE_VGAP + h;
 	mBotRect.w = w;
 	mBotRect.h = SCREEN_HEIGHT - OBSTACLE_VGAP - y - h;
+}
 
-//	mTopTexture.setWidth(mWidth);
-//	mTopTexture.setHeight(mHeight);
-//	mTopRect = (SDL_Rect){mPosX,mPosY,mWidth,mHeight};
+void Obstacle::resetPositions()
+{
+	mRect.x = mStartRect.x;
+	mRect.y = mStartRect.y;
+	mRect.w = mStartRect.w;
+	mRect.h = mStartRect.h;
 
-//	mBotTexture.setPosX(mPosX);
-//	mBotTexture.setPosY(mPosY + OBSTACLE_VGAP + mHeight);
-//	mBotTexture.setWidth(mWidth);
-//	mBotTexture.setHeight(SCREEN_HEIGHT - OBSTACLE_VGAP - mPosY - mHeight);
-//	mBotRect = (SDL_Rect){mPosX,mPosY + OBSTACLE_VGAP + mHeight,mWidth,SCREEN_HEIGHT - OBSTACLE_VGAP - mPosY - mHeight};
+	mBotRect.x = mStartRect.x;
+	mBotRect.y = mStartRect.y + OBSTACLE_VGAP + mStartRect.h;
+	mBotRect.w = mStartRect.w;
+	mBotRect.h = SCREEN_HEIGHT - OBSTACLE_VGAP - mStartRect.y - mStartRect.h;
 }
 
 void Obstacle::setTexture(const char* imageTop, const char* imageBot, SDL_Renderer* renderer)
