@@ -1,4 +1,7 @@
 #include "SDL2/SDL.h"
+#ifndef _GAME_ENTITY_HPP_
+#define _GAME_ENTITY_HPP_
+
 
 class GameEntity {
 	public: 
@@ -21,4 +24,6 @@ class GameEntity {
 		SDL_Renderer* mRenderer;
 
 };
+
+#endif
 
