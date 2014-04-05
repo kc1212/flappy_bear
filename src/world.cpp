@@ -27,7 +27,9 @@ World::World(SDL_Renderer *renderer, SDL_Window *window)
 
 World::~World()
 {
-	delete[] obstacles;
+	for (int i = 0; i < OBSTACLE_COUNT; i++){
+		delete obstacles[i];
+	}
 	World::stop();
 }
 
@@ -80,9 +82,9 @@ bool World::processGameLoop()
 		player.die();
 	}
 
-	updatePlayer();
 	updateBackground();
 	updateObstacles();
+	updatePlayer();
 
 	SDL_RenderPresent(worldRenderer);
 	SDL_Delay( LOOP_DELAY ); // TODO need better delay
@@ -155,21 +157,22 @@ void World::updateBackground()
 	if (!player.isDead()) {
 		if (background.getPosX() <= -background.getWidth())
 		{
+			if (DEBUG) printf("resetting background posX [x:%d,w:%d]\n", background.getPosX(), background.getWidth());
 			background.setPosX(0);
 		}
 
 		background.setPosX(background.getPosX()-BACKGROUND_VELOCITY);
-		if (DEBUG) printf("bg posX: %d\n", background.getPosX());
 	}
 
 	// Draw the position of bg1 and p1
+	int old_x = background.getPosX();
 	background.render();
 	background.setPosX(background.getPosX() + background.getWidth());
 	background.render();
 	background.setPosX(background.getPosX()+2*background.getWidth());
 	background.render();
-//	background.render(worldRenderer, background.getPosX()+background.getWidth(), background.getPosY());
-//	background.render(worldRenderer, background.getPosX()+2*background.getWidth(), background.getPosY());
+	background.setPosX(old_x);
+
 }
 
 void World::updatePlayer()

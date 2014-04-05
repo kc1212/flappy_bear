@@ -13,7 +13,7 @@ class Obstacle : public GameEntity
 		// Initiation
 		Obstacle();
 		Obstacle(int x, int y, int w, int h, const char* topAssetPath, const char* botAssetPath, SDL_Renderer*);
-		~Obstacle();
+		virtual ~Obstacle();
 
 		// Getters 
 		bool getHasBeenPassed() {return mHasBeenPassed;}

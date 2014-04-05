@@ -77,7 +77,12 @@ void Player::updatePosition()
 
 void Player::render() const
 {
-	SDL_RenderCopy(mRenderer, mTexture.getTexture(), NULL, &mRect);
+	if ( 0 != SDL_RenderCopy(mRenderer, mTexture.getTexture(), NULL, &mRect))
+	{
+		printf("[ERROR] player render copy failed! SDL_Error: %s\n", SDL_GetError());
+	}
+	if (DEBUG) printf("player\t\trenderer: %p, texture: %p, [%d,%d,%d,%d]\n",
+					  (void*)mRenderer, (void*)mTexture.getTexture(), mRect.x, mRect.y, mRect.w, mRect.h);
 }
 
 // TODO if we don't need to use getV in the project,
