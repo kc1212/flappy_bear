@@ -6,84 +6,64 @@
 
 void Obstacle::setPosX(int x)
 {
-	Obstacle::setPositions(x,posY,width,height);
+	Obstacle::setPositions(x,mPosY,mWidth,mHeight);
 }
 
 void Obstacle::setPosY(int y)
 {
-	Obstacle::setPositions(posX,y,width,height);
+	Obstacle::setPositions(mPosX,y,mWidth,mHeight);
 }
 
 void Obstacle::setWidth(int w)
 {
-	Obstacle::setPositions(posX,posY,w,height);
+	Obstacle::setPositions(mPosX,mPosY,w,mHeight);
 }
 
 void Obstacle::setHeight(int h)
 {
-	Obstacle::setPositions(posX,posY,width,h);
-}
-
-int Obstacle::getPosX()
-{
-	return posX;
-}
-
-int Obstacle::getPosY()
-{
-	return posY;
-}
-
-int Obstacle::getWidth()
-{
-	return width;
-}
-
-int Obstacle::getHeight()
-{
-	return height;
+	Obstacle::setPositions(mPosX,mPosY,mWidth,h);
 }
 
 SDL_Rect Obstacle::getTopRect()
 {
-	return topRect;
+	return mTopRect;
 }
 
 SDL_Rect Obstacle::getBotRect()
 {
-	return botRect;
+	return mBotRect;
 }
 
 void Obstacle::render(SDL_Renderer *renderer)
 {
-	topObstacle.render(renderer);
-	botObstacle.render(renderer);
+	mTopTexture.render(renderer);
+	mBotTexture.render(renderer);
 }
 
 void Obstacle::setPositions(int x, int y, int w, int h)
 {
-	posX = x;
-	posY = y;
-	width = w;
-	height = h;
+	mPosX = x;
+	mPosY = y;
+	mWidth = w;
+	mHeight = h;
 
-	topObstacle.setPosX(posX);
-	topObstacle.setPosY(posY);
-	topObstacle.setWidth(width);
-	topObstacle.setHeight(height);
-	topRect = (SDL_Rect){posX,posY,width,height};
+	mTopTexture.setPosX(mPosX);
+	mTopTexture.setPosY(mPosY);
+	mTopTexture.setWidth(mWidth);
+	mTopTexture.setHeight(mHeight);
+	mTopRect = (SDL_Rect){mPosX,mPosY,mWidth,mHeight};
 
-	botObstacle.setPosX(posX);
-	botObstacle.setPosY(posY + OBSTACLE_VGAP + height);
-	botObstacle.setWidth(width);
-	botObstacle.setHeight(SCREEN_HEIGHT - OBSTACLE_VGAP - posY - height);
-	botRect = (SDL_Rect){posX,posY + OBSTACLE_VGAP + height,width,SCREEN_HEIGHT - OBSTACLE_VGAP - posY - height};
+	mBotTexture.setPosX(mPosX);
+	mBotTexture.setPosY(mPosY + OBSTACLE_VGAP + mHeight);
+	mBotTexture.setWidth(mWidth);
+	mBotTexture.setHeight(SCREEN_HEIGHT - OBSTACLE_VGAP - mPosY - mHeight);
+	mBotRect = (SDL_Rect){mPosX,mPosY + OBSTACLE_VGAP + mHeight,mWidth,SCREEN_HEIGHT - OBSTACLE_VGAP - mPosY - mHeight};
 }
 
 void Obstacle::setTexture(const char* imageTop, const char* imageBot, SDL_Renderer* renderer)
 {
-	topObstacle.resetTexture(imageTop, renderer);
-	botObstacle.resetTexture(imageBot, renderer);
+	mTopTexture.resetTexture(imageTop, renderer);
+	mBotTexture.resetTexture(imageBot, renderer);
 }
 
 Obstacle::Obstacle() {}
@@ -92,7 +72,7 @@ Obstacle::Obstacle(int x, int y, int w, int h, const char* imageTop, const char*
 {
 	setTexture(imageTop, imageBot, renderer);
 	setPositions(x,y,w,h);
-	hasBeenPassed = false;
+	mHasBeenPassed = false;
 }
 
 Obstacle::~Obstacle()
