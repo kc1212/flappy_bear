@@ -10,10 +10,7 @@ before_install:
   - sudo apt-get install gcc-multilib g++-multilib
   - sudo apt-get install -qq libgl1-mesa-dev libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev
   - sudo apt-get install -qq libboost-dev libboost-test-dev
-  - sudo ldconfig
-  - pkg-config --libs --cflags sdl2
-  - pkg-config --libs --cflags SDL2_image
-  - pkg-config --libs --cflags SDL2_ttf
+  - export PKG_CONFIG_PATH=$HOME/flappy_bear/misc
 
 before_script:
   - mkdir build
