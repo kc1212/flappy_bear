@@ -1,8 +1,8 @@
 
 ## source
 include_directories(${SDL2_INCLUDE_DIRS})
-# include_directories(${SDL2_Image_INCLUDE_DIRS})
-# include_directories(${SDL2_ttf_INCLUDE_DIRS})
+include_directories(${SDL2_image_INCLUDE_DIRS})
+include_directories(${SDL2_ttf_INCLUDE_DIRS})
 include_directories(${INCLUDE_DIRS})
 include_directories(${CONFIG_DIRS})
 
@@ -19,7 +19,8 @@ target_link_libraries(
 	flappy_bear
 	core	
 	${SDL2_LIBRARIES}
-	${SDL2_Image_LIBRARIES}
+	${SDL2_image_LIBRARIES}
+	${SDL2_ttf_LIBRARIES}
 	)
 
 ## debug messages

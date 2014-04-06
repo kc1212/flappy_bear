@@ -1,7 +1,8 @@
 
 ## unit tests
 include_directories(${SDL2_INCLUDE_DIRS})
-include_directories(${SDL2_Image_INCLUDE_DIRS})
+include_directories(${SDL2_image_INCLUDE_DIRS})
+include_directories(${SDL2_ttf_INCLUDE_DIRS})
 include_directories(${INCLUDE_DIRS})
 include_directories(${CONFIG_DIRS})
 include_directories(${Boost_INCLUDE_DIRS})
@@ -17,6 +18,7 @@ target_link_libraries(
 	core
 	${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} 
 	${SDL2_LIBRARIES} 
-	${SDL2_Image_LIBRARIES}
+	${SDL2_image_LIBRARIES}
+	${SDL2_ttf_LIBRARIES}
 	)
 
