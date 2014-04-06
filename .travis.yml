@@ -9,6 +9,10 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq libgl1-mesa-dev libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev
   - sudo apt-get install -qq libboost-dev libboost-test-dev
+  - sudo ldconfig
+  - ls -ltha /usr/lib/pkgconfig
+  - ls -ltha /usr/local/lib/pkgconfig
+  - pkg-config --libs --cflags SDL2_ttf
 
 before_script:
   - mkdir build
