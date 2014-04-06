@@ -8,7 +8,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 # SDL2 libraries
 include(FindPkgConfig)
 pkg_search_module(SDL2 REQUIRED sdl2)
-pkg_search_module(SDL2_Image REQUIRED SDL2_image)
+pkg_search_module(SDL2_image REQUIRED SDL2_image)
 pkg_search_module(SDL2_ttf REQUIRED SDL2_ttf)
 
 ## boost settings and libraries
@@ -78,10 +78,13 @@ message(STATUS "FB_CONFIG: " ${FB_CONFIG})
 message(STATUS "FB_SOURCES: " ${FB_SOURCES})
 message(STATUS "FB_MAIN: " ${FB_MAIN})
 message(STATUS "SDL2_INCLUDE_DIRS: " ${SDL2_INCLUDE_DIRS})
-message(STATUS "SDL2_Image_INCLUDE_DIRS: " ${SDL2_Image_INCLUDE_DIRS})
+message(STATUS "SDL2_image_INCLUDE_DIRS: " ${SDL2_image_INCLUDE_DIRS})
 message(STATUS "SDL2_ttf_INCLUDE_DIRS: " ${SDL2_ttf_INCLUDE_DIRS})
 message(STATUS "INCLUDE_DIRS: " ${INCLUDE_DIRS})
 message(STATUS "CONFIG_DIRS: " ${CONFIG_DIRS})
+message(STATUS "SDL2_LIBRARIES: "${SDL2_LIBRARIES})
+message(STATUS "SDL2_image_LIBRARIES: " ${SDL2_image_LIBRARIES})
+message(STATUS "SDL2_ttf_LIBRARIES: " ${SDL2_ttf_LIBRARIES})
 
 ## adding sub directories
 add_subdirectory(src)
