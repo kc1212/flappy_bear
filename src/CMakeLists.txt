@@ -1,7 +1,8 @@
 
 ## source
 include_directories(${SDL2_INCLUDE_DIRS})
-include_directories(${SDL2_Image_INCLUDE_DIRS})
+# include_directories(${SDL2_Image_INCLUDE_DIRS})
+# include_directories(${SDL2_ttf_INCLUDE_DIRS})
 include_directories(${INCLUDE_DIRS})
 include_directories(${CONFIG_DIRS})
 
