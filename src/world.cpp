@@ -209,21 +209,36 @@ void World::updateObstacles()
 
 void World::updatePlayerScoreIfNeeded()
 {
-	for (auto obstacle : obstacles)
+	for (int i = 0; i < OBSTACLE_COUNT; i++)
 	{
-		if (obstacle->getHasBeenPassed())
+		if (obstacles[i]->getHasBeenPassed())
 		{
 			continue;
 		}
-		else 
+		else
 		{
-			if (player.getPosX() > obstacle->getPosX())
+			if (player.getPosX() > obstacles[i]->getPosX())
 			{
-				obstacle->setHasBeenPassed(true);
+				obstacles[i]->setHasBeenPassed(true);
 				player.incrementScore();
 			}
 		}
 	}
+// 	for (auto obstacle : obstacles)
+// 	{
+// 		if (obstacle->getHasBeenPassed())
+// 		{
+// 			continue;
+// 		}
+// 		else
+// 		{
+// 			if (player.getPosX() > obstacle->getPosX())
+// 			{
+// 				obstacle->setHasBeenPassed(true);
+// 				player.incrementScore();
+// 			}
+// 		}
+// 	}
 }
 
 bool World::check_collision( SDL_Rect A, SDL_Rect B )

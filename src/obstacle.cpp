@@ -4,10 +4,16 @@
 // Obstacle class
 // TODO: make a new class called entity class, and have player and obstacle and background inherit from that.
 
-Obstacle::Obstacle() : mStartRect{0, 0, 0, 0} {}
+static SDL_Rect rectFactory(int x, int y, int w, int h)
+{
+	SDL_Rect rect = {x, y, w, h};
+	return rect;
+}
+
+Obstacle::Obstacle() : mStartRect(rectFactory(0, 0, 0, 0)) {}
 
 Obstacle::Obstacle(int x, int y, int w, int h, const char* imageTop, const char* imageBot, SDL_Renderer* renderer)
-	: mStartRect{x, y, w, h} // c++11 only
+	: mStartRect(rectFactory(x, y, w, h))
 {
 	setTexture(imageTop, imageBot, renderer);
 	setPositions(x,y,w,h);
