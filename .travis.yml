@@ -5,6 +5,7 @@ compiler:
   - clang
 
 before_install:
+  - chmod +x install-sdl-linux.sh
   - ./install-sdl-linux.sh
 
 before_script:
