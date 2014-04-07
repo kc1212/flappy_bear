@@ -26,7 +26,7 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 else()
 	set(PLATFORM_FLAGS "")
 endif()
-set(CMAKE_CXX_FLAGS "${PLATFORM_FLAGS} -W -Wall -pedantic -Werror -Wextra -std=c++98")
+set(CMAKE_CXX_FLAGS "${PLATFORM_FLAGS} -W -Wall -pedantic -Werror -Wextra -std=c++98 -Wno-variadic-macros")
 set(CMAKE_CXX_FLAGS_RELEASE "${PLATFORM_FLAGS} -O2")
 set(CMAKE_CXX_FLAGS_DEBUG "${PLATFORM_FLAGS} -O0 -g")
 

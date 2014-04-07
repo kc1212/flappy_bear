@@ -1,5 +1,5 @@
 #include "background.hpp"
-#include <cstdio>
+#include "utils.hpp"
 
 Background::Background() : GameEntity()
 {
@@ -24,10 +24,10 @@ void Background::render() const
 {
 	if ( 0 != SDL_RenderCopy(mRenderer, mTexture.getTexture(), NULL, &mRect))
 	{
-		printf("[ERROR] background render copy failed! SDL_Error: %s\n", SDL_GetError());
+		log_err("background render copy failed! SDL_Error: %s\n", SDL_GetError());
 	}
-	if (DEBUG) printf("background\trenderer: %p, texture: %p, [%d,%d,%d,%d]\n",
-					  (void*)mRenderer, (void*)mTexture.getTexture(), mRect.x, mRect.y, mRect.w, mRect.h);
+//	if (DEBUG) printf("background\trenderer: %p, texture: %p, [%d,%d,%d,%d]\n",
+//					  (void*)mRenderer, (void*)mTexture.getTexture(), mRect.x, mRect.y, mRect.w, mRect.h);
 }
 
 

@@ -1,8 +1,7 @@
 
 #include "player.hpp"
 #include "config.hpp"
-
-#include <cstdio>
+#include "utils.hpp"
 
 
 Player::Player(const char* path, SDL_Renderer* renderer, int startX, int startY)
@@ -46,7 +45,7 @@ void Player::die(){
 void Player::jump(){
 	mJumped = true;
 	mVelocity = V_0;
-	if (DEBUG) printf("***jumped!\tv:%.2f\tmRect.y:%d\n", mVelocity, mRect.y);
+	log_info("jumped! [v:%.2f, mRect.y:%d]", mVelocity, mRect.y);
 }
 
 void Player::updatePosition()
@@ -72,16 +71,16 @@ void Player::updatePosition()
 	}
 
 	mRect.y = static_cast<int>(mDisplacement);
-	if (DEBUG) printf("s: %.2f\tv: %.2f\tmRect.y: %d\n", mDisplacement, mVelocity, mRect.y);
+	if (DEBUG) debug("player data [s:%.2f, v:%.2f, mRect.y:%d]", mDisplacement, mVelocity, mRect.y);
 }
 
 void Player::render() const
 {
 	if ( 0 != SDL_RenderCopy(mRenderer, mTexture.getTexture(), NULL, &mRect))
 	{
-		printf("[ERROR] player render copy failed! SDL_Error: %s\n", SDL_GetError());
+		log_err("player render copy failed! SDL_Error: %s", SDL_GetError());
 	}
-	if (DEBUG) printf("player\t\trenderer: %p, texture: %p, [%d,%d,%d,%d]\n",
+	if (DEBUG) debug("player renderer: [ptr:%p, texture:%p, x:%d, y:%d, w:%d, h:%d]",
 					  (void*)mRenderer, (void*)mTexture.getTexture(), mRect.x, mRect.y, mRect.w, mRect.h);
 }
 

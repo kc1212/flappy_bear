@@ -104,7 +104,7 @@ bool World::detectBoundaryCollision()
 	// TODO only checking bountry at the moment, need to collision detection for other objects
 	if (player.getPosY() <= -5 || player.getPosY() >= SCREEN_HEIGHT - player.getHeight() + 5)
 	{
-		if (DEBUG) printf("***collided!\tposY: %d\n", player.getPosY());
+		if (DEBUG) debug("world collided! [posY:%d]", player.getPosY());
 		result = true;
 	}
 	return result;
@@ -158,7 +158,7 @@ void World::updateBackground()
 	if (!player.isDead()) {
 		if (background.getPosX() <= -background.getWidth())
 		{
-			if (DEBUG) printf("resetting background posX [x:%d,w:%d]\n", background.getPosX(), background.getWidth());
+			if (DEBUG) debug("resetting background posX [x:%d,w:%d]", background.getPosX(), background.getWidth());
 			background.setPosX(0);
 		}
 

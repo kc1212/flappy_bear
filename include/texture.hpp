@@ -9,15 +9,16 @@ class Texture {
 
 	public:
 		// Getters
-		int getWidth();
-		int getHeight();
+		int getWidth() const { return mWidth; }
+		int getHeight() const { return mHeight; }
 		SDL_Texture* getTexture() const;
 
 		// Setters
-		void setWidth(int w);
-		void setHeight(int h);
-		void resetTexture(const char*, SDL_Renderer*);
-		
+		void setWidth(int w) { mWidth = w; }
+		void setHeight(int h) { mHeight = h; }
+		void resetTexture(const char* path, SDL_Renderer* const renderer);
+		void resetFontText(const char* text, SDL_Renderer* const renderer);
+
 		/**
 		 * Default constructor.
 		 */
@@ -45,8 +46,8 @@ class Texture {
 
 	private:
 		const bool mIsImage;
-		bool loadTextureFromFile(const char* path, SDL_Renderer* renderer);
-		bool loadFromRenderedText(const char* string, SDL_Renderer* renderer);
+		bool loadTextureFromFile(const char* path, SDL_Renderer* const renderer);
+		bool loadFromRenderedText(const char* string, SDL_Renderer* const renderer);
 		void zeroAll();
 
 };

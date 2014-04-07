@@ -15,7 +15,7 @@ Texture::Texture(const char* path, SDL_Renderer* renderer, bool isImage)
 	zeroAll(); // we can delegate constructor in C++11
 	// TODO need to check for filename max length
 	strcpy(mFilename, path);
-	if (DEBUG) printf("texture constructor: [%s, %d, %p]\n", mFilename, mIsImage, (void*)this);
+	if (DEBUG) debug("texture constructor: [%s, %d, %p]", mFilename, mIsImage, (void*)this);
 	if (mIsImage)
 	{
 		loadTextureFromFile(path, renderer);
@@ -31,7 +31,7 @@ Texture::~Texture()
 {
 	SDL_DestroyTexture(mTexture);
 	mTexture = NULL;
-	if (DEBUG) printf("texture destructor: [%s, %d, %p]\n", mFilename, mIsImage, (void*)this);
+	if (DEBUG) debug("texture destructor: [%s, %d, %p]", mFilename, mIsImage, (void*)this);
 	if (!mIsImage)
 	{
 		TTF_CloseFont(mFont);
@@ -55,56 +55,55 @@ void Texture::zeroAll()
 	mHeight = 0;
 }
 
-void Texture::resetTexture(const char* path, SDL_Renderer* renderer)
+void Texture::resetTexture(const char* path, SDL_Renderer* const renderer)
 {
 	SDL_DestroyTexture(mTexture);
 	mTexture = NULL;
 	strcpy(mFilename, path);
+
 	if (mIsImage)
 	{
 		loadTextureFromFile(path, renderer);
 	}
-	else 
+	else
 	{
-		loadFromRenderedText(path, renderer);
+		log_warn("attribute mIsImage (=%d) is expected to be true in", mIsImage);
 	}
 }
 
-void Texture::setHeight(int h)
+
+void Texture::resetFontText(const char* text, SDL_Renderer* const renderer)
 {
-	mHeight = h;
+
+	SDL_DestroyTexture(mTexture);
+	mTexture = NULL;
+
+	if (!mIsImage)
+	{
+		loadFromRenderedText(text, renderer);
+	}
+	else
+	{
+		log_warn("WARNING: attribute mIsImage (=%d) is expected to be false", mIsImage);
+	}
 }
 
-void Texture::setWidth(int w)
-{
-	mWidth = w;
-}
-
-int Texture::getHeight()
-{
-	return mHeight;
-}
-
-int Texture::getWidth()
-{
-	return mWidth;
-}
 
 // Private methods
-bool Texture::loadTextureFromFile(const char* path, SDL_Renderer* renderer)
+bool Texture::loadTextureFromFile(const char* path, SDL_Renderer* const renderer)
 {
 	SDL_Texture* newTexture = NULL;
 	SDL_Surface* loadedSurface = NULL;
 	if (renderer == NULL)
 	{
-		fprintf(stderr, "renderer is null in %s\n", __func__);
+		log_err("renderer is null in (path: %s)", path);
 		return false;
 	}
 
 	loadedSurface= IMG_Load(path);
 	if (loadedSurface == NULL)
 	{
-		printf("unable to load image %s in %s! SDL_image Error: %s\n", path, __func__, IMG_GetError());
+		log_err("unable to load image %s! SDL_image Error: %s", path, IMG_GetError());
 		return false;
 	}
 
@@ -112,7 +111,7 @@ bool Texture::loadTextureFromFile(const char* path, SDL_Renderer* renderer)
 	newTexture = SDL_CreateTextureFromSurface( renderer, loadedSurface );
 	if (newTexture == NULL)
 	{
-		printf("unable to create texture from %s in %s! SDL Error: %s\n", path, __func__, SDL_GetError());
+		log_err("unable to create texture from %s! SDL Error: %s", path, SDL_GetError());
 		return false;
 	}
 
@@ -124,17 +123,15 @@ bool Texture::loadTextureFromFile(const char* path, SDL_Renderer* renderer)
 	return true;
 }
 
-bool Texture::loadFromRenderedText(const char* string, SDL_Renderer* renderer)
+bool Texture::loadFromRenderedText(const char* string, SDL_Renderer* const renderer)
 {
-	//Get rid of preexisting texture
-	zeroAll();	
 	//Render text surfacegFont
 	SDL_Color textColor = {255,255,255,255};
 	SDL_Surface* textSurface = TTF_RenderText_Solid( mFont, string, textColor );
 
 	if( textSurface == NULL )
 	{
-		printf( "Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError() );
+		log_err( "unable to render text surface! SDL_ttf Error: %s", TTF_GetError() );
 	}
 	else
 	{
@@ -142,7 +139,7 @@ bool Texture::loadFromRenderedText(const char* string, SDL_Renderer* renderer)
         mTexture = SDL_CreateTextureFromSurface( renderer, textSurface );
 		if( mTexture == NULL )
 		{
-			printf( "Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError() );
+			log_err( "Unable to create texture from rendered text! SDL Error: %s", SDL_GetError() );
 		}
 		else
 		{
