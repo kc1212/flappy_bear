@@ -7,11 +7,13 @@
 class TextView : public GameEntity {
 	public:
 		TextView();
-		TextView(const char*, SDL_Renderer*);
+		TextView(const char*, SDL_Renderer*, int startX, int startY);
 		~TextView();
 		void render() const;
+		void setText(const char* text);
 	private:
 		Texture mTexture;
+		const char* mText;
 };
 
 #endif

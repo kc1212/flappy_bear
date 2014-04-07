@@ -28,7 +28,6 @@ class GameEntity {
 
 	protected:		
 		SDL_Rect mRect;
-		// int mPosX, mPosY, mWidth, mHeight;
 		SDL_Renderer* mRenderer;
 
 };

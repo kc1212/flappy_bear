@@ -16,7 +16,7 @@ class Texture {
 		// Setters
 		void setWidth(int w);
 		void setHeight(int h);
-		void resetTexture(const char*, SDL_Renderer*);
+		void resetTexture(const char*, SDL_Renderer*, bool isImage);
 		
 		/**
 		 * Default constructor.
@@ -45,7 +45,7 @@ class Texture {
 
 	private:
 		bool loadTextureFromFile(const char* path, SDL_Renderer* renderer);
-		bool loadFromRenderedText(const char* string, SDL_Color textColor, SDL_Renderer* renderer);
+		bool loadFromRenderedText(const char* string, SDL_Renderer* renderer);
 		void zeroAll();
 
 };

@@ -89,7 +89,7 @@ void Obstacle::resetPositions()
 
 void Obstacle::setTexture(const char* imageTop, const char* imageBot, SDL_Renderer* renderer)
 {
-	mTopTexture.resetTexture(imageTop, renderer);
-	mBotTexture.resetTexture(imageBot, renderer);
+	mTopTexture.resetTexture(imageTop, renderer, true);
+	mBotTexture.resetTexture(imageBot, renderer, true);
 }
 

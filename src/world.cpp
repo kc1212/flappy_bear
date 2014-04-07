@@ -11,7 +11,7 @@
 World::World(SDL_Renderer *renderer, SDL_Window *window)
 	: background("../assets/night_bg.png", renderer),
 	  player("../assets/black-bubble.png", renderer, 140, 140),
-	  textView("hello", renderer)
+	  scoreView("0", renderer, 175,15)
 {
 	for (int i = 0; i < OBSTACLE_COUNT; i++){
 		obstacles[i] = new Obstacle(800+i*OBSTACLE_HGAP, 0, 100, RANDOM_HEIGHT,
@@ -84,7 +84,6 @@ bool World::processGameLoop()
 	updateBackground();
 	updateObstacles();
 	updatePlayer();
-	textView.render();
 
 	SDL_RenderPresent(worldRenderer);
 	SDL_Delay( LOOP_DELAY ); // TODO need better delay
@@ -226,6 +225,12 @@ void World::updatePlayerScoreIfNeeded()
 			}
 		}
 	}
+
+	// TODO can do better, just hacking it coz i need sleep
+	char buffer[16];
+	sprintf(buffer, "%d", player.getScore());
+	scoreView.setText(buffer);
+	scoreView.render();	
 }
 
 bool World::check_collision( SDL_Rect A, SDL_Rect B )

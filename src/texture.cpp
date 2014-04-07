@@ -19,9 +19,8 @@ Texture::Texture(const char* path, SDL_Renderer* renderer, bool isImage)
 	}
 	else 
 	{
-		SDL_Color textColor = {255,255,255,255};
-		mFont = TTF_OpenFont( "../assets/lazy.ttf", 28 );
-		loadFromRenderedText(path, textColor, renderer);
+		mFont = TTF_OpenFont( "../assets/lazy.ttf", 72 );
+		loadFromRenderedText(path, renderer);
 	}
 	
 }
@@ -51,12 +50,19 @@ void Texture::zeroAll()
 	mHeight = 0;
 }
 
-void Texture::resetTexture(const char* path, SDL_Renderer* renderer)
+void Texture::resetTexture(const char* path, SDL_Renderer* renderer, bool isImage)
 {
 	SDL_DestroyTexture(mTexture);
 	mTexture = NULL;
 	strcpy(mFilename, path);
-	loadTextureFromFile(path, renderer);
+	if (isImage)
+	{
+		loadTextureFromFile(path, renderer);	
+	}
+	else 
+	{
+		loadFromRenderedText(path, renderer);
+	}
 }
 
 void Texture::setHeight(int h)
@@ -113,11 +119,12 @@ bool Texture::loadTextureFromFile(const char* path, SDL_Renderer* renderer)
 	return true;
 }
 
-bool Texture::loadFromRenderedText(const char* string, SDL_Color textColor, SDL_Renderer* renderer)
+bool Texture::loadFromRenderedText(const char* string, SDL_Renderer* renderer)
 {
 	//Get rid of preexisting texture
 	zeroAll();	
 	//Render text surfacegFont
+	SDL_Color textColor = {255,255,255,255};
 	SDL_Surface* textSurface = TTF_RenderText_Solid( mFont, string, textColor );
 
 	if( textSurface == NULL )
