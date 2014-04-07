@@ -28,16 +28,13 @@ Texture::Texture(const char* path, SDL_Renderer* renderer, bool isImage)
 
 Texture::~Texture()
 {
-	if (mIsImage)
-	{
-		SDL_DestroyTexture(mTexture);
-		mTexture = NULL;
-	}
-	else
+	if (!mIsImage)
 	{
 		TTF_CloseFont(mFont);
 		mFont = NULL;
 	}
+	SDL_DestroyTexture(mTexture);
+	mTexture = NULL;
 }
 
 SDL_Texture* Texture::getTexture() const
@@ -63,7 +60,7 @@ void Texture::resetTexture(const char* path, SDL_Renderer* renderer)
 	strcpy(mFilename, path);
 	if (mIsImage)
 	{
-		loadTextureFromFile(path, renderer);	
+		loadTextureFromFile(path, renderer);
 	}
 	else 
 	{

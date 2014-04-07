@@ -32,6 +32,7 @@ World::~World()
 int World::start()
 {
 	bool quit = false;
+	player.setScore(0);
 
 	while (!quit)
 	{
