@@ -61,8 +61,9 @@ bool World::processGameLoop()
 				case SDLK_r:
 					player.restartGame();
 					for (int i = 0; i < OBSTACLE_COUNT; i++){
-						obstacles[i]->resetPositions();
+						obstacles[i]->resetPositions();						
 					}
+					player.setScore(0);
 					break;
 				case SDLK_q:
 					quit = true;
