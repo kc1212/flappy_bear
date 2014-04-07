@@ -85,6 +85,8 @@ void Obstacle::resetPositions()
 	mBotRect.y = mStartRect.y + OBSTACLE_VGAP + mStartRect.h;
 	mBotRect.w = mStartRect.w;
 	mBotRect.h = SCREEN_HEIGHT - OBSTACLE_VGAP - mStartRect.y - mStartRect.h;
+
+	mHasBeenPassed = false;	
 }
 
 void Obstacle::setTexture(const char* imageTop, const char* imageBot, SDL_Renderer* renderer)
