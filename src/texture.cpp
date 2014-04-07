@@ -19,7 +19,7 @@ Texture::Texture(const char* path, SDL_Renderer* renderer, bool isImage)
 	}
 	else 
 	{
-		mFont = TTF_OpenFont( "../assets/lazy.ttf", 72 );
+		mFont = TTF_OpenFont( "../assets/CourierNew.ttf", 72 );
 		loadFromRenderedText(path, renderer);
 	}
 	
