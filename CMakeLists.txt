@@ -68,6 +68,7 @@ set(FB_SOURCES
 	"${PROJECT_SOURCE_DIR}/src/obstacle.cpp"
 	"${PROJECT_SOURCE_DIR}/src/world.cpp"
 	"${PROJECT_SOURCE_DIR}/src/game_entity.cpp"
+	"${PROJECT_SOURCE_DIR}/src/text_view.cpp"
 	)
 set(FB_MAIN "${PROJECT_SOURCE_DIR}/src/main.cpp")
 

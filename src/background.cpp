@@ -7,7 +7,7 @@ Background::Background() : GameEntity()
 }
 
 Background::Background(const char* path, SDL_Renderer* renderer)
-	: mTexture(path, renderer)
+	: mTexture(path, renderer, true)
 {
 	mRect.x = 0;
 	mRect.y = 0;

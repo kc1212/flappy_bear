@@ -2,6 +2,7 @@
 #define _TEXTURE_HPP_
 
 #include "SDL2/SDL.h"
+#include "SDL2/SDL_ttf.h"
 #include "config.hpp"
 
 class Texture {
@@ -24,19 +25,11 @@ class Texture {
 
 		/**
 		 * Construct a texture with an asset.
-		 * @param path The file path to the asset.
+		 * @param path The file path to the asset or the text to be rendered.
 		 * @param renderer The renderer to render the asset.
+		 * @param True if the texture it rendering an image asset, false if rendering text.
 		 */
-		Texture(const char* path, SDL_Renderer* renderer);
-
-		/**
-		 * Construct a texture with an asset plus initial position.
-		 * @param path The file path to the asset.
-		 * @param renderer The renderer to render the asset.
-		 * @param w Initial width
-		 * @param h Initial height
-		 */
-		Texture(const char* path, SDL_Renderer* renderer, int w, int h);
+		Texture(const char* path, SDL_Renderer* renderer, bool isImage);
 
 		/**
 		 * Deallocates the object
@@ -47,11 +40,12 @@ class Texture {
 		SDL_Texture* mTexture;
 		char mFilename[MAX_PATH_LEN];
 		int mWidth, mHeight;
+		TTF_Font* mFont;
 		// Height and width for the texture.
-
 
 	private:
 		bool loadTextureFromFile(const char* path, SDL_Renderer* renderer);
+		bool loadFromRenderedText(const char* string, SDL_Color textColor, SDL_Renderer* renderer);
 		void zeroAll();
 
 };

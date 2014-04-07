@@ -1,6 +1,7 @@
 #include "background.hpp"
 #include "obstacle.hpp"
 #include "player.hpp"
+#include "text_view.hpp"
 #include "SDL2/SDL.h"
 
 /**
@@ -36,6 +37,7 @@ class World {
 		Background background;
 		Player player;
 		Obstacle* obstacles[OBSTACLE_COUNT];
+		TextView textView;
 		SDL_Renderer* worldRenderer;
 		SDL_Window* worldWindow;
 		bool processGameLoop();

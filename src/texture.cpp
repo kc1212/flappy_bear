@@ -8,19 +8,31 @@ Texture::Texture()
 	zeroAll();
 }
 
-Texture::Texture(const char* path, SDL_Renderer* renderer)
+Texture::Texture(const char* path, SDL_Renderer* renderer, bool isImage)
 {
-	printf("path %s\n", path);
 	zeroAll(); // we can delegate constructor in C++11
 	// TODO need to check for filename max length
 	strcpy(mFilename, path);
-	loadTextureFromFile(path, renderer);
+	if (isImage)
+	{
+		loadTextureFromFile(path, renderer);
+	}
+	else 
+	{
+		SDL_Color textColor = {255,255,255,255};
+		mFont = TTF_OpenFont( "../assets/lazy.ttf", 28 );
+		loadFromRenderedText(path, textColor, renderer);
+	}
+	
 }
 
 Texture::~Texture()
 {
 	SDL_DestroyTexture(mTexture);
 	mTexture = NULL;
+	TTF_CloseFont(mFont);
+	mFont = NULL;
+
 }
 
 SDL_Texture* Texture::getTexture() const
@@ -67,25 +79,6 @@ int Texture::getWidth()
 	return mWidth;
 }
 
-//// overloaded, we might be able to do better
-//void Texture::render(SDL_Renderer *renderer, int x, int y, int w, int h)
-//{
-//    SDL_Rect renderQuad = { x, y, w, h};
-//	SDL_RenderCopy (renderer, texture, NULL, &renderQuad);
-//}
-
-//void Texture::render(SDL_Renderer *renderer, int x, int y)
-//{
-//    SDL_Rect renderQuad = { x, y, width, height};
-//    SDL_RenderCopy (renderer, texture, NULL, &renderQuad);
-//}
-
-//void Texture::render(SDL_Renderer *renderer)
-//{
-//	SDL_Rect renderQuad = {posX, posY, width, height};
-//	SDL_RenderCopy(renderer, texture, NULL, &renderQuad);
-//}
-
 // Private methods
 bool Texture::loadTextureFromFile(const char* path, SDL_Renderer* renderer)
 {
@@ -97,7 +90,7 @@ bool Texture::loadTextureFromFile(const char* path, SDL_Renderer* renderer)
 		return false;
 	}
 
-	loadedSurface = IMG_Load(path);
+	loadedSurface= IMG_Load(path);
 	if (loadedSurface == NULL)
 	{
 		printf("unable to load image %s in %s! SDL_image Error: %s\n", path, __func__, IMG_GetError());
@@ -118,7 +111,41 @@ bool Texture::loadTextureFromFile(const char* path, SDL_Renderer* renderer)
 
 	mTexture = newTexture;
 	return true;
-
 }
+
+bool Texture::loadFromRenderedText(const char* string, SDL_Color textColor, SDL_Renderer* renderer)
+{
+	//Get rid of preexisting texture
+	zeroAll();	
+	//Render text surfacegFont
+	SDL_Surface* textSurface = TTF_RenderText_Solid( mFont, string, textColor );
+
+	if( textSurface == NULL )
+	{
+		printf( "Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError() );
+	}
+	else
+	{
+		//Create texture from surface pixels
+        mTexture = SDL_CreateTextureFromSurface( renderer, textSurface );
+		if( mTexture == NULL )
+		{
+			printf( "Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError() );
+		}
+		else
+		{
+			//Get image dimensions
+			mWidth = textSurface->w;
+			mHeight = textSurface->h;
+		}
+
+		//Get rid of old surface
+		SDL_FreeSurface( textSurface );
+	}
+	
+	//Return success
+	return mTexture != NULL;
+}
+
 
 

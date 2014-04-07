@@ -43,6 +43,14 @@ bool init(SDL_Window* &window, SDL_Renderer* &renderer)
 		return false;
 	}
 
+		// Initialize SDL_ttf
+	if( TTF_Init() == -1 )
+	{
+		printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
+		return false;
+	}
+
+
 	return true;
 }
 
@@ -57,6 +65,7 @@ void close(SDL_Window* &window, SDL_Renderer* &renderer)
 	//Quit SDL subsystems
 	IMG_Quit();
 	SDL_Quit();
+	TTF_Quit();
 }
 
 
