@@ -4,16 +4,18 @@
 #include <cstring>
 
 Texture::Texture()
+	: mIsImage(true)
 {
 	zeroAll();
 }
 
 Texture::Texture(const char* path, SDL_Renderer* renderer, bool isImage)
+	: mIsImage(isImage)
 {
 	zeroAll(); // we can delegate constructor in C++11
 	// TODO need to check for filename max length
 	strcpy(mFilename, path);
-	if (isImage)
+	if (mIsImage)
 	{
 		loadTextureFromFile(path, renderer);
 	}
@@ -22,16 +24,20 @@ Texture::Texture(const char* path, SDL_Renderer* renderer, bool isImage)
 		mFont = TTF_OpenFont( "../assets/CourierNew.ttf", 72 );
 		loadFromRenderedText(path, renderer);
 	}
-	
 }
 
 Texture::~Texture()
 {
-	SDL_DestroyTexture(mTexture);
-	mTexture = NULL;
-	TTF_CloseFont(mFont);
-	mFont = NULL;
-
+	if (mIsImage)
+	{
+		SDL_DestroyTexture(mTexture);
+		mTexture = NULL;
+	}
+	else
+	{
+		TTF_CloseFont(mFont);
+		mFont = NULL;
+	}
 }
 
 SDL_Texture* Texture::getTexture() const
@@ -50,12 +56,12 @@ void Texture::zeroAll()
 	mHeight = 0;
 }
 
-void Texture::resetTexture(const char* path, SDL_Renderer* renderer, bool isImage)
+void Texture::resetTexture(const char* path, SDL_Renderer* renderer)
 {
 	SDL_DestroyTexture(mTexture);
 	mTexture = NULL;
 	strcpy(mFilename, path);
-	if (isImage)
+	if (mIsImage)
 	{
 		loadTextureFromFile(path, renderer);	
 	}

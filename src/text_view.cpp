@@ -1,5 +1,5 @@
 #include "text_view.hpp"
-#include <cstdio>
+#include <cstring>
 
 TextView::TextView() : GameEntity()
 {}
@@ -12,7 +12,8 @@ TextView::TextView(const char* string, SDL_Renderer* renderer, int startX, int s
 	mRect.w = mTexture.getWidth();
 	mRect.h = mTexture.getHeight();
 	mRenderer = renderer;
-	mText = string;
+	setText(string);
+	// strcpy(mText, string);
 }
 
 // destructors are called automatically in the reverse order
@@ -25,7 +26,7 @@ void TextView::render() const
 
 void TextView::setText(const char* text)
 {
-	mText = text;
-	mTexture.resetTexture(mText, mRenderer, false);
+	// strcpy(mText, text);
+	mTexture.resetTexture(text, mRenderer);
 }
 

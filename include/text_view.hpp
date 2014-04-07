@@ -13,7 +13,7 @@ class TextView : public GameEntity {
 		void setText(const char* text);
 	private:
 		Texture mTexture;
-		const char* mText;
+		// char mText[16];
 };
 
 #endif
