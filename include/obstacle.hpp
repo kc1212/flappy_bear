@@ -23,7 +23,7 @@ class Obstacle : public GameEntity
 		// Setters
 		void setPositions(int x, int y, int w, int h);
 		void setHasBeenPassed(bool passed){mHasBeenPassed = passed;}
-		void setTexture(const char*, const char*, SDL_Renderer*);
+//		void setTexture(const char*, const char*, SDL_Renderer*);
 		void setPosX(int x);	
 		void setPosY(int y);
 		void setWidth(int w);

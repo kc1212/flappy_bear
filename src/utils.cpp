@@ -63,9 +63,9 @@ void close(SDL_Window* &window, SDL_Renderer* &renderer)
 	renderer = NULL;
 
 	//Quit SDL subsystems
+	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
-	TTF_Quit();
 }
 
 

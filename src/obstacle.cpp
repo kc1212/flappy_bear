@@ -14,8 +14,9 @@ Obstacle::Obstacle() : mStartRect(rectFactory(0, 0, 0, 0)) {}
 
 Obstacle::Obstacle(int x, int y, int w, int h, const char* imageTop, const char* imageBot, SDL_Renderer* renderer)
 	: mStartRect(rectFactory(x, y, w, h))
+	, mTopTexture(imageTop, renderer, true)
+	, mBotTexture(imageBot, renderer, true)
 {
-	setTexture(imageTop, imageBot, renderer);
 	setPositions(x,y,w,h);
 	mHasBeenPassed = false;
 	mRenderer = renderer;
@@ -89,9 +90,9 @@ void Obstacle::resetPositions()
 	mHasBeenPassed = false;	
 }
 
-void Obstacle::setTexture(const char* imageTop, const char* imageBot, SDL_Renderer* renderer)
-{
-	mTopTexture.resetTexture(imageTop, renderer);
-	mBotTexture.resetTexture(imageBot, renderer);
-}
+//void Obstacle::setTexture(const char* imageTop, const char* imageBot, SDL_Renderer* renderer)
+//{
+//	mTopTexture.resetTexture(imageTop, renderer);
+//	mBotTexture.resetTexture(imageBot, renderer);
+//}
 
