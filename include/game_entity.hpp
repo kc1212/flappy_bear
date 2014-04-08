@@ -7,7 +7,7 @@ class GameEntity {
 	public: 
 		// Initiation
 		GameEntity();
-		~GameEntity();
+		virtual ~GameEntity();
 
 		// Getters
 		SDL_Rect getRect() { return mRect; }

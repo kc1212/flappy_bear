@@ -37,7 +37,7 @@ class World {
 		Background background;
 		Player player;
 		Obstacle* obstacles[OBSTACLE_COUNT];
-		TextView scoreView;
+		TextView *scoreView;
 		SDL_Renderer* worldRenderer;
 		SDL_Window* worldWindow;
 		bool processGameLoop();
