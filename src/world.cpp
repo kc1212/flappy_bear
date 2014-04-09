@@ -102,7 +102,6 @@ bool World::detectCollision()
 bool World::detectBoundaryCollision()
 {
 	bool result = false;
-	// TODO only checking bountry at the moment, need to collision detection for other objects
 	if (player.getPosY() <= -5 || player.getPosY() >= SCREEN_HEIGHT - player.getHeight() + 5)
 	{
 		if (DEBUG) debug("world collided! [posY:%d]", player.getPosY());

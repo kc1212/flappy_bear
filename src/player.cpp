@@ -43,6 +43,11 @@ void Player::die(){
 }
 
 void Player::jump(){
+	if (mDead)
+	{
+		return;
+	}
+
 	mJumped = true;
 	mVelocity = V_0;
 	log_info("jumped! [v:%.2f, mRect.y:%d]", mVelocity, mRect.y);
@@ -50,7 +55,13 @@ void Player::jump(){
 
 void Player::updatePosition()
 {
-	if (!mJumped || mDead)
+	if (!mJumped)
+	{
+		return;
+	}
+
+	// Once player falls out of bounds dont let it keep falling
+	if (mRect.y >= SCREEN_HEIGHT)
 	{
 		return;
 	}
