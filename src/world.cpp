@@ -81,6 +81,7 @@ bool World::processGameLoop()
 
 	if (detectCollision())
 	{
+		player.deathAnimation();
 		player.die();
 	}
 

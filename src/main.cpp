@@ -20,7 +20,7 @@ int main( int argc, char* args[] )
 	//Start up SDL and create window
 	if( !init(window, renderer) )
 	{
-		fprintf( stderr, "Failed to initialize!\n" );
+		log_err( "Failed to initialize!%s\n", "" ); // dummy parameter
 		close(window, renderer); // we dont need to fre resources
 		return 1;
 	}

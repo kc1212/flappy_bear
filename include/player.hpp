@@ -22,6 +22,7 @@ class Player : public GameEntity
 
 		// Methods
 		void jump();
+		void deathAnimation();
 		void updatePosition();
    		void restartGame();
 		void die();
@@ -40,6 +41,7 @@ class Player : public GameEntity
 		const int mStartX;
 		const int mStartY;
 		int mScore;
+		int mPauseTime;
 		Texture mTexture;
 
 		// Methods

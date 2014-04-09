@@ -23,6 +23,7 @@ void Player::reset()
 	mDisplacement = static_cast<double>(mStartY);
 	mJumped = false;
 	mDead = false;
+	mPauseTime = 0;
 }
 
 
@@ -42,6 +43,19 @@ void Player::die(){
 	mDead = true;
 }
 
+void Player::deathAnimation()
+{
+	if (mDead)
+	{
+		return;
+	}
+
+	mJumped = true;
+	mVelocity = 200;
+	mPauseTime = 10; // 10 frames
+	log_info("death jumped! [v:%.2f, mRect.y:%d]", mVelocity, mRect.y);
+}
+
 void Player::jump(){
 	if (mDead)
 	{
@@ -55,13 +69,17 @@ void Player::jump(){
 
 void Player::updatePosition()
 {
-	if (!mJumped)
+	if (mPauseTime > 0)
+	{
+		mPauseTime--;
+		return;
+	}
+	else if (!mJumped)
 	{
 		return;
 	}
-
 	// Once player falls out of bounds dont let it keep falling
-	if (mRect.y >= SCREEN_HEIGHT)
+	else if (mRect.y >= SCREEN_HEIGHT)
 	{
 		return;
 	}
