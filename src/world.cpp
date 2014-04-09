@@ -10,13 +10,13 @@
 // resources taken from http://lanica.co/flappy-clone/
 World::World(SDL_Renderer *renderer, SDL_Window *window)
 	: background("../assets/night_bg.png", renderer),
-	  player("../assets/black-bubble.png", renderer, 140, 140)	  
+	player("../assets/black-bubble.png", renderer, 140, 140),
+	scoreView("../assets/CourierNew.ttf", renderer, 175,15)
 {
 	for (int i = 0; i < OBSTACLE_COUNT; i++){
 		obstacles[i] = new Obstacle(800+i*OBSTACLE_HGAP, 0, 100, RANDOM_HEIGHT,
 				"../assets/top_pipe.png", "../assets/bottom_pipe.png", renderer);
 	}
-	scoreView = new TextView("../assets/CourierNew.ttf", renderer, 175,15);
 	worldRenderer = renderer;
 	worldWindow = window;
 }
@@ -26,9 +26,6 @@ World::~World()
 	for (int i = 0; i < OBSTACLE_COUNT; i++){
 		delete obstacles[i];
 	}
-	delete scoreView;
-
-	World::stop();
 }
 
 int World::start()
@@ -149,11 +146,6 @@ bool World::detectCollisionWithRect(SDL_Rect rect)
 
 }
 
-void World::stop()
-{
-	close(worldWindow, worldRenderer);
-}
-
 void World::updateBackground()
 {
 	if (!player.isDead()) {
@@ -232,8 +224,8 @@ void World::updatePlayerScoreIfNeeded()
 	// TODO can do better, just hacking it coz i need sleep
 	char buffer[16];
 	sprintf(buffer, "%d", player.getScore());
-	scoreView->setText(buffer);
-	scoreView->render();	
+	scoreView.setText(buffer);
+	scoreView.render();
 }
 
 bool World::check_collision( SDL_Rect A, SDL_Rect B )

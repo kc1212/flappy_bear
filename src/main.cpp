@@ -24,7 +24,13 @@ int main( int argc, char* args[] )
 		close(window, renderer); // we dont need to fre resources
 		return 1;
 	}
-	World world(renderer, window);
-	return world.start();
+
+	// create the world and run it
+	World* world = new World(renderer, window);
+	int rval = world->start();
+	delete world;
+
+	close(window, renderer);
+	return rval;
 }
 

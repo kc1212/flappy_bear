@@ -16,10 +16,6 @@ class World {
 		int start();
 
 		/**
-		  * Stops the world.
-		  */
-		void stop();
-		/**
 		  * Detects whether there has been a collision somewhere in the world.
 		  * @return true if there has been a collision, false otherwise.
 		  */
@@ -36,8 +32,8 @@ class World {
 	private:
 		Background background;
 		Player player;
+		TextView scoreView;
 		Obstacle* obstacles[OBSTACLE_COUNT];
-		TextView *scoreView;
 		SDL_Renderer* worldRenderer;
 		SDL_Window* worldWindow;
 		bool processGameLoop();
