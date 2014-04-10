@@ -31,3 +31,6 @@ build/*
 # ctags
 tags
 
+# other
+CMakeLists.txt.user
+

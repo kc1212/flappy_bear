@@ -1,9 +1,5 @@
 #include "utils.hpp"
 #include "config.hpp"
-// ultility functions
-
-// extern SDL_Window* window;
-// extern SDL_Renderer* renderer;
 
 bool init(SDL_Window* &window, SDL_Renderer* &renderer)
 {

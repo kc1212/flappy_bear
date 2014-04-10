@@ -5,7 +5,7 @@
 #include "obstacle.hpp"
 #include "world.hpp"
 
-#include <cstdio>
+#include <ctime>
 
 int main( int argc, char* args[] )
 {
@@ -24,6 +24,8 @@ int main( int argc, char* args[] )
 		close(window, renderer); // we dont need to fre resources
 		return 1;
 	}
+
+	srand(time(NULL));
 
 	// create the world and run it
 	World* world = new World(renderer, window);

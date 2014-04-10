@@ -7,8 +7,8 @@
 // TODO we also need to load some of these from config files
 // rather than recompiling
 #define V_MAX 700. // terminal velocity
-#define V_0 450. // initial velocity
-#define ACCEL 1200. // acceleration
+#define V_0 550. // initial velocity
+#define ACCEL 1500. // acceleration
 
 #define SCREEN_WIDTH 384
 #define SCREEN_HEIGHT 512
