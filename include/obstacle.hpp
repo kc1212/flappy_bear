@@ -15,7 +15,7 @@ class Obstacle : public GameEntity
 		Obstacle(int x, int y, int w, int h, const char* topAssetPath, const char* botAssetPath, SDL_Renderer*);
 		virtual ~Obstacle();
 
-		// Getters 
+		// Getters
 		bool getHasBeenPassed() {return mHasBeenPassed;}
 		SDL_Rect getTopRect();
 		SDL_Rect getBotRect();
@@ -23,8 +23,7 @@ class Obstacle : public GameEntity
 		// Setters
 		void setPositions(int x, int y, int w, int h);
 		void setHasBeenPassed(bool passed){mHasBeenPassed = passed;}
-//		void setTexture(const char*, const char*, SDL_Renderer*);
-		void setPosX(int x);	
+		void setPosX(int x);
 		void setPosY(int y);
 		void setWidth(int w);
 		void setHeight(int h);

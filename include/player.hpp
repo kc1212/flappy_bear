@@ -10,7 +10,7 @@ class Player : public GameEntity
 	public:
 		// Constructors
 		Player(const char* assetPath, SDL_Renderer* renderer, int startX, int startY);
-		~Player();		
+		~Player();
 
 		// Getters
 		int getScore(){return mScore;}
@@ -24,18 +24,18 @@ class Player : public GameEntity
 		void jump();
 		void deathAnimation();
 		void updatePosition();
-   		void restartGame();
+   	void restartGame();
 		void die();
-        bool isDead();
-   		bool hasJumped();
+    bool isDead();
+   	bool hasJumped();
 		void render() const;
 
 
 	private:
 		// Instance vars
-		double mVelocity; 
-		double mAcceleration; 
-		double mDisplacement; 
+		double mVelocity;
+		double mAcceleration;
+		double mDisplacement;
 		bool mJumped;
 		bool mDead;
 		const int mStartX;
