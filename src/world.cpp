@@ -2,11 +2,6 @@
 #include "config.hpp"
 #include "utils.hpp"
 
-#define RANDOM_HEIGHT (OBSTACLE_MIN_HEIGHT + \
-	rand() % (SCREEN_HEIGHT - OBSTACLE_VGAP - 2*OBSTACLE_MIN_HEIGHT))
-
-
-// make sure the members appear in the initializer list in the same order as they appear in the class
 // resources taken from http://lanica.co/flappy-clone/
 World::World(SDL_Renderer *renderer, SDL_Window *window)
 	: background("../assets/night_bg.png", renderer),
@@ -14,7 +9,7 @@ World::World(SDL_Renderer *renderer, SDL_Window *window)
 	scoreView("../assets/CourierNew.ttf", renderer, 175,15)
 {
 	for (int i = 0; i < OBSTACLE_COUNT; i++){
-		obstacles[i] = new Obstacle(800+i*OBSTACLE_HGAP, 0, 100, RANDOM_HEIGHT,
+		obstacles[i] = new Obstacle(800+i*OBSTACLE_HGAP, 0, 52, 320,
 				"../assets/top_pipe.png", "../assets/bottom_pipe.png", renderer);
 	}
 	worldRenderer = renderer;
@@ -197,7 +192,7 @@ void World::updateObstacles()
 			if (obstacles[i]->getPosX() <= -obstacles[i]->getWidth()){
 				obstacles[i]->setHasBeenPassed(false);
 				obstacles[i]->setPosX(300+((OBSTACLE_COUNT-1)*OBSTACLE_HGAP));
-				obstacles[i]->setHeight(RANDOM_HEIGHT);
+				obstacles[i]->randomisePosY();
 			}
 		}
 	}

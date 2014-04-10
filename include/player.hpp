@@ -24,10 +24,10 @@ class Player : public GameEntity
 		void jump();
 		void deathAnimation();
 		void updatePosition();
-   	void restartGame();
+		void restartGame();
 		void die();
-    bool isDead();
-   	bool hasJumped();
+		bool isDead();
+		bool hasJumped();
 		void render() const;
 
 

@@ -1,5 +1,6 @@
 
 #include "obstacle.hpp"
+#include "utils.hpp"
 
 // Obstacle class
 // TODO: make a new class called entity class, and have player and obstacle and background inherit from that.
@@ -20,6 +21,7 @@ Obstacle::Obstacle(int x, int y, int w, int h, const char* imageTop, const char*
 	setPositions(x,y,w,h);
 	mHasBeenPassed = false;
 	mRenderer = renderer;
+	randomisePosY();
 }
 
 Obstacle::~Obstacle()
@@ -34,16 +36,6 @@ void Obstacle::setPosX(int x)
 void Obstacle::setPosY(int y)
 {
 	Obstacle::setPositions(mRect.x, y, mRect.w, mRect.h);
-}
-
-void Obstacle::setWidth(int w)
-{
-	Obstacle::setPositions(mRect.x, mRect.y, w, mRect.h);
-}
-
-void Obstacle::setHeight(int h)
-{
-	Obstacle::setPositions(mRect.x, mRect.y, mRect.w, h);
 }
 
 SDL_Rect Obstacle::getTopRect()
@@ -72,7 +64,7 @@ void Obstacle::setPositions(int x, int y, int w, int h)
 	mBotRect.x = x;
 	mBotRect.y = y + OBSTACLE_VGAP + h;
 	mBotRect.w = w;
-	mBotRect.h = SCREEN_HEIGHT - OBSTACLE_VGAP - y - h;
+	mBotRect.h = h;
 }
 
 void Obstacle::resetPositions()
@@ -85,14 +77,14 @@ void Obstacle::resetPositions()
 	mBotRect.x = mStartRect.x;
 	mBotRect.y = mStartRect.y + OBSTACLE_VGAP + mStartRect.h;
 	mBotRect.w = mStartRect.w;
-	mBotRect.h = SCREEN_HEIGHT - OBSTACLE_VGAP - mStartRect.y - mStartRect.h;
+	mBotRect.h = mStartRect.h;
 
 	mHasBeenPassed = false;	
 }
 
-//void Obstacle::setTexture(const char* imageTop, const char* imageBot, SDL_Renderer* renderer)
-//{
-//	mTopTexture.resetTexture(imageTop, renderer);
-//	mBotTexture.resetTexture(imageBot, renderer);
-//}
-
+void Obstacle::randomisePosY()
+{
+	int y = (OBSTACLE_MIN_HEIGHT + rand() % (SCREEN_HEIGHT - OBSTACLE_VGAP - 2*OBSTACLE_MIN_HEIGHT)) - mRect.h;
+	setPosY(y);
+	log_info("[%d, %d, %d, %d -> %d]", mRect.x, mRect.y, mRect.w, mRect.h, y);
+}

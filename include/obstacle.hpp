@@ -25,9 +25,8 @@ class Obstacle : public GameEntity
 		void setHasBeenPassed(bool passed){mHasBeenPassed = passed;}
 		void setPosX(int x);
 		void setPosY(int y);
-		void setWidth(int w);
-		void setHeight(int h);
 		void resetPositions();
+		void randomisePosY();
 
 		// Methods
 		void render() const;
