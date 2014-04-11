@@ -29,10 +29,8 @@ void Player::reset()
 
 void Player::restartGame()
 {
-	if (mDead)
-	{
-		reset();
-	}
+	reset();
+	setScore(0);
 }
 
 bool Player::isDead(){
@@ -41,16 +39,11 @@ bool Player::isDead(){
 
 void Player::die(){
 	mDead = true;
-	Player::deathAnimation();
+	deathAnimation();
 }
 
 void Player::deathAnimation()
 {
-	if (mDead)
-	{
-		return;
-	}
-
 	mJumped = true;
 	mVelocity = 200;
 	mPauseTime = 10; // 10 frames

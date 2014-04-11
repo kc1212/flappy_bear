@@ -54,11 +54,13 @@ bool World::processGameLoop()
 					player.jump();
 					break;
 				case SDLK_r:
-					player.restartGame();
-					for (int i = 0; i < OBSTACLE_COUNT; i++){
+					for (int i = 0; i < OBSTACLE_COUNT && player.isDead(); i++){
 						obstacles[i]->resetPositions();
 					}
-					player.setScore(0);
+					if (player.isDead())
+					{
+						player.restartGame();
+					}
 					break;
 				case SDLK_q:
 					quit = true;
@@ -72,7 +74,7 @@ bool World::processGameLoop()
 
 	SDL_RenderClear(worldRenderer);
 
-	if (detectCollision())
+	if (detectCollision() && !player.isDead())
 	{
 		player.die();
 		scoreManager.setHighScoreIfValid(player.getScore());

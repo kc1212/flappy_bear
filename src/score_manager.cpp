@@ -1,5 +1,6 @@
 #include <iostream>
 #include "score_manager.hpp"
+#include <cstdlib>
 
 ScoreManager::ScoreManager()
 {
