@@ -1,6 +1,7 @@
 #include "background.hpp"
 #include "obstacle.hpp"
 #include "player.hpp"
+#include "score_manager.hpp"
 #include "text_view.hpp"
 #include "SDL2/SDL.h"
 
@@ -19,7 +20,7 @@ class World {
 		  * Detects whether there has been a collision somewhere in the world.
 		  * @return true if there has been a collision, false otherwise.
 		  */
-        bool detectCollision();
+    bool detectCollision();
         /**
 		 * Constructor
          */
@@ -33,6 +34,7 @@ class World {
 		Background background;
 		Player player;
 		TextView scoreView;
+		ScoreManager scoreManager;
 		Obstacle* obstacles[OBSTACLE_COUNT];
 		SDL_Renderer* worldRenderer;
 		SDL_Window* worldWindow;
@@ -42,7 +44,7 @@ class World {
 		void updateObstacles();
 		bool detectBoundaryCollision();
 		bool detectCollisionWithObstacles();
-		bool detectCollisionWithObstacle(Obstacle *obstacle); 
+		bool detectCollisionWithObstacle(Obstacle *obstacle);
 		bool detectCollisionWithRect(SDL_Rect rect);
 		void updatePlayerScoreIfNeeded();
 		bool check_collision( SDL_Rect A, SDL_Rect B );

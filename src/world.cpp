@@ -6,7 +6,8 @@
 World::World(SDL_Renderer *renderer, SDL_Window *window)
 	: background("../assets/night_bg.png", renderer),
 	player("../assets/black-bubble.png", renderer, 140, 140),
-	scoreView("../assets/Extrude.ttf", renderer, 175,15)
+	scoreView("../assets/Extrude.ttf", renderer, 175,15),
+	scoreManager()
 {
 	for (int i = 0; i < OBSTACLE_COUNT; i++){
 		obstacles[i] = new Obstacle(800+i*OBSTACLE_HGAP, 0, 52, 320,
@@ -55,7 +56,7 @@ bool World::processGameLoop()
 				case SDLK_r:
 					player.restartGame();
 					for (int i = 0; i < OBSTACLE_COUNT; i++){
-						obstacles[i]->resetPositions();						
+						obstacles[i]->resetPositions();
 					}
 					player.setScore(0);
 					break;
@@ -73,8 +74,8 @@ bool World::processGameLoop()
 
 	if (detectCollision())
 	{
-		player.deathAnimation();
 		player.die();
+		scoreManager.setHighScoreIfValid(player.getScore());
 	}
 
 	updateBackground();
@@ -113,7 +114,7 @@ bool World::detectCollisionWithObstacles()
 		if (result)
 		{
 			break;
-		}	
+		}
 	}
 	return result;
 }

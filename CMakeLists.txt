@@ -60,15 +60,16 @@ list(REMOVE_DUPLICATES CONFIG_DIRS)
 
 # file(GLOB_RECURSE FB_SOURCES "*.cpp")
 ## set all the source files
-set(FB_SOURCES 
+set(FB_SOURCES
 	"${PROJECT_SOURCE_DIR}/src/texture.cpp"
-	"${PROJECT_SOURCE_DIR}/src/player.cpp" 
-	"${PROJECT_SOURCE_DIR}/src/background.cpp" 
+	"${PROJECT_SOURCE_DIR}/src/player.cpp"
+	"${PROJECT_SOURCE_DIR}/src/background.cpp"
 	"${PROJECT_SOURCE_DIR}/src/utils.cpp"
 	"${PROJECT_SOURCE_DIR}/src/obstacle.cpp"
 	"${PROJECT_SOURCE_DIR}/src/world.cpp"
 	"${PROJECT_SOURCE_DIR}/src/game_entity.cpp"
 	"${PROJECT_SOURCE_DIR}/src/text_view.cpp"
+	"${PROJECT_SOURCE_DIR}/src/score_manager.cpp"
 	)
 set(FB_MAIN "${PROJECT_SOURCE_DIR}/src/main.cpp")
 

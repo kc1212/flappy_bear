@@ -6,7 +6,7 @@
 
 Player::Player(const char* path, SDL_Renderer* renderer, int startX, int startY)
 	: mStartX(startX), mStartY(startY), mTexture(path, renderer, true)
-{	
+{
 	mRenderer = renderer;
 	mRect.w = mTexture.getWidth();
 	mRect.h = mTexture.getHeight();
@@ -41,6 +41,7 @@ bool Player::isDead(){
 
 void Player::die(){
 	mDead = true;
+	Player::deathAnimation();
 }
 
 void Player::deathAnimation()
