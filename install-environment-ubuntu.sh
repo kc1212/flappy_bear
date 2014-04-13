@@ -5,6 +5,7 @@ sdlimage='SDL2_image-2.0.0'
 sdlttf='SDL2_ttf-2.0.12'
 
 sudo apt-get update -qq
+sudo apt-get install -qq cmake
 sudo apt-get install -qq freetype*
 sudo apt-get install -qq libgl1-mesa-dev
 sudo apt-get install -qq libboost-dev libboost-test-dev

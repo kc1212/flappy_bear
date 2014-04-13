@@ -20,10 +20,10 @@ class World {
 		  * Detects whether there has been a collision somewhere in the world.
 		  * @return true if there has been a collision, false otherwise.
 		  */
-    bool detectCollision();
-        /**
+		bool detectCollision();
+		/**
 		 * Constructor
-         */
+		 */
 		World(SDL_Renderer*, SDL_Window*);
 		/**
 		 * Destructor

@@ -1,28 +1,91 @@
-#include <iostream>
 #include "score_manager.hpp"
-#include <cstdlib>
+#include <cstdio>
 
-ScoreManager::ScoreManager()
+#include "utils.hpp"
+
+ScoreManager::ScoreManager() : mFilePath("../score.txt")
 {
-  mFilePath = "../assets/score.txt";
-  char fileContent[100];
-  mFileReader.open(mFilePath);
-  mHighScore = atoi(fileContent);
-  mFileReader.close();
+	bool rbool = loadHighScoreFromFile();
+	if (!rbool)
+	{
+		// write 0 to file if
+		writeHighScoreToFile();
+	}
 }
 
-ScoreManager::~ScoreManager()
+ScoreManager::~ScoreManager() {}
+
+
+bool ScoreManager::setHighScoreIfValid(int score)
 {
-  mFileWriter.open(mFilePath);
-  mFileWriter << mHighScore;
-  mFileWriter.close();
+	bool rbool = true;
+	if (score > mHighScore)
+	{
+		mHighScore = score;
+		rbool = writeHighScoreToFile();
+	}
+	return rbool;
 }
 
-void ScoreManager::setHighScoreIfValid(int score)
+
+bool ScoreManager::writeHighScoreToFile()
 {
-  if (score > mHighScore)
-  {
-    mHighScore = score;
-  }
+	FILE* fp;
+	fp = fopen(mFilePath, "w");
+
+	if (fp == NULL)
+	{
+		log_err("failed to open file: %s", mFilePath);
+		fclose(fp);
+		return false;
+	}
+
+	fprintf(fp, "%d", mHighScore);
+	fclose(fp);
+	return true;
+}
+
+
+bool ScoreManager::loadHighScoreFromFile()
+{
+	FILE* fp;
+	int sz = 0;
+
+	fp = fopen(mFilePath, "r");
+	if (fp == NULL)
+	{
+		log_err("failed to open file: %s", mFilePath);
+		mHighScore = 0;
+		return false;
+	}
+
+	// get size of file
+	fseek(fp, 0L, SEEK_END);
+	sz = ftell(fp);
+	fseek(fp, 0L, SEEK_SET);
+
+	if (sz == 0)
+	{
+		log_info("file %s is empty", mFilePath);
+		mHighScore = 0;
+	}
+	else
+	{
+		if (fscanf(fp, "%d", &mHighScore) == 1)
+		{
+			log_info("high score from file is %d", mHighScore);
+		}
+		else
+		{
+			log_err("fscanf failed on file: %s", mFilePath);
+			mHighScore = 0;
+			fclose(fp);
+			return false;
+		}
+	}
+
+	fclose(fp);
+	return true;
+
 }
 

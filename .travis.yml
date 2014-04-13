@@ -5,8 +5,8 @@ compiler:
   - clang
 
 before_install:
-  - chmod +x install-sdl-linux.sh
-  - ./install-sdl-linux.sh
+  - chmod +x install-environment-ubuntu.sh
+  - ./install-environment-ubuntu.sh
 
 before_script:
   - mkdir build
