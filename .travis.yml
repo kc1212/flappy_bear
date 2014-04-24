@@ -15,6 +15,7 @@ before_script:
 
 script:
   - make
+  - ./ut_flappy_bear
 
-# TODO: try make UT work on travis
+# TODO: try make UT work on travis, SDL functions may not work correctly
 
