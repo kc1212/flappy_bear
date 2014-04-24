@@ -15,6 +15,12 @@ struct MyFixture{
 	{
 		// errors are reported in global fixture
 		init(window, renderer);
+
+		// TODO use a different score file for testing
+		// delete score file
+		if (remove( "../score.txt" ) != 0)
+			perror( "error deleting file" );
+
 		BOOST_TEST_MESSAGE( "global setup" );
 	}
 
@@ -50,3 +56,5 @@ BOOST_AUTO_TEST_CASE( file_io_test )
 	BOOST_CHECK( sm2.setHighScoreIfValid(15) );
 	BOOST_CHECK_EQUAL( sm2.getHighScore(), 20 );
 }
+
+

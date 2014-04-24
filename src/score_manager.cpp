@@ -1,14 +1,16 @@
 #include "score_manager.hpp"
 #include <cstdio>
+#include <algorithm>
 
 #include "utils.hpp"
 
-ScoreManager::ScoreManager() : mFilePath("../score.txt")
+ScoreManager::ScoreManager()
+	: mFilePath("../score.txt")
+	, mScores(1, 0)
 {
 	bool rbool = loadHighScoreFromFile();
 	if (!rbool)
 	{
-		// write 0 to file if
 		writeHighScoreToFile();
 	}
 }
@@ -16,12 +18,26 @@ ScoreManager::ScoreManager() : mFilePath("../score.txt")
 ScoreManager::~ScoreManager() {}
 
 
+int ScoreManager::getHighScore()
+{
+	std::sort(mScores.begin(), mScores.end());
+	return mScores.back();
+}
+
 bool ScoreManager::setHighScoreIfValid(int score)
 {
 	bool rbool = true;
-	if (score > mHighScore)
+	if (score > *std::min_element(mScores.begin(), mScores.end()))
 	{
-		mHighScore = score;
+		if (mScores.size() <= 10)
+		{
+			mScores.push_back(score);
+		}
+		else
+		{
+			std::sort(mScores.begin(), mScores.end());
+			mScores[0] = score; // replace the smallest
+		}
 		rbool = writeHighScoreToFile();
 	}
 	return rbool;
@@ -40,12 +56,14 @@ bool ScoreManager::writeHighScoreToFile()
 		return false;
 	}
 
-	fprintf(fp, "%d", mHighScore);
+	// currently only writing a single (highest) score
+	fprintf(fp, "%d", *std::max_element( mScores.begin(), mScores.end() ));
 	fclose(fp);
 	return true;
 }
 
 
+// loads high score from file, should only be executed in ctor
 bool ScoreManager::loadHighScoreFromFile()
 {
 	FILE* fp;
@@ -54,8 +72,7 @@ bool ScoreManager::loadHighScoreFromFile()
 	fp = fopen(mFilePath, "r");
 	if (fp == NULL)
 	{
-		log_err("failed to open file: %s", mFilePath);
-		mHighScore = 0;
+		log_err("failed to open file: %s, it may not exist", mFilePath);
 		return false;
 	}
 
@@ -67,18 +84,17 @@ bool ScoreManager::loadHighScoreFromFile()
 	if (sz == 0)
 	{
 		log_info("file %s is empty", mFilePath);
-		mHighScore = 0;
 	}
 	else
 	{
-		if (fscanf(fp, "%d", &mHighScore) == 1)
+		// TODO need to load all scores instead of just one
+		if (fscanf(fp, "%d", &mScores[0]) == 1)
 		{
-			log_info("high score from file is %d", mHighScore);
+			log_info("high score from file is %d", *mScores.begin());
 		}
 		else
 		{
 			log_err("fscanf failed on file: %s", mFilePath);
-			mHighScore = 0;
 			fclose(fp);
 			return false;
 		}
@@ -88,4 +104,5 @@ bool ScoreManager::loadHighScoreFromFile()
 	return true;
 
 }
+
 

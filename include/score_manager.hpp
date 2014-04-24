@@ -1,10 +1,13 @@
 #ifndef _SCORE_MANAGER_HPP_
 #define _SCORE_MANAGER_HPP_
 
+#include <vector>
+const int SCORE_COUNT = 10;
+
 class ScoreManager {
 
 public:
-	int getHighScore(){return mHighScore;}
+	int getHighScore();
 	// TODO get all scores
 	bool setHighScoreIfValid(int score);
 	bool loadHighScoreFromFile();
@@ -13,8 +16,9 @@ public:
 	~ScoreManager();
 
 private:
-	int mHighScore;
 	const char* mFilePath;
+	std::vector<int> mScores;
+
 };
 
 #endif
