@@ -15,6 +15,7 @@ before_script:
 
 script:
   - make
+  - sudo ldconfig
   - ./ut_flappy_bear
 
 # TODO: try make UT work on travis, SDL functions may not work correctly
