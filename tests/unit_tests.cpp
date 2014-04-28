@@ -45,9 +45,32 @@ BOOST_AUTO_TEST_CASE( player_test )
 
 BOOST_AUTO_TEST_CASE( file_io_test )
 {
-	ScoreManager sm;
-	BOOST_CHECK( sm.setHighScoreIfValid(10) ); // set high score to 10
-	BOOST_CHECK_EQUAL( sm.getHighScore(), 10 );
+	ScoreManager sm1;
+	// setting high score in reverse order
+	sm1.setHighScoreIfValid(3);
+	sm1.setHighScoreIfValid(2);
+	sm1.setHighScoreIfValid(1);
+	BOOST_CHECK( sm1.getHighScores().size() == 3);
+	BOOST_CHECK_EQUAL( sm1.getHighScore(), 3 );
+
+	for (int i = 0; i < 10; i++)
+	{
+		BOOST_CHECK( sm1.setHighScoreIfValid(i) );
+	}
+
+	// check whether the small scores are replaced correctly
+	vector<int> scores = sm1.getHighScores();
+	sort(scores.begin(), scores.end());
+	BOOST_CHECK_EQUAL(scores[0],2);
+	BOOST_CHECK_EQUAL(scores[1],2);
+	BOOST_CHECK_EQUAL(scores[2],3);
+	BOOST_CHECK_EQUAL(scores[3],3);
+
+	BOOST_CHECK_EQUAL( sm1.getHighScore(), 9 );
+	BOOST_CHECK( sm1.setHighScoreIfValid(10) );
+	BOOST_CHECK_EQUAL( sm1.getHighScore(), 10 );
+
+	BOOST_CHECK( sm1.getHighScores().size() == 10);
 
 	ScoreManager sm2;
 	BOOST_CHECK_EQUAL( sm2.getHighScore(), 10 );
@@ -55,6 +78,9 @@ BOOST_AUTO_TEST_CASE( file_io_test )
 	BOOST_CHECK_EQUAL( sm2.getHighScore(), 20 );
 	BOOST_CHECK( sm2.setHighScoreIfValid(15) );
 	BOOST_CHECK_EQUAL( sm2.getHighScore(), 20 );
+
+	BOOST_CHECK( sm2.getHighScores().size() == 10);
+
 }
 
 

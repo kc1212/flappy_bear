@@ -1,18 +1,15 @@
 #include "score_manager.hpp"
 #include <cstdio>
 #include <algorithm>
+#include <vector>
 
 #include "utils.hpp"
 
 ScoreManager::ScoreManager()
 	: mFilePath("../score.txt")
-	, mScores(1, 0)
+	// , mScores(1, 0)
 {
-	bool rbool = loadHighScoreFromFile();
-	if (!rbool)
-	{
-		writeHighScoreToFile();
-	}
+	loadHighScoreFromFile();
 }
 
 ScoreManager::~ScoreManager() {}
@@ -20,27 +17,31 @@ ScoreManager::~ScoreManager() {}
 
 int ScoreManager::getHighScore()
 {
-	std::sort(mScores.begin(), mScores.end());
-	return mScores.back();
+	return *max_element(mScores.begin(), mScores.end());
+}
+
+vector<int> ScoreManager::getHighScores()
+{
+	return mScores;
 }
 
 bool ScoreManager::setHighScoreIfValid(int score)
 {
-	bool rbool = true;
-	if (score > *std::min_element(mScores.begin(), mScores.end()))
+	if (mScores.size() < 10)
 	{
-		if (mScores.size() <= 10)
-		{
-			mScores.push_back(score);
-		}
-		else
-		{
-			std::sort(mScores.begin(), mScores.end());
-			mScores[0] = score; // replace the smallest
-		}
-		rbool = writeHighScoreToFile();
+		mScores.push_back(score);
 	}
-	return rbool;
+	else if (score > *min_element(mScores.begin(), mScores.end()))
+	{
+		sort(mScores.begin(), mScores.end());
+		mScores[0] = score; // replace the smallest
+	}
+	else
+	{
+		// not a high score, do nothing
+		return true;
+	}
+	return writeHighScoreToFile();
 }
 
 
@@ -56,8 +57,10 @@ bool ScoreManager::writeHighScoreToFile()
 		return false;
 	}
 
-	// currently only writing a single (highest) score
-	fprintf(fp, "%d", *std::max_element( mScores.begin(), mScores.end() ));
+	// (re)write all scores to file
+	for (vector<int>::reverse_iterator i = mScores.rbegin(); i != mScores.rend(); ++i)
+		fprintf(fp, "%d\n", *i);
+
 	fclose(fp);
 	return true;
 }
@@ -88,9 +91,15 @@ bool ScoreManager::loadHighScoreFromFile()
 	else
 	{
 		// TODO need to load all scores instead of just one
-		if (fscanf(fp, "%d", &mScores[0]) == 1)
+		int tmp;
+		if (fscanf(fp, "%d", &tmp) == 1)
 		{
-			log_info("high score from file is %d", *mScores.begin());
+			do
+			{
+				mScores.push_back(tmp);
+				log_info("high score from file is %d", tmp);
+			}
+			while (fscanf(fp, "%d", &tmp) == 1);
 		}
 		else
 		{
