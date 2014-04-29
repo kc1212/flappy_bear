@@ -94,12 +94,12 @@ BOOST_AUTO_TEST_CASE( timer_test )
 	timer.start();
 	sleep(1);
 	tmpTime = timer.getTicks();
-	BOOST_CHECK_EQUAL( tmpTime, 1000 );
+	BOOST_CHECK( tmpTime > 995 && tmpTime < 1005 );
 
 	timer.stop();
 
 	timer.start();
 	sleep(2);
 	tmpTime = timer.getTicks();
-	BOOST_CHECK_EQUAL( tmpTime, 2000 );
+	BOOST_CHECK( tmpTime > 1995 && tmpTime < 2005 );
 }
