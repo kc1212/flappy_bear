@@ -4,6 +4,7 @@
 #include "player.hpp"
 #include "background.hpp"
 #include "score_manager.hpp"
+#include "timer.hpp"
 #include <boost/test/unit_test.hpp>
 #include <boost/test/unit_test_log.hpp>
 
@@ -42,6 +43,7 @@ BOOST_AUTO_TEST_CASE( player_test )
 	BOOST_CHECK( p1.hasJumped() );
 	BOOST_CHECK_EQUAL( p1.getV(), V_0 );
 }
+
 
 BOOST_AUTO_TEST_CASE( file_io_test )
 {
@@ -84,3 +86,20 @@ BOOST_AUTO_TEST_CASE( file_io_test )
 }
 
 
+BOOST_AUTO_TEST_CASE( timer_test )
+{
+	Timer timer;
+	Uint32 tmpTime;
+
+	timer.start();
+	sleep(1);
+	tmpTime = timer.getTicks();
+	BOOST_CHECK_EQUAL( tmpTime, 1000 );
+
+	timer.stop();
+
+	timer.start();
+	sleep(2);
+	tmpTime = timer.getTicks();
+	BOOST_CHECK_EQUAL( tmpTime, 2000 );
+}
