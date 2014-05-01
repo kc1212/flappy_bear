@@ -1,7 +1,9 @@
 // global configuration file
 //
 #define MAX_PATH_LEN 256
-#define LOOP_DELAY 30 // in ms
+#define LOOP_DELAY 30 // in ms, 30 ms -> 33.33 fps, TODO need to depricate
+#define SCREEN_FPS 33
+#define SCREEN_TICKS_PER_FRAME (1000/SCREEN_FPS)
 
 // TODO we need to make this resolution independent
 // TODO we also need to load some of these from config files

@@ -1,6 +1,7 @@
 #include "world.hpp"
 #include "config.hpp"
 #include "utils.hpp"
+#include "timer.hpp"
 
 // resources taken from http://lanica.co/flappy-clone/
 World::World(SDL_Renderer *renderer, SDL_Window *window)
@@ -29,9 +30,30 @@ int World::start()
 	bool quit = false;
 	player.setScore(0);
 
+	// fps cap
+	Timer fpsTimer;
+	Timer capTimer;
+	int countedFrames = 0;
+	fpsTimer.start();
+
 	while (!quit)
 	{
+		capTimer.start();
+		double avgFps = countedFrames / (fpsTimer.getTicks() / 1000. );
+		if (avgFps > 200000) // correct avgFps if fpsTimer.getTicks is very low
+		{
+			avgFps = 0;
+		}
+
 		quit = World::processGameLoop();
+
+		int frameTicks = capTimer.getTicks();
+		if ( frameTicks < SCREEN_TICKS_PER_FRAME )
+		{
+			SDL_Delay( SCREEN_TICKS_PER_FRAME - frameTicks );
+		}
+		countedFrames++;
+		// log_info("countedFrames: %d, frameTicks: %d", countedFrames, frameTicks);
 	}
 	return 0;
 }
@@ -85,7 +107,6 @@ bool World::processGameLoop()
 	updatePlayer();
 
 	SDL_RenderPresent(worldRenderer);
-	SDL_Delay( LOOP_DELAY ); // TODO need better delay
 
 	return quit;
 }

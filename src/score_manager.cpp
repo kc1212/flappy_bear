@@ -7,7 +7,6 @@
 
 ScoreManager::ScoreManager()
 	: mFilePath("../score.txt")
-	// , mScores(1, 0)
 {
 	loadHighScoreFromFile();
 }
