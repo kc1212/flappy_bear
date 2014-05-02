@@ -70,14 +70,14 @@ void Obstacle::setPositions(int x, int y, int w, int h)
 void Obstacle::resetPositions()
 {
 	mRect.x = mStartRect.x;
-	mRect.y = mStartRect.y;
 	mRect.w = mStartRect.w;
 	mRect.h = mStartRect.h;
 
 	mBotRect.x = mStartRect.x;
-	mBotRect.y = mStartRect.y + OBSTACLE_VGAP + mStartRect.h;
 	mBotRect.w = mStartRect.w;
 	mBotRect.h = mStartRect.h;
+
+	Obstacle::randomisePosY();
 
 	mHasBeenPassed = false;	
 }
