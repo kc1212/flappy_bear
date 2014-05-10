@@ -34,6 +34,7 @@ class World {
 		Background background;
 		Player player;
 		TextView scoreView;
+		TextView fpsView;
 		ScoreManager scoreManager;
 		Obstacle* obstacles[OBSTACLE_COUNT];
 		SDL_Renderer* worldRenderer;

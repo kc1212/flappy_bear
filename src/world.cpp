@@ -8,6 +8,7 @@ World::World(SDL_Renderer *renderer, SDL_Window *window)
 	: background("../assets/night_bg.png", renderer),
 	player("../assets/black-bubble.png", renderer, 140, 140),
 	scoreView("../assets/Extrude.ttf", renderer, 175,15),
+	fpsView("../assets/Gravity-Light.ttf", renderer, 335, 10), // make this optional
 	scoreManager()
 {
 	for (int i = 0; i < OBSTACLE_COUNT; i++){
@@ -16,6 +17,8 @@ World::World(SDL_Renderer *renderer, SDL_Window *window)
 	}
 	worldRenderer = renderer;
 	worldWindow = window;
+	fpsView.setWidth(40);
+	fpsView.setHeight(30);
 }
 
 World::~World()
@@ -44,6 +47,7 @@ int World::start()
 		{
 			avgFps = 0;
 		}
+		fpsView.setText(avgFps);
 
 		quit = World::processGameLoop();
 
@@ -53,7 +57,7 @@ int World::start()
 			SDL_Delay( SCREEN_TICKS_PER_FRAME - frameTicks );
 		}
 		countedFrames++;
-		// log_info("countedFrames: %d, frameTicks: %d", countedFrames, frameTicks);
+		// log_info("countedFrames: %d, frameTicks: %d, avgFPS: %.2f", countedFrames, frameTicks, avgFps);
 	}
 	return 0;
 }
@@ -105,6 +109,7 @@ bool World::processGameLoop()
 	updateBackground();
 	updateObstacles();
 	updatePlayer();
+	fpsView.render();
 
 	SDL_RenderPresent(worldRenderer);
 

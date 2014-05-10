@@ -37,3 +37,11 @@ void TextView::setText(const int num)
 	mTexture.resetFontText(buffer, mRenderer);
 }
 
+void TextView::setText(const double num)
+{
+	// not that itoa isn't standard function
+	char buffer[256];
+	sprintf(buffer, "%.2f", num);
+	mTexture.resetFontText(buffer, mRenderer);
+}
+
