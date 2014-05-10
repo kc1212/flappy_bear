@@ -29,3 +29,11 @@ void TextView::setText(const char* text)
 	mTexture.resetFontText(text, mRenderer);
 }
 
+void TextView::setText(const int num)
+{
+	// not that itoa isn't standard function
+	char buffer[256];
+	sprintf(buffer, "%d", num);
+	mTexture.resetFontText(buffer, mRenderer);
+}
+

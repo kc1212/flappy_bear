@@ -240,10 +240,7 @@ void World::updatePlayerScoreIfNeeded()
 		}
 	}
 
-	// TODO can do better, just hacking it coz i need sleep
-	char buffer[16];
-	sprintf(buffer, "%d", player.getScore());
-	scoreView.setText(buffer);
+	scoreView.setText(player.getScore());
 	scoreView.render();
 }
 

@@ -11,6 +11,7 @@ class TextView : public GameEntity {
 		~TextView();
 		void render() const;
 		void setText(const char* text);
+		void setText(const int num);
 	private:
 		Texture mTexture;
 		// char mText[16];
