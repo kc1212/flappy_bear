@@ -19,6 +19,7 @@ World::World(SDL_Renderer *renderer, SDL_Window *window)
 	worldWindow = window;
 	fpsView.setWidth(40);
 	fpsView.setHeight(30);
+	mShowFps = false;
 }
 
 World::~World()
@@ -91,6 +92,9 @@ bool World::processGameLoop()
 				case SDLK_q:
 					quit = true;
 					break;
+				case SDLK_f:
+					mShowFps = !mShowFps;
+					break;
 				default:
 					break;
 			}
@@ -109,7 +113,7 @@ bool World::processGameLoop()
 	updateBackground();
 	updateObstacles();
 	updatePlayer();
-	fpsView.render();
+	if (mShowFps) fpsView.render();
 
 	SDL_RenderPresent(worldRenderer);
 

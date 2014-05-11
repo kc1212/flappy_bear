@@ -49,5 +49,6 @@ class World {
 		bool detectCollisionWithRect(SDL_Rect rect);
 		void updatePlayerScoreIfNeeded();
 		bool check_collision( SDL_Rect A, SDL_Rect B );
+		bool mShowFps;
 };
 
