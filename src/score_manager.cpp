@@ -1,12 +1,15 @@
 #include "score_manager.hpp"
 #include <cstdio>
 #include <algorithm>
-#include <vector>
 
 #include "utils.hpp"
 
-ScoreManager::ScoreManager()
+ScoreManager::ScoreManager() {}
+
+ScoreManager::ScoreManager(SDL_Renderer* renderer, int x, int y)
 	: mFilePath("../score.txt")
+	, mTitleView("../assets/Gravity-Light.ttf", renderer, x, y)
+	, mScoreView("../assets/Gravity-Light.ttf", renderer, x, y)
 {
 	loadHighScoreFromFile();
 }
@@ -89,7 +92,6 @@ bool ScoreManager::loadHighScoreFromFile()
 	}
 	else
 	{
-		// TODO need to load all scores instead of just one
 		int tmp;
 		if (fscanf(fp, "%d", &tmp) == 1)
 		{
@@ -111,6 +113,12 @@ bool ScoreManager::loadHighScoreFromFile()
 	fclose(fp);
 	return true;
 
+}
+
+bool ScoreManager::render()
+{
+	// TODO render a high score overlay
+	return true;
 }
 
 

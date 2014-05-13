@@ -2,6 +2,8 @@
 #define _SCORE_MANAGER_HPP_
 
 #include <vector>
+#include "texture.hpp"
+#include "text_view.hpp"
 
 using namespace std;
 
@@ -12,16 +14,20 @@ class ScoreManager {
 public:
 	int getHighScore();
 	std::vector<int> getHighScores();
-	// TODO get all scores
 	bool setHighScoreIfValid(int score);
 	bool loadHighScoreFromFile();
 	bool writeHighScoreToFile();
+	bool render();
 	ScoreManager();
+	ScoreManager(SDL_Renderer* renderer, int x = 175, int y = 15);
 	~ScoreManager();
 
 private:
 	const char* mFilePath;
 	std::vector<int> mScores;
+	TextView mTitleView;
+	TextView mScoreView; // TODO need multiple textviews
+
 
 };
 

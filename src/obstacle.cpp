@@ -79,7 +79,7 @@ void Obstacle::resetPositions()
 
 	Obstacle::randomisePosY();
 
-	mHasBeenPassed = false;	
+	mHasBeenPassed = false;
 }
 
 void Obstacle::randomisePosY()
@@ -88,3 +88,7 @@ void Obstacle::randomisePosY()
 	setPosY(y);
 	log_info("[%d, %d, %d, %d -> %d]", mRect.x, mRect.y, mRect.w, mRect.h, y);
 }
+
+
+
+

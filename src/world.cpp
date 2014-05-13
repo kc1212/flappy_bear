@@ -9,7 +9,7 @@ World::World(SDL_Renderer *renderer, SDL_Window *window)
 	player("../assets/black-bubble.png", renderer, 140, 140),
 	scoreView("../assets/Extrude.ttf", renderer, 175,15),
 	fpsView("../assets/Gravity-Light.ttf", renderer, 335, 10), // make this optional
-	scoreManager()
+	scoreManager(renderer)
 {
 	for (int i = 0; i < OBSTACLE_COUNT; i++){
 		obstacles[i] = new Obstacle(800+i*OBSTACLE_HGAP, 0, 52, 320,
