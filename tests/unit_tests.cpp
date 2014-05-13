@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE( player_test )
 
 BOOST_AUTO_TEST_CASE( file_io_test )
 {
-	ScoreManager sm1;
+	ScoreManager sm1(renderer);
 	// setting high score in reverse order
 	sm1.setHighScoreIfValid(3);
 	sm1.setHighScoreIfValid(2);
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE( file_io_test )
 
 	BOOST_CHECK( sm1.getHighScores().size() == 10);
 
-	ScoreManager sm2;
+	ScoreManager sm2(renderer);
 	BOOST_CHECK_EQUAL( sm2.getHighScore(), 10 );
 	BOOST_CHECK( sm2.setHighScoreIfValid(20) );
 	BOOST_CHECK_EQUAL( sm2.getHighScore(), 20 );

@@ -4,7 +4,10 @@
 
 #include "utils.hpp"
 
-ScoreManager::ScoreManager() {}
+ScoreManager::ScoreManager()
+{
+	loadHighScoreFromFile();
+}
 
 ScoreManager::ScoreManager(SDL_Renderer* renderer, int x, int y)
 	: mFilePath("../score.txt")
