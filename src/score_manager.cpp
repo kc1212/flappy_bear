@@ -16,6 +16,8 @@ ScoreManager::ScoreManager(SDL_Renderer* renderer, int x, int y)
 {
 	mTitleView.setWidth(100);
 	mTitleView.setHeight(40);
+	mScoreView.setWidth(40);
+	mScoreView.setHeight(40);
 	loadHighScoreFromFile();
 }
 
@@ -29,12 +31,17 @@ int ScoreManager::getHighScore()
 
 vector<int> ScoreManager::getHighScores()
 {
+	sort(mScores.begin(), mScores.end());
 	return mScores;
 }
 
 bool ScoreManager::setHighScoreIfValid(int score)
 {
-	if (mScores.size() < 10)
+	if (score == 0)
+	{
+		return true;
+	}
+	else if (mScores.size() < 10)
 	{
 		mScores.push_back(score);
 	}
@@ -124,10 +131,25 @@ bool ScoreManager::render()
 {
 	// TODO render a high score overlay
 	mTitleView.setText("High Scores:");
-	mScoreView.setText(getHighScore());
-
 	mTitleView.render();
-	mScoreView.render();
+
+	getHighScores(); // to sort
+
+	if (mScores.size() == 0)
+	{
+		mScoreView.setText("nil");
+		mScoreView.render();
+	}
+	else if (mScores[0] == 0)
+	{
+		mScoreView.setText("nil");
+		mScoreView.render();
+	}
+	else
+	{
+		mScoreView.setText(getHighScores()[0]);
+		mScoreView.render();
+	}
 
 	return true;
 }

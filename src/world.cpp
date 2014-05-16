@@ -64,6 +64,15 @@ int World::start()
 	return 0;
 }
 
+bool World::canRestart()
+{
+	if (player.isDead() && !mShowScores)
+	{
+		return true;
+	}
+	return false;
+}
+
 bool World::processGameLoop()
 {
 	SDL_Event e;
@@ -82,10 +91,11 @@ bool World::processGameLoop()
 					player.jump();
 					break;
 				case SDLK_r:
-					for (int i = 0; i < OBSTACLE_COUNT && player.isDead(); i++){
+					for (int i = 0; i < OBSTACLE_COUNT && canRestart(); i++)
+					{
 						obstacles[i]->resetPositions();
 					}
-					if (player.isDead())
+					if (canRestart())
 					{
 						player.restartGame();
 					}
@@ -305,4 +315,5 @@ bool World::check_collision( SDL_Rect A, SDL_Rect B )
 	//If none of the sides from A are outside B
 	return true;
 }
+
 

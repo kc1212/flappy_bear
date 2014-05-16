@@ -2,7 +2,6 @@
 #include "texture.hpp"
 #include "utils.hpp"
 #include <cstring>
-#include <unistd.h> // unix specific
 
 Texture::Texture()
 	: mIsImage(true)
@@ -18,20 +17,16 @@ Texture::Texture(const char* path, SDL_Renderer* renderer, bool isImage)
 	strcpy(mFilename, path);
 	if (DEBUG) debug("texture constructor: [%s, %d, %p]", mFilename, mIsImage, (void*)this);
 
-	// check if file exists
-	// TODO the access function from unistd.h is not cross platform
-	if ( access(path, F_OK != -1) )
-	{
-		log_err("file does not exist in path: %s", path);
-		// TODO need to handle this error
-	}
+	// TODO check if file exists
 
 	if (mIsImage)
 	{
+		// TODO check if loadTextureFromFile failed
 		loadTextureFromFile(path, renderer);
 	}
 	else
 	{
+		// TODO check if loadFromRenderedText failed
 		mFont = TTF_OpenFont( path, 72 );
 		loadFromRenderedText("0", renderer);
 	}

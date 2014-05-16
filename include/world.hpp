@@ -39,6 +39,7 @@ class World {
 		Obstacle* obstacles[OBSTACLE_COUNT];
 		SDL_Renderer* worldRenderer;
 		SDL_Window* worldWindow;
+		bool canRestart();
 		bool processGameLoop();
 		void updateBackground();
 		void updatePlayer();
