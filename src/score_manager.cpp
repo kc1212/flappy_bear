@@ -11,9 +11,11 @@ ScoreManager::ScoreManager()
 
 ScoreManager::ScoreManager(SDL_Renderer* renderer, int x, int y)
 	: mFilePath("../score.txt")
-	, mTitleView("../assets/Gravity-Light.ttf", renderer, x, y)
-	, mScoreView("../assets/Gravity-Light.ttf", renderer, x, y)
+	, mTitleView("../assets/Gravity-Light.ttf", renderer, x-40, y)
+	, mScoreView("../assets/Gravity-Light.ttf", renderer, x, y+100)
 {
+	mTitleView.setWidth(100);
+	mTitleView.setHeight(40);
 	loadHighScoreFromFile();
 }
 
@@ -121,6 +123,12 @@ bool ScoreManager::loadHighScoreFromFile()
 bool ScoreManager::render()
 {
 	// TODO render a high score overlay
+	mTitleView.setText("High Scores:");
+	mScoreView.setText(getHighScore());
+
+	mTitleView.render();
+	mScoreView.render();
+
 	return true;
 }
 

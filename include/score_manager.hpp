@@ -19,7 +19,7 @@ public:
 	bool writeHighScoreToFile();
 	bool render();
 	ScoreManager();
-	ScoreManager(SDL_Renderer* renderer, int x = 175, int y = 15);
+	ScoreManager(SDL_Renderer* renderer, int x = 175, int y = 70);
 	~ScoreManager();
 
 private:

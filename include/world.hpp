@@ -50,5 +50,6 @@ class World {
 		void updatePlayerScoreIfNeeded();
 		bool check_collision( SDL_Rect A, SDL_Rect B );
 		bool mShowFps;
+		bool mShowScores;
 };
 

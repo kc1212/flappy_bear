@@ -20,6 +20,7 @@ World::World(SDL_Renderer *renderer, SDL_Window *window)
 	fpsView.setWidth(40);
 	fpsView.setHeight(30);
 	mShowFps = false;
+	mShowScores = false;
 }
 
 World::~World()
@@ -95,6 +96,12 @@ bool World::processGameLoop()
 				case SDLK_f:
 					mShowFps = !mShowFps;
 					break;
+				case SDLK_s:
+					if (player.isDead())
+					{
+						mShowScores = !mShowScores;
+					}
+					break;
 				default:
 					break;
 			}
@@ -114,6 +121,7 @@ bool World::processGameLoop()
 	updateObstacles();
 	updatePlayer();
 	if (mShowFps) fpsView.render();
+	if (mShowScores) scoreManager.render();
 
 	SDL_RenderPresent(worldRenderer);
 
