@@ -49,6 +49,10 @@ BOOST_AUTO_TEST_CASE( file_io_test )
 {
 	ScoreManager sm1(renderer);
 	// setting high score in reverse order
+	sm1.setHighScoreIfValid(0);
+	sm1.setHighScoreIfValid(0); // high score shouldn't be saved
+	BOOST_CHECK( sm1.getHighScores().size() == 0);
+
 	sm1.setHighScoreIfValid(3);
 	sm1.setHighScoreIfValid(2);
 	sm1.setHighScoreIfValid(1);

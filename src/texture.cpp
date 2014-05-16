@@ -141,7 +141,7 @@ bool Texture::loadFromRenderedText(const char* string, SDL_Renderer* const rende
 	else
 	{
 		//Create texture from surface pixels
-        mTexture = SDL_CreateTextureFromSurface( renderer, textSurface );
+		mTexture = SDL_CreateTextureFromSurface( renderer, textSurface );
 		if( mTexture == NULL )
 		{
 			log_err( "Unable to create texture from rendered text! SDL Error: %s", SDL_GetError() );
