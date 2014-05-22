@@ -71,6 +71,7 @@ set(FB_SOURCES
 	"${PROJECT_SOURCE_DIR}/src/text_view.cpp"
 	"${PROJECT_SOURCE_DIR}/src/score_manager.cpp"
 	"${PROJECT_SOURCE_DIR}/src/timer.cpp"
+	"${PROJECT_SOURCE_DIR}/src/geometry.cpp"
 	)
 set(FB_MAIN "${PROJECT_SOURCE_DIR}/src/main.cpp")
 

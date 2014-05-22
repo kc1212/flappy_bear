@@ -26,7 +26,7 @@ class GameEntity {
 		virtual void render() const = 0;
 
 
-	protected:		
+	protected:
 		SDL_Rect mRect;
 		SDL_Renderer* mRenderer;
 
