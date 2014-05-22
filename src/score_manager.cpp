@@ -13,6 +13,7 @@ ScoreManager::ScoreManager(SDL_Renderer* renderer, int x, int y)
 	: mFilePath("../score.txt")
 	, mTitleView("../assets/Gravity-Light.ttf", renderer, x-40, y)
 	, mScoreView("../assets/Gravity-Light.ttf", renderer, x, y+100)
+	, mBackground(renderer, 0, 0, SCREEN_HEIGHT, SCREEN_HEIGHT)
 {
 	mTitleView.setWidth(100);
 	mTitleView.setHeight(40);
@@ -129,7 +130,9 @@ bool ScoreManager::loadHighScoreFromFile()
 
 bool ScoreManager::render()
 {
-	// TODO render a high score overlay
+	// TODO alpha not working
+	mBackground.render();
+
 	mTitleView.setText("High Scores:");
 	mTitleView.render();
 

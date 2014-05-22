@@ -9,11 +9,20 @@ Geometry::Geometry(SDL_Renderer* renderer, int x, int y, int w, int h)
 	mRect.y = y;
 	mRect.w = w;
 	mRect.h = h;
+	mRed = 0x00;
+	mGreen = 0x00;
+	mBlue = 0x00;
+	mAlpha = 0x20;
 }
 
 Geometry::~Geometry(){}
 
-bool Geometry::render()
+void Geometry::render() const
 {
-	return true;
+	SDL_SetRenderDrawColor( mRenderer, mRed, mGreen, mBlue, mAlpha );
+	SDL_RenderFillRect( mRenderer, &mRect );
 }
+
+
+
+

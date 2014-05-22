@@ -10,7 +10,9 @@ public:
 	Geometry();
 	Geometry(SDL_Renderer* renderer, int x, int y, int w, int h);
 	~Geometry();
-	bool render();
+	void render() const;
+private:
+	int mRed, mGreen, mBlue, mAlpha;
 };
 
 #endif
