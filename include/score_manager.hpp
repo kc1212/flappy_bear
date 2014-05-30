@@ -2,6 +2,7 @@
 #define _SCORE_MANAGER_HPP_
 
 #include <vector>
+#include <ctime>
 #include "texture.hpp"
 #include "text_view.hpp"
 
@@ -9,11 +10,17 @@ using namespace std;
 
 const int SCORE_COUNT = 10;
 
+typedef struct {
+	int s; // score
+	time_t t; // time
+} scorePair;
+
 class ScoreManager {
 
 public:
 	int getHighScore();
-	std::vector<int> getHighScores();
+	scorePair getHighScoreAndTime();
+	std::vector<scorePair> getHighScores();
 	bool setHighScoreIfValid(int score);
 	bool loadHighScoreFromFile();
 	bool writeHighScoreToFile();
@@ -24,7 +31,7 @@ public:
 
 private:
 	const char* mFilePath;
-	std::vector<int> mScores;
+	std::vector<scorePair> mScores;
 	TextView mTitleView;
 	TextView mScoreView; // TODO need multiple textviews
 

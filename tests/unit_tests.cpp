@@ -11,6 +11,11 @@
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 
+static bool customCompare (scorePair a, scorePair b)
+{
+	return a.s < b.s;
+}
+
 struct MyFixture{
 	MyFixture()
 	{
@@ -65,12 +70,12 @@ BOOST_AUTO_TEST_CASE( file_io_test )
 	}
 
 	// check whether the small scores are replaced correctly
-	vector<int> scores = sm1.getHighScores();
-	sort(scores.begin(), scores.end());
-	BOOST_CHECK_EQUAL(scores[0],2);
-	BOOST_CHECK_EQUAL(scores[1],2);
-	BOOST_CHECK_EQUAL(scores[2],3);
-	BOOST_CHECK_EQUAL(scores[3],3);
+	vector<scorePair> scores = sm1.getHighScores();
+	sort(scores.begin(), scores.end(), customCompare);
+	BOOST_CHECK_EQUAL(scores[0].s,2);
+	BOOST_CHECK_EQUAL(scores[1].s,2);
+	BOOST_CHECK_EQUAL(scores[2].s,3);
+	BOOST_CHECK_EQUAL(scores[3].s,3);
 
 	BOOST_CHECK_EQUAL( sm1.getHighScore(), 9 );
 	BOOST_CHECK( sm1.setHighScoreIfValid(10) );
@@ -107,3 +112,6 @@ BOOST_AUTO_TEST_CASE( timer_test )
 	tmpTime = timer.getTicks();
 	BOOST_CHECK( tmpTime > 1995 && tmpTime < 2005 );
 }
+
+
+

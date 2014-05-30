@@ -4,6 +4,11 @@
 
 #include "utils.hpp"
 
+static bool customCompare (scorePair a, scorePair b)
+{
+	return a.s < b.s;
+}
+
 ScoreManager::ScoreManager()
 {
 	loadHighScoreFromFile();
@@ -26,29 +31,35 @@ ScoreManager::~ScoreManager() {}
 
 int ScoreManager::getHighScore()
 {
-	return *max_element(mScores.begin(), mScores.end());
+	return (*max_element(mScores.begin(), mScores.end(), customCompare)).s;
 }
 
-vector<int> ScoreManager::getHighScores()
+scorePair ScoreManager::getHighScoreAndTime()
 {
-	sort(mScores.begin(), mScores.end());
+	return *max_element(mScores.begin(), mScores.end(), customCompare);
+}
+
+vector<scorePair> ScoreManager::getHighScores()
+{
+	sort(mScores.begin(), mScores.end(), customCompare);
 	return mScores;
 }
 
 bool ScoreManager::setHighScoreIfValid(int score)
 {
+	scorePair p = {score, time(NULL)};
 	if (score == 0)
 	{
 		return true;
 	}
 	else if (mScores.size() < 10)
 	{
-		mScores.push_back(score);
+		mScores.push_back(p);
 	}
-	else if (score > *min_element(mScores.begin(), mScores.end()))
+	else if (score > (*min_element(mScores.begin(), mScores.end(), customCompare)).s)
 	{
-		sort(mScores.begin(), mScores.end());
-		mScores[0] = score; // replace the smallest
+		sort(mScores.begin(), mScores.end(), customCompare);
+		mScores[0] = p; // replace the smallest
 	}
 	else
 	{
@@ -72,8 +83,8 @@ bool ScoreManager::writeHighScoreToFile()
 	}
 
 	// (re)write all scores to file
-	for (vector<int>::reverse_iterator i = mScores.rbegin(); i != mScores.rend(); ++i)
-		fprintf(fp, "%d\n", *i);
+	for (vector<scorePair>::reverse_iterator i = mScores.rbegin(); i != mScores.rend(); ++i)
+		fprintf(fp, "%d\t%ld\n", (*i).s, (*i).t);
 
 	fclose(fp);
 	return true;
@@ -104,15 +115,15 @@ bool ScoreManager::loadHighScoreFromFile()
 	}
 	else
 	{
-		int tmp;
-		if (fscanf(fp, "%d", &tmp) == 1)
+		scorePair p;
+		if (fscanf(fp, "%d\t%ld", &(p.s), &(p.t)) == 1)
 		{
 			do
 			{
-				mScores.push_back(tmp);
-				log_info("high score from file is %d", tmp);
+				mScores.push_back(p);
+				log_info("high score from file is %d\t%ld", p.s, p.t);
 			}
-			while (fscanf(fp, "%d", &tmp) == 1);
+			while (fscanf(fp, "%d\t%ld", &(p.s), &(p.t)) == 1);
 		}
 		else
 		{
@@ -140,14 +151,14 @@ bool ScoreManager::render()
 		mScoreView.setText("nil");
 		mScoreView.render();
 	}
-	else if (mScores[0] == 0)
+	else if (mScores[0].s == 0)
 	{
 		mScoreView.setText("nil");
 		mScoreView.render();
 	}
 	else
 	{
-		mScoreView.setText(getHighScores()[0]);
+		mScoreView.setText(getHighScores()[0].s);
 		mScoreView.render();
 	}
 
