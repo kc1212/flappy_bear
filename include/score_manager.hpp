@@ -5,6 +5,7 @@
 #include <ctime>
 #include "texture.hpp"
 #include "text_view.hpp"
+#include "geometry.hpp"
 
 using namespace std;
 
@@ -34,7 +35,7 @@ private:
 	std::vector<scorePair> mScores;
 	TextView mTitleView;
 	TextView mScoreView; // TODO need multiple textviews
-
+	Geometry mBackground;
 
 };
 
