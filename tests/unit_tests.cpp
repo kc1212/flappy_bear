@@ -56,12 +56,12 @@ BOOST_AUTO_TEST_CASE( file_io_test )
 	// setting high score in reverse order
 	sm1.setHighScoreIfValid(0);
 	sm1.setHighScoreIfValid(0); // high score shouldn't be saved
-	BOOST_CHECK( sm1.getHighScores().size() == 0);
+	BOOST_CHECK(0 == sm1.getHighScores().size());
 
 	sm1.setHighScoreIfValid(3);
 	sm1.setHighScoreIfValid(2);
 	sm1.setHighScoreIfValid(1);
-	BOOST_CHECK( sm1.getHighScores().size() == 3);
+	BOOST_CHECK(3 == sm1.getHighScores().size());
 	BOOST_CHECK_EQUAL( sm1.getHighScore(), 3 );
 
 	for (int i = 0; i < 10; i++)
@@ -81,7 +81,7 @@ BOOST_AUTO_TEST_CASE( file_io_test )
 	BOOST_CHECK( sm1.setHighScoreIfValid(10) );
 	BOOST_CHECK_EQUAL( sm1.getHighScore(), 10 );
 
-	BOOST_CHECK( sm1.getHighScores().size() == 10);
+	BOOST_CHECK(10 == sm1.getHighScores().size());
 
 	ScoreManager sm2(renderer); // this will read existing file
 	BOOST_CHECK_EQUAL( sm2.getHighScore(), 10 );
@@ -90,7 +90,7 @@ BOOST_AUTO_TEST_CASE( file_io_test )
 	BOOST_CHECK( sm2.setHighScoreIfValid(15) );
 	BOOST_CHECK_EQUAL( sm2.getHighScore(), 20 );
 
-	BOOST_CHECK( sm2.getHighScores().size() == 10);
+	BOOST_CHECK(10 == sm2.getHighScores().size());
 
 }
 

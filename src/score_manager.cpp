@@ -41,6 +41,7 @@ int ScoreManager::getHighScore()
 
 scorePair ScoreManager::getHighScoreAndTime()
 {
+	// TODO check for when mScores is empty or null
 	return *max_element(mScores.begin(), mScores.end(), customCompare);
 }
 
@@ -53,7 +54,7 @@ vector<scorePair> ScoreManager::getHighScores()
 bool ScoreManager::setHighScoreIfValid(int score)
 {
 	scorePair p = {score, time(NULL)};
-	if (score == 0)
+	if (0 == score)
 	{
 		return true;
 	}
@@ -80,7 +81,7 @@ bool ScoreManager::writeHighScoreToFile()
 	FILE* fp;
 	fp = fopen(mFilePath, "w");
 
-	if (fp == NULL)
+	if (NULL == fp)
 	{
 		log_err("failed to open file: %s", mFilePath);
 		fclose(fp);
@@ -116,7 +117,7 @@ bool ScoreManager::loadHighScoreFromFile()
 	sz = ftell(fp);
 	fseek(fp, 0L, SEEK_SET);
 
-	if (sz == 0)
+	if (0 == sz)
 	{
 		log_info("file %s is empty", mFilePath);
 	}
@@ -151,12 +152,12 @@ bool ScoreManager::render()
 
 	getHighScores(); // to sort
 
-	if (mScores.size() == 0)
+	if (0 == mScores.size())
 	{
 		mScoreView.setText("nil");
 		mScoreView.render();
 	}
-	else if (mScores[0].s == 0)
+	else if (0 == mScores[0].s)
 	{
 		mScoreView.setText("nil");
 		mScoreView.render();

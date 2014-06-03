@@ -45,3 +45,6 @@ Uint32 Timer::getTicks()
 
 	return t;
 }
+
+
+

@@ -79,11 +79,11 @@ bool World::processGameLoop()
 	bool quit = false;
 	while (SDL_PollEvent (&e) != 0)
 	{
-		if (e.type == SDL_QUIT)
+		if (SDL_QUIT == e.type)
 		{
 			quit = true;
 		}
-		else if (e.type == SDL_KEYDOWN)
+		else if (SDL_KEYDOWN == e.type)
 		{
 			switch (e.key.keysym.sym)
 			{
