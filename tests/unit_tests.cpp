@@ -83,7 +83,7 @@ BOOST_AUTO_TEST_CASE( file_io_test )
 
 	BOOST_CHECK( sm1.getHighScores().size() == 10);
 
-	ScoreManager sm2(renderer);
+	ScoreManager sm2(renderer); // this will read existing file
 	BOOST_CHECK_EQUAL( sm2.getHighScore(), 10 );
 	BOOST_CHECK( sm2.setHighScoreIfValid(20) );
 	BOOST_CHECK_EQUAL( sm2.getHighScore(), 20 );

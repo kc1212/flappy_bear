@@ -32,6 +32,10 @@ ScoreManager::~ScoreManager() {}
 
 int ScoreManager::getHighScore()
 {
+	if (0 == mScores.size())
+	{
+		return -1;
+	}
 	return (*max_element(mScores.begin(), mScores.end(), customCompare)).s;
 }
 
@@ -85,7 +89,9 @@ bool ScoreManager::writeHighScoreToFile()
 
 	// (re)write all scores to file
 	for (vector<scorePair>::reverse_iterator i = mScores.rbegin(); i != mScores.rend(); ++i)
-		fprintf(fp, "%d\n", (*i).s);
+	{
+		fprintf(fp, "%d,%ld\n", (*i).s, (*i).t);
+	}
 
 	fclose(fp);
 	return true;
@@ -117,20 +123,16 @@ bool ScoreManager::loadHighScoreFromFile()
 	else
 	{
 		scorePair p;
-		if (fscanf(fp, "%d", &(p.s)) == 1)
+		char buffer[1024];
+		while (fgets(buffer, 1024, fp))
 		{
-			do
+			if (0 == sscanf(buffer, "%d,%ld", &(p.s), &(p.t)))
 			{
-				mScores.push_back(p);
-				log_info("high score from file is %d,%ld", p.s, p.t);
+				log_err("fscanf failed on file: %s", mFilePath);
+				fclose(fp);
+				return false;
 			}
-			while (fscanf(fp, "%d", &(p.s)) == 1);
-		}
-		else
-		{
-			log_err("fscanf failed on file: %s", mFilePath);
-			fclose(fp);
-			return false;
+			mScores.push_back(p);
 		}
 	}
 
